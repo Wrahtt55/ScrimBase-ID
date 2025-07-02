@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrimBase ID - Jadwal Scrim/Tour Esports</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text: #f1f1f1;
+            --text-secondary: #b8b8b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        h1 {
+            color: var(--highlight);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+    /* Perbaikan khusus untuk bagian pengumuman */
+    #pengumuman {
+        background-color: var(--secondary);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.8s ease-out;
+        font-size: 0.9rem; /* Ukuran tetap */
+        line-height: 1.5;
+        overflow: hidden; /* Mencegah overflow */
+        word-wrap: break-word; /* Memastikan text tidak meluber */
+    }
+
+    #pengumuman p {
+        margin-bottom: 12px;
+        font-size: inherit; /* Mengikuti ukuran parent */
+    }
+
+    #pengumuman ul {
+        margin-bottom: 12px;
+        padding-left: 20px;
+        list-style-position: inside; /* Memastikan bullet point tetap rapi */
+    }
+
+    #pengumuman li {
+        margin-bottom: 6px;
+        font-size: inherit; /* Mengikuti ukuran parent */
+    }
+
+    /* Untuk tampilan mobile */
+    @media (max-width: 768px) {
+        #pengumuman {
+            padding: 12px;
+            font-size: 0.8rem; /* Sedikit lebih kecil di mobile */
+        }
+        
+        #pengumuman ul {
+            padding-left: 15px;
+        }
+    }
+
+    /* Untuk tampilan desktop */
+    @media (min-width: 1200px) {
+        #pengumuman {
+            padding: 20px;
+            font-size: 0.95rem; /* Sedikit lebih besar di desktop besar */
+        }
+    }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--highlight);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #d13354;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        #filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            animation: fadeIn 1s ease-in-out 0.3s both;
+        }
+        
+        #filter-section select, #filter-section input {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--accent);
+            background-color: var(--secondary);
+            color: var(--text);
+            font-size: 1rem;
+            flex: 1 1 200px;
+            transition: all 0.3s ease;
+        }
+        
+        #filter-section select:focus, #filter-section input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+        }
+        
+/* Container untuk tabel dengan overflow control */
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling di iOS */
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Style untuk tabel */
+    #jadwal-table {
+        width: 100%;
+        min-width: 600px; /* Minimum width untuk memastikan konten tidak hancur */
+        border-collapse: collapse;
+        font-size: 0.8rem; /* Ukuran font dasar */
+    }
+
+    #jadwal-table th, 
+    #jadwal-table td {
+        padding: 8px 10px;
+        text-align: center;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--accent);
+        white-space: nowrap; /* Mencegah text wrapping */
+    }
+
+    #jadwal-table th {
+        background-color: var(--accent);
+        color: white;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+    }
+
+    #jadwal-table tr:hover {
+        background-color: rgba(15, 52, 96, 0.1);
+    }
+
+    /* Style untuk tombol dan badge di mobile */
+    .detail-btn {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+        display: inline-block;
+    }
+
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        display: inline-block;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+        .table-container {
+            overflow-x: visible; /* Tidak perlu scroll di desktop */
+        }
+
+        #jadwal-table {
+            min-width: 100%; /* Kembalikan ke width normal */
+            font-size: 0.85rem;
+        }
+
+        #jadwal-table th, 
+        #jadwal-table td {
+            padding: 10px 12px;
+            white-space: normal; /* Izinkan text wrapping di desktop */
+        }
+
+        .detail-btn {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+        }
+    }
+
+    @media (min-width: 992px) {
+        #jadwal-table {
+            font-size: 0.9rem;
+        }
+    }
+        
+        .status-upcoming {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .status-ongoing {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            animation: pulse 2s infinite;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: var(--secondary);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--highlight);
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--highlight);
+        }
+        
+        .modal-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .modal-description {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .modal-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .modal-link {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--text);
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-link:hover {
+            background-color: var(--highlight);
+            transform: translateX(5px);
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            #jadwal-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .modal-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+        
+        /* Untuk tampilan desktop */
+    @media (min-width: 769px) {
+        #jadwal-table {
+            table-layout: fixed;
+        }
+        
+        #jadwal-table th:nth-child(1), 
+        #jadwal-table td:nth-child(1) {
+            width: 5%;
+        }
+        
+        #jadwal-table th:nth-child(2), 
+        #jadwal-table td:nth-child(2) {
+            width: 30%;
+        }
+        
+        #jadwal-table th:nth-child(3), 
+        #jadwal-table td:nth-child(3) {
+            width: 15%;
+        }
+        
+        #jadwal-table th:nth-child(4), 
+        #jadwal-table td:nth-child(4) {
+            width: 10%;
+        }
+        
+        #jadwal-table th:nth-child(5), 
+        #jadwal-table td:nth-child(5) {
+            width: 15%;
+        }
+        
+        #jadwal-table th:nth-child(6), 
+        #jadwal-table td:nth-child(6) {
+            width: 25%;
+        }
+    }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+          <img src="https://imageshack.com/i/pn08gnk0p" alt="ScrimBase ID Logo" style="height: 60px; margin-right: 15px;">
+            <h1>ScrimBase ID</h1>
+            <p class="subtitle">Jadwal Scrim & Tournament Bloodstrike Terlengkap</p>
+        </header>
+        
+        <section id="pengumuman">
+            <p><strong>Ingin jadwal Scrim/Tour kamu tampil di sini?</strong></p>
+            <ul>
+                <li><strong>Tanpa Form (Biasa):</strong> Hubungi admin, proses 2 - 12 jam.</li>
+                <li><strong>Request Cepat:</strong> Isi form khusus, diproses 30 menit - 1 jam (S&K berlaku).</li>
+            </ul>
+            <button class="btn" onclick="window.open('https://forms.example.com', '_blank')">Request Cepat</button>
+        </section>
+        
+        <section id="filter-section">
+            <select id="filter-platform">
+                <option value="">Semua Platform</option>
+                <option value="Mobile">Mobile</option>
+                <option value="PC">PC</option>
+                <option value="Mobile & PC">Mobile & PC</option>
+            </select>
+            
+            <select id="filter-mode">
+                <option value="">Semua Mode</option>
+                <option value="Solo">Solo</option>
+                <option value="Duo">Duo</option>
+                <option value="Squad">Squad</option>
+            </select>
+            
+            <input type="text" id="search-title" placeholder="Cari Judul Scrim/Tour...">
+        </section>
+        
+      <div class="table-container">
+        <table id="jadwal-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Judul</th>
+                    <th>Tanggal</th>
+                    <th>Jam</th>
+                    <th>Detail</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+        </table>
+      </div>
+        
+        <div id="empty-message" class="empty-message" style="display: none;">
+            Tidak ada jadwal yang sesuai dengan filter Anda.
+        </div>
+    </div>
+    
+    <!-- Modal untuk detail event -->
+    <div class="modal" id="event-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="modal-image" class="modal-image" src="" alt="Event Image">
+            <h2 id="modal-title" class="modal-title"></h2>
+            <div class="modal-meta">
+                <span id="modal-date"></span>
+                <span id="modal-time"></span>
+                <span id="modal-platform"></span>
+                <span id="modal-mode"></span>
+            </div>
+            <p id="modal-description" class="modal-description"></p>
+            <div class="modal-links" id="modal-links">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tambahkan ini sebelum penutup </body> -->
+<footer style="background-color: #1a1a2e; color: #f1f1f1; padding: 30px 0; margin-top: 50px;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; flex-wrap: wrap; justify-content: space-between;">
+        <!-- Bagian Logo -->
+        <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+          <img src="https://imageshack.com/i/pn08gnk0p" alt="ScrimBase ID Logo" style="height: 60px; margin-right: 15px;">
+            <div style="display: flex; align-items: center;">
+                <h3 style="color: #e94560; font-size: 1.5rem;">ScrimBase ID</h3>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #b8b8b8;">
+              platform jadwal scrim & tournament Bloodstrike terlengkap di Indonesia
+            </p>
+        </div>
+
+        <!-- Bagian Media Sosial -->
+        <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+            <h4 style="color: #e94560; margin-bottom: 15px; font-size: 1.2rem;">Media Sosial</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <a href="https://whatsapp.com/channel/0029Vb8HoLOCxoAu26hfGP13" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    Saluran WhatsApp
+                </a>
+                <a href="https://instagram.com/scrim_base_id" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    Instagram
+                </a>
+                <a href="https://discord.gg/5SHDfvpb" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    Discord
+                </a>
+                <a href="https://tiktok.com/@scrimbaseid" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    Tiktok
+                </a>
+            </div>
+        </div>
+
+        <!-- Bagian Syarat & Ketentuan -->
+        <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+            <h4 style="color: #e94560; margin-bottom: 15px; font-size: 1.2rem;">Legal</h4>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 8px;">
+                    <a href="/syarat-ketentuan" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">Syarat & Ketentuan</a>
+                </li>
+                <li style="margin-bottom: 8px;">
+                    <a href="/kebijakan-privasi" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">Kebijakan Privasi</a>
+                </li>
+                <li style="margin-bottom: 8px;">
+                    <a href="/faq" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">FAQ</a>
+                </li>
+                <li style="margin-bottom: 8px;">
+                    <a href="https://wa.me/6288991734780" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">Kontak Kami</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Bagian Copyright -->
+        <div style="width: 100%; text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #0f3460;">
+            <p style="color: #b8b8b8; font-size: 0.8rem;">
+                &copy; 2025 ScrimBase ID. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+    
+    <script>
+        // format JSON
+        const eventsData = [
+            {
+                "id": 1,
+                "judul": "Fun Match Bloodstrike",
+                "tanggal": "05/07/2025",
+                "jam": "20:00",
+                "platform": "Mobile",
+                "mode": "Solo",
+                "gambar": "https://imageshack.com/i/pm7zAyMpj",
+                "deskripsi": "P, BEWAN!, Siap siap jadi  di Fun Match BloodStrike bareng komunitas Lunaverse Gaming Community (LGC). 📅 Sabtu, 5 Juli 2025 | 18.00 WIB, 💰 Hadiah? Ada 🥇 200 Gold, 🥈 100 Gold. 📜 Rules? GAADA, Ajak temen kamu, rival kamu buat ikutan fun match ini",
+                "link": [
+                    {"label": "Link Pendaftaran", "url": "https://s.id/funmatch-lgc"},
+                    {"label": "Grup WhatsApp", "url": "https://chat.whatsapp.com/Gusvz8XRD2Z994quZwIbag"}
+                ]
+            },
+            
+        ];
+        
+        // memeriksa status event
+        function cekStatus(tanggal, jam) {
+            const sekarang = new Date();
+            const [day, month, year] = tanggal.split('/');
+            const [hours, minutes] = jam.split(':');
+            
+            const waktuEvent = new Date(year, month - 1, day, hours, minutes);
+            const satuHariSetelahEvent = new Date(waktuEvent.getTime() + (24 * 60 * 60 * 1000));
+            
+            if (waktuEvent > sekarang) {
+                const selisih = waktuEvent - sekarang;
+                const jamTersisa = Math.floor(selisih / (1000 * 60 * 60));
+                const menitTersisa = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+                
+                if (jamTersisa < 1) {
+                    return `Mulai dalam ${menitTersisa} menit`;
+                } else if (jamTersisa < 24) {
+                    return `Mulai dalam ${jamTersisa} jam`;
+                } else {
+                    const hariTersisa = Math.floor(jamTersisa / 24);
+                    return `Mulai dalam ${hariTersisa} hari`;
+                }
+            } else if (sekarang < satuHariSetelahEvent) {
+                return "Sedang Berlangsung";
+            } else {
+                return "Selesai";
+            }
+        }
+        
+        // memformat tanggal
+        function formatTanggal(tanggal) {
+            const [day, month, year] = tanggal.split('/');
+            const bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            return `${day} ${bulan[parseInt(month) - 1]} ${year}`;
+        }
+        
+        // menampilkan data ke tabel
+        function renderTable(data) {
+            const tableBody = document.getElementById('table-body');
+            const emptyMessage = document.getElementById('empty-message');
+            
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                emptyMessage.style.display = 'block';
+                document.getElementById('jadwal-table').style.display = 'none';
+                return;
+            } else {
+                emptyMessage.style.display = 'none';
+                document.getElementById('jadwal-table').style.display = 'table';
+            }
+            
+            data.forEach((event, index) => {
+                const status = cekStatus(event.tanggal, event.jam);
+                
+                if (status === "Selesai") return;
+                
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${event.judul}</td>
+                    <td>${formatTanggal(event.tanggal)}</td>
+                    <td>${event.jam}</td>
+                    <td><button class="btn detail-btn" data-id="${event.id}">Detail</button></td>
+                    <td><span class="status-badge ${status.includes('Mulai') ? 'status-upcoming' : 'status-ongoing'}">${status}</span></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            
+            
+            // Tambahkan event listener tombol detail
+            document.querySelectorAll('.detail-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const eventId = parseInt(this.getAttribute('data-id'));
+                    showEventDetails(eventId);
+                });
+            });
+        }
+        
+        // menampilkan detail event di modal
+        function showEventDetails(eventId) {
+            const event = eventsData.find(e => e.id === eventId);
+            if (!event) return;
+            
+            document.getElementById('modal-image').src = event.gambar;
+            document.getElementById('modal-title').textContent = event.judul;
+            document.getElementById('modal-date').textContent = formatTanggal(event.tanggal);
+            document.getElementById('modal-time').textContent = event.jam;
+            document.getElementById('modal-platform').textContent = event.platform;
+            document.getElementById('modal-mode').textContent = event.mode;
+            document.getElementById('modal-description').textContent = event.deskripsi;
+            
+            const linksContainer = document.getElementById('modal-links');
+            linksContainer.innerHTML = '';
+            
+            event.link.forEach(link => {
+                const linkElement = document.createElement('a');
+                linkElement.href = link.url;
+                linkElement.className = 'modal-link';
+                linkElement.textContent = link.label;
+                linkElement.target = '_blank';
+                linksContainer.appendChild(linkElement);
+            });
+            
+            const modal = document.getElementById('event-modal');
+            modal.classList.add('active');
+        }
+        
+        // memfilter data
+        function filterData() {
+            const platformFilter = document.getElementById('filter-platform').value.toLowerCase();
+            const modeFilter = document.getElementById('filter-mode').value.toLowerCase();
+            const searchQuery = document.getElementById('search-title').value.toLowerCase();
+            
+            const filteredData = eventsData.filter(event => {
+                const status = cekStatus(event.tanggal, event.jam);
+                if (status === "Selesai") return false;
+                
+                const platformMatch = !platformFilter || event.platform.toLowerCase().includes(platformFilter);
+                const modeMatch = !modeFilter || event.mode.toLowerCase() === modeFilter;
+                const searchMatch = !searchQuery || event.judul.toLowerCase().includes(searchQuery);
+                
+                return platformMatch && modeMatch && searchMatch;
+            });
+            
+            renderTable(filteredData);
+        }
+        
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render tabel pertama kali
+            renderTable(eventsData);
+            
+            // event listener untuk filter
+            document.getElementById('filter-platform').addEventListener('change', filterData);
+            document.getElementById('filter-mode').addEventListener('change', filterData);
+            document.getElementById('search-title').addEventListener('input', filterData);
+            
+            // Tutup modal
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                document.getElementById('event-modal').classList.remove('active');
+            });
+            
+            // Tutup modal saat klik di luar konten
+            document.getElementById('event-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+            
+            // Update status setiap menit
+            setInterval(() => {
+                filterData();
+            }, 60000);
+        });
+    </script>
+    
+
+
+<button onclick="document.getElementById('popup').style.display='flex'" style="position:fixed;bottom:20px;right:20px;background:#0f3460;color:#fff;width:60px;height:60px;border-radius:50%;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.3);z-index:9999;">&#9432;</button>
+
+<div id="popup" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:9998;">
+    <div style="background:#fff;width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:10px;padding:20px;position:relative;color: #000000;">
+        <h2>Berita/Pengumuman</h2>
+        <p>Selamat datang di ScrimBase ID! Kami memiliki berita terbaru dan pengumuman penting untuk Anda. Silakan baca selengkapnya di sini.</p>
+        <button onclick="document.getElementById('popup').style.display='none'" style="position:absolute;top:10px;right:15px;background:red;color:aaaa;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;">Tutup</button>
+    </div>
+</div>
+</body>
+</html>
