@@ -293,12 +293,18 @@
         }
         
         .modal-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
+    width: 100%;
+    max-height: 300px; /* Atau tinggi maksimal yang Anda inginkan */
+    object-fit: contain; /* Mengganti dari 'cover' ke 'contain' agar seluruh gambar terlihat */
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer; /* Menunjukkan gambar bisa diklik */
+    transition: transform 0.3s ease;
+}
+
+.modal-image:hover {
+    transform: scale(1.02); /* Efek zoom kecil saat hover */
+}
         
         .modal-title {
             font-size: 1.5rem;
@@ -418,12 +424,14 @@
         }
     }
         
+        
+        
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-          <img src="https://imageshack.com/i/pmVbFSUPp" alt="ScrimBase ID Logo" style="height: 150px; margin-right: 15px;">
+                    <img src="https://imageshack.com/i/pmVbFSUPp" alt="ScrimBase ID Logo" style="height: 150px; margin-right: 15px;">
             <h1>ScrimBase ID</h1>
             <p class="subtitle">Jadwal Scrim & Tournament Bloodstrike Terlengkap</p>
         </header>
@@ -431,10 +439,10 @@
         <section id="pengumuman">
             <p><strong>Ingin jadwal Scrim/Tour kamu tampil di sini?</strong></p>
             <ul>
-                <li><strong> Info manual:</strong> di proses admin sampai 2 - 12 jam.</li>
+                <li><strong>Tanpa Form (Biasa):</strong> Hubungi admin, proses 2 - 12 jam.</li>
                 <li><strong>Request Cepat:</strong> Isi form khusus, diproses 30 menit - 1 jam (S&K berlaku).</li>
             </ul>
-            <button class="btn" onclick="window.open('https://forms.gle/hwgGdujrFmkznrDH9', '_blank')">Request Cepat</button>
+            <button class="btn" onclick="window.open('https://forms.example.com', '_blank')">Request Cepat</button>
         </section>
         
         <section id="filter-section">
@@ -557,7 +565,6 @@
 </footer>
     
     <script>
-        // format JSON
         const eventsData = [
             {
                 "id": 1,
@@ -573,7 +580,7 @@
                     {"label": "Grup WhatsApp", "url": "https://chat.whatsapp.com/Gusvz8XRD2Z994quZwIbag"}
                 ]
             },
-            {
+              {
                 "id": 2,
                 "judul": "Tournament blood strike IFMBSID X CIKDRAGON",
                 "tanggal": "04/07/2025",
@@ -786,6 +793,42 @@
                 filterData();
             }, 60000);
         });
+        
+        // Di dalam fungsi showEventDetails(), tambahkan ini setelah mengatur src gambar:
+const modalImage = document.getElementById('modal-image');
+modalImage.onclick = function() {
+    const zoomedImg = document.createElement('div');
+    zoomedImg.style.position = 'fixed';
+    zoomedImg.style.top = '0';
+    zoomedImg.style.left = '0';
+    zoomedImg.style.width = '100%';
+    zoomedImg.style.height = '100%';
+    zoomedImg.style.backgroundColor = 'rgba(0,0,0,0.9)';
+    zoomedImg.style.zIndex = '2000';
+    zoomedImg.style.display = 'flex';
+    zoomedImg.style.justifyContent = 'center';
+    zoomedImg.style.alignItems = 'center';
+    zoomedImg.style.cursor = 'zoom-out';
+    
+    const imgElement = document.createElement('img');
+    imgElement.src = this.src;
+    imgElement.style.maxWidth = '90%';
+    imgElement.style.maxHeight = '90%';
+    imgElement.style.objectFit = 'contain';
+    
+    zoomedImg.appendChild(imgElement);
+    zoomedImg.onclick = function() {
+        document.body.removeChild(zoomedImg);
+    };
+    
+    document.body.appendChild(zoomedImg);
+};
+        
+        modalImage.onerror = function() {
+    this.src = 'https://via.placeholder.com/600x300?text=Gambar+Tidak+Tersedia';
+    this.style.display = 'block';
+};
+        
     </script>
     
 
