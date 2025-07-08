@@ -1013,16 +1013,6 @@ modalImage.onclick = function() {
     this.style.display = 'block';
 };
 
-// JavaScript: Geser otomatis tiap 10 detik
-let current = 0;
-const slides = document.querySelectorAll('.banner-slide');
-
-setInterval(() => {
-  slides[current].classList.remove('active');
-  current = (current + 1) % slides.length;
-  slides[current].classList.add('active');
-}, 10000); // 10 detik
-
     </script>
     
 
