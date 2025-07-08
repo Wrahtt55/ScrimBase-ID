@@ -467,62 +467,60 @@ header {
         }
     }
         
-        /* Ganti CSS banner swiper yang ada dengan ini */
+        /* Ganti CSS banner swiper dengan ini */
 .banner-swiper {
   width: 100%;
-  height: auto;
-  max-height: 300px; /* Sesuaikan dengan kebutuhan */
-  aspect-ratio: 3/1; /* Rasio 3:1 (lebar:tinggi) */
+  height: 0;
+  padding-bottom: 30%; /* Rasio aspek 3.33:1 (sesuaikan dengan gambar Anda) */
+  position: relative;
   border-radius: 16px;
   overflow: hidden;
   margin: 20px 0;
+  background: var(--accent);
+}
+
+.banner-swiper .swiper-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .banner-swiper .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--secondary); /* Warna latar sesuai tema */
+  background: var(--secondary);
 }
 
 .banner-swiper .swiper-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Gambar mengisi ruang tanpa distorsi */
-  object-position: center; /* Pusatkan gambar */
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-/* Navigasi */
+/* Navigasi lebih jelas */
 .banner-swiper .swiper-button-next,
 .banner-swiper .swiper-button-prev {
   color: white;
-  background: rgba(0, 0, 0, 0.5);
-  width: 30px;
-  height: 30px;
+  background: rgba(0, 0, 0, 0.7);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
-.banner-swiper .swiper-button-next:after,
-.banner-swiper .swiper-button-prev:after {
-  font-size: 16px;
-}
-
-/* Pagination */
-.banner-swiper .swiper-pagination-bullet {
-  background: white;
-  opacity: 0.5;
-}
-
-.banner-swiper .swiper-pagination-bullet-active {
+.banner-swiper .swiper-button-next:hover,
+.banner-swiper .swiper-button-prev:hover {
   background: var(--highlight);
-  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .banner-swiper {
-    aspect-ratio: 2/1; /* Rasio lebih tinggi di mobile */
-    max-height: 200px;
+    padding-bottom: 50%; /* Rasio lebih tinggi di mobile */
   }
 }
     </style>
@@ -539,31 +537,28 @@ header {
   </div>
 </header>
 
-<!-- Perbaikan 3: Struktur HTML yang benar untuk Swiper -->
-    <div class="swiper banner-swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="https://imageshack.com/i/poVAC5Xwp" alt="Banner 1">
-            </div>
-            <div class="swiper-slide">
-                <img src="https://imageshack.com/i/poZhDh3dp" alt="Banner 2">
-            </div>
-            <!-- Tambahkan slide lain jika diperlukan -->
-        </div>
-        
-        <!-- Tambahkan pagination -->
-        <div class="swiper-pagination"></div>
-        
-        <!-- Tambahkan navigation buttons -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+<div class="swiper banner-swiper">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <img src="https://imageshack.com/i/poVAC5Xwp" alt="Banner 1" loading="lazy">
     </div>
+    <div class="swiper-slide">
+      <img src="https://imageshack.com/i/poZhDh3dp" alt="Banner 2" loading="lazy">
+    </div>
+  </div>
+  
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
 
     <!-- Perbaikan 4: Inisialisasi Swiper yang benar -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Ganti kode swiper yang ada dengan ini
+const swiper = new Swiper('.banner-swiper', {
+  // Ganti inisialisasi Swiper dengan ini
 const swiper = new Swiper('.banner-swiper', {
   loop: true,
   autoplay: {
@@ -573,23 +568,26 @@ const swiper = new Swiper('.banner-swiper', {
   pagination: {
     el: '.swiper-pagination',
     clickable: true,
+    dynamicBullets: true,
   },
   navigation: {
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',
   },
-  effect: 'fade',
-  fadeEffect: {
-    crossFade: true
-  },
-  on: {
-    init: function() {
-      // Sesuaikan tinggi setelah load gambar
-      this.updateAutoHeight();
-    },
-    imagesReady: function() {
-      // Pastikan gambar terload sempurna
-      this.updateAutoHeight();
+  effect: 'slide',
+  speed: 800,
+  grabCursor: true,
+  centeredSlides: true,
+  slidesPerView: 1,
+  spaceBetween: 0,
+  preloadImages: false,
+  lazy: true,
+  watchSlidesProgress: true,
+  breakpoints: {
+    768: {
+      pagination: {
+        dynamicBullets: false,
+      }
     }
   }
 });
