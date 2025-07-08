@@ -467,22 +467,14 @@ header {
         }
     }
         
-        /* Ganti CSS banner swiper dengan ini */
-.banner-swiper {
+        .banner-swiper {
   width: 100%;
-  height: 0;
-  padding-bottom: 30%; /* Rasio aspek 3.33:1 (sesuaikan dengan gambar Anda) */
-  position: relative;
+  height: 300px; /* Atur tinggi tetap */
   border-radius: 16px;
   overflow: hidden;
   margin: 20px 0;
+  position: relative;
   background: var(--accent);
-}
-
-.banner-swiper .swiper-wrapper {
-  position: absolute;
-  width: 100%;
-  height: 100%;
 }
 
 .banner-swiper .swiper-slide {
@@ -500,7 +492,7 @@ header {
   object-fit: contain;
 }
 
-/* Navigasi lebih jelas */
+/* Navigasi */
 .banner-swiper .swiper-button-next,
 .banner-swiper .swiper-button-prev {
   color: white;
@@ -514,13 +506,31 @@ header {
 .banner-swiper .swiper-button-next:hover,
 .banner-swiper .swiper-button-prev:hover {
   background: var(--highlight);
-  transform: scale(1.1);
+}
+
+.banner-swiper .swiper-button-next::after,
+.banner-swiper .swiper-button-prev::after {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Pagination */
+.banner-swiper .swiper-pagination-bullet {
+  background: white;
+  opacity: 0.5;
+  width: 12px;
+  height: 12px;
+}
+
+.banner-swiper .swiper-pagination-bullet-active {
+  background: var(--highlight);
+  opacity: 1;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .banner-swiper {
-    padding-bottom: 50%; /* Rasio lebih tinggi di mobile */
+    height: 200px;
   }
 }
     </style>
@@ -536,7 +546,6 @@ header {
     </div>
   </div>
 </header>
-
 <div class="swiper banner-swiper">
   <div class="swiper-wrapper">
     <div class="swiper-slide">
@@ -556,39 +565,31 @@ header {
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
             // Ganti kode swiper yang ada dengan ini
-const swiper = new Swiper('.banner-swiper', {
-  // Ganti inisialisasi Swiper dengan ini
-const swiper = new Swiper('.banner-swiper', {
-  loop: true,
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
-    dynamicBullets: true,
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  effect: 'slide',
-  speed: 800,
-  grabCursor: true,
-  centeredSlides: true,
-  slidesPerView: 1,
-  spaceBetween: 0,
-  preloadImages: false,
-  lazy: true,
-  watchSlidesProgress: true,
-  breakpoints: {
-    768: {
-      pagination: {
-        dynamicBullets: false,
-      }
-    }
-  }
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const swiper = new Swiper('.banner-swiper', {
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    effect: 'slide',
+    speed: 600,
+    grabCursor: true,
+    centeredSlides: true
+  });
+  
+  // Hapus kode slider custom jika ada
+  // (hapus kode yang menggunakan setInterval untuk banner-slide)
 });
     </script>
         
