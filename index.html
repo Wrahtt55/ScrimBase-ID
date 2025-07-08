@@ -466,59 +466,64 @@ header {
         }
     }
         
-        /* Perbaikan 2: CSS untuk banner swiper yang lebih baik */
-        .banner-swiper {
-            width: 100%;
-            height: 300px; /* Atau tinggi yang diinginkan */
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        
-        .banner-swiper .swiper-slide {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #1a1a2e;
-        }
-        
-        .banner-swiper .swiper-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Menjaga aspek rasio gambar */
-        }
-        
-        .banner-swiper .swiper-button-next,
-        .banner-swiper .swiper-button-prev {
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        
-        .banner-swiper .swiper-button-next:hover,
-        .banner-swiper .swiper-button-prev:hover {
-            background: rgba(0, 0, 0, 0.8);
-        }
-        
-        .banner-swiper .swiper-button-next::after,
-        .banner-swiper .swiper-button-prev::after {
-            font-size: 20px;
-        }
-        
-        .banner-swiper .swiper-pagination-bullet {
-            background: white;
-            opacity: 0.5;
-            width: 10px;
-            height: 10px;
-        }
-        
-        .banner-swiper .swiper-pagination-bullet-active {
-            background: #e94560;
-            opacity: 1;
-        }
+        /* Ganti CSS banner swiper yang ada dengan ini */
+.banner-swiper {
+  width: 100%;
+  height: auto;
+  max-height: 300px; /* Sesuaikan dengan kebutuhan */
+  aspect-ratio: 3/1; /* Rasio 3:1 (lebar:tinggi) */
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.banner-swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--secondary); /* Warna latar sesuai tema */
+}
+
+.banner-swiper .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Gambar mengisi ruang tanpa distorsi */
+  object-position: center; /* Pusatkan gambar */
+}
+
+/* Navigasi */
+.banner-swiper .swiper-button-next,
+.banner-swiper .swiper-button-prev {
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.banner-swiper .swiper-button-next:after,
+.banner-swiper .swiper-button-prev:after {
+  font-size: 16px;
+}
+
+/* Pagination */
+.banner-swiper .swiper-pagination-bullet {
+  background: white;
+  opacity: 0.5;
+}
+
+.banner-swiper .swiper-pagination-bullet-active {
+  background: var(--highlight);
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .banner-swiper {
+    aspect-ratio: 2/1; /* Rasio lebih tinggi di mobile */
+    max-height: 200px;
+  }
+}
     </style>
 </head>
 <body>
