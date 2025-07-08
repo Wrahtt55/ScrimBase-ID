@@ -535,21 +535,72 @@ header {
   </div>
 </header>
 
-<div class="swiper banner-swiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <img src="https://imageshack.com/i/poVAC5Xwp" alt="Banner 1">
+<!-- Perbaikan 3: Struktur HTML yang benar untuk Swiper -->
+    <div class="swiper banner-swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="https://imageshack.com/i/poVAC5Xwp" alt="Banner 1">
+            </div>
+            <div class="swiper-slide">
+                <img src="https://imageshack.com/i/poZhDh3dp" alt="Banner 2">
+            </div>
+            <!-- Tambahkan slide lain jika diperlukan -->
+        </div>
+        
+        <!-- Tambahkan pagination -->
+        <div class="swiper-pagination"></div>
+        
+        <!-- Tambahkan navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
     </div>
-    <div class="swiper-slide">
-      <img src="https://imageshack.com/i/poZhDh3dp" alt="Banner 2">
-    </div>
-  </div>
 
-  <!-- Optional tombol navigasi -->
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-pagination"></div>
-</div>
+    <!-- Perbaikan 4: Inisialisasi Swiper yang benar -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const swiper = new Swiper('.banner-swiper', {
+                // Optional parameters
+                loop: true,
+                autoplay: {
+                    delay: 5000, // Ganti slide setiap 5 detik
+                    disableOnInteraction: false,
+                },
+                
+                // If we need pagination
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                
+                // And if we need scrollbar
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                },
+                
+                // Efek transisi
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+                
+                // Responsive breakpoints
+                breakpoints: {
+                    // when window width is >= 768px
+                    768: {
+                        slidesPerView: 1,
+                        spaceBetween: 20
+                    }
+                }
+            });
+        });
+    </script>
         
         <section id="pengumuman">
             <p><strong>Ingin jadwal Scrim/Tour kamu tampil di sini?</strong></p>
