@@ -942,6 +942,22 @@ setInterval(() => {
   slides[current].classList.add('active');
 }, 10000); // 10 detik
         
+const swiper = new Swiper('.banner-swiper', {
+  loop: true,
+  autoplay: {
+    delay: 10000,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
+
     </script>
     
 
