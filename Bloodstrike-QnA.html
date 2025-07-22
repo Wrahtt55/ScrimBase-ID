@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formulir Pendaftaran SBID</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0 10px;
+      color: #2c3e50;
+    }
+
+    .iframe-container {
+      width: 100%;
+      height: calc(100vh - 80px); /* sisakan ruang untuk footer */
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between; /* kiri & kanan */
+  align-items: center;
+  padding: 10px 20px;
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+.bottom-bar .left,
+.bottom-bar .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Tombol Join Grup WA */
+.bottom-bar .left a {
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  background: #25D366;
+  transition: background 0.3s ease;
+}
+
+.bottom-bar .left a:hover {
+  background: #1ebe5d;
+}
+
+/* Admin Info di kanan */
+.bottom-bar .right a {
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  background: #25D366;
+  transition: background 0.3s ease;
+}
+
+.bottom-bar .right a:hover {
+  background: #1ebe5d;
+}
+
+.floating-menu {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 24px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.floating-menu:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+
+  <h1>Formulir Online</h1>
+  <div class="iframe-container">
+    <iframe src="" id="formFrame" allowfullscreen></iframe>
+  </div>
+<a href="Data-peserta.html" class="floating-menu" title="Menu">
+  &#9776; <!-- karakter hamburger ≡ -->
+</a>
+
+  <div class="bottom-bar">
+   <div class="left">
+    <a href="https://chat.whatsapp.com/GDjbqEaRmA7IuCiUpGSvnJ?mode=r_c" target="_blank">Join Grup WA</a>
+</div>
+    <div class="admin-info">
+<div class="right">
+    <a href="https://wa.me/6288991734780" target="_blank"">Admin Tour</a>
+</div>
+    </div>
+  </div>
+
+  <script>
+    fetch('gform.json')
+      .then(res => res.json())
+      .then(data => {
+        const formURL = data.forms[0].url;
+        document.getElementById('formFrame').src = formURL;
+      });
+  </script>
+
+</body>
+</html>
