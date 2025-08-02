@@ -1,0 +1,273 @@
+{
+  "users": {
+    "Dzaki26": {
+      "password": "Dzakiupdate",
+      "name": "Karyawan Update",
+      "position": "update bloodstrike",
+      "id": "SII001",
+      "salary": 65000,
+      "commission": 0,
+      "whatsapp": "6288991734780",
+      "joinDate": "2025-04-05",
+      "phone": "+6285758739822",
+      "email": "dzakiramadhan721@gmail.com",
+      "totalWithdrawals": 17500
+    },
+    "Satriya26": {
+      "password": "Satriyascrim",
+      "name": "Karyawan scrim",
+      "position": "update scrim",
+      "id": "SII002",
+      "salary": 65000,
+      "commission": 0,
+      "whatsapp": "6288991734780",
+      "joinDate": "2025-04-13",
+      "phone": "+6281288066319",
+      "email": "zentodid@gmail.com",
+      "totalWithdrawals": 0
+    },
+    "Kingsword26": {
+      "password": "Kingswordcollab",
+      "name": "Karyawan Kolaborasi",
+      "position": "Jaringan dan Kolaborasi",
+      "id": "SII003",
+      "salary": 25000,
+      "commission": 0,
+      "whatsapp": "6288991734780",
+      "joinDate": "2025-04-25",
+      "phone": "+62895806023641",
+      "email": "kingsword1970@gmail.com",
+      "totalWithdrawals": 0
+    }
+  },
+  "userData": {
+    "SII001": {
+      "notifications": [
+        {
+          "type": "salary",
+          "message": "Salary updated: Rp 2000",
+          "date": "2025-04-25"
+        },
+        {
+          "type": "commission",
+          "message": "Commission: Rp 100",
+          "date": "2025-04-25"
+        }
+      ],
+      "info": [
+        {
+          "title": "Informaasi",
+          "content": "Update nya Yang meme gausah di uploaf yang penting penting aja kayak di ig dan dc ada",
+          "date": "2025-04-25"
+        }
+      ]
+    },
+    "SII002": {
+      "notifications": [
+        {
+          "type": "salary",
+          "message": "Salary updated: Rp 11000",
+          "date": "2025-04-25"
+        },
+        {
+          "type": "info",
+          "message": "Nice Kamu Tepat Sasaran",
+          "date": "2025-04-25"
+        }
+      ],
+      "info": [
+        {
+          "title": "Informasi Scrim",
+          "content": "capai taget 500",
+          "date": "2025-04-25"
+        }
+      ]
+    },
+    "SII003": {
+      "notifications": [
+        {
+          "type": "salary",
+          "message": "Salary updated: Rp 0",
+          "date": "2025-04-29"
+        },
+        {
+          "type": "info",
+          "message": "Cari Clan atau grup besar biar kita bisa kolaborasi",
+          "date": "2025-04-29"
+        }
+      ],
+      "info": [
+        {
+          "title": "Informasi tambahan",
+          "content": "capai taget 500",
+          "date": "2025-04-29"
+        }
+      ]
+    }
+  },
+  "leaderboardData": [
+    {
+      "id": "SII001",
+      "name": "Karyawan Update",
+      "position": "update bloodstrike",
+      "salary": 65000,
+      "commission": 0
+    },
+    {
+      "id": "SII002",
+      "name": "Karyawan scrim",
+      "position": "update scrim",
+      "salary": 65000,
+      "commission": 0
+    },
+    {
+      "id": "SII003",
+      "name": "Karyawan kolaborasi",
+      "position": "jaringan dan kolaborasi",
+      "salary": 25000,
+      "commission": 0
+    },
+    {
+      "id": "SII004",
+      "name": "Employee 4",
+      "position": "uknown",
+      "salary": 0,
+      "commission": 0
+    },
+    {
+      "id": "SII005",
+      "name": "Employee 5",
+      "position": "uknown",
+      "salary": 0,
+      "commission": 0
+    }
+  ],
+  "rankData": {
+    "SII001": {
+      "komisi": 2000,
+      "targetPlatinum": 7000,
+      "gajiDasar": 500,
+      "aktivitas": {
+        "hariKosong": true,
+        "tugasAdminSelesai": false,
+        "sebarInfo": 10
+      }
+    },
+    "SII002": {
+      "komisi": 3500,
+      "targetPlatinum": 7000,
+      "gajiDasar": 500,
+      "aktivitas": {
+        "hariKosong": true,
+        "tugasAdminSelesai": true,
+        "sebarInfo": 10
+      }
+    },
+    "SII003": {
+      "komisi": 3500,
+      "targetPlatinum": 7000,
+      "gajiDasar": 500,
+      "aktivitas": {
+        "hariKosong": true,
+        "tugasAdminSelesai": true,
+        "sebarInfo": 10
+      }
+    }
+  },
+  "achievementsData": {
+    "SII001": [
+      {
+        "id": 1,
+        "name": "Perfect Attendance",
+        "description": "No absences for a full month",
+        "icon": "fa-calendar-check",
+        "unlocked": true,
+        "date": "2025-04-15"
+      },
+      {
+        "id": 2,
+        "name": "Order Champion",
+        "description": "Processed 100+ orders in a month",
+        "icon": "fa-shopping-basket",
+        "unlocked": true,
+        "date": "2025-04-20"
+      },
+      {
+        "id": 3,
+        "name": "Customer Satisfaction",
+        "description": "Zero complaints for a month",
+        "icon": "fa-smile",
+        "unlocked": false
+      }
+    ],
+    "SII002": [
+      {
+        "id": 1,
+        "name": "Early Bird",
+        "description": "Arrived early for 10 consecutive days",
+        "icon": "fa-clock",
+        "unlocked": true,
+        "date": "2025-04-10"
+      },
+      {
+        "id": 2,
+        "name": "Team Player",
+        "description": "Helped 5+ colleagues",
+        "icon": "fa-users",
+        "unlocked": true,
+        "date": "2025-04-18"
+      },
+      {
+        "id": 3,
+        "name": "Quality Star",
+        "description": "100% quality score",
+        "icon": "fa-star",
+        "unlocked": false
+      }
+    ],
+    "SII003": [
+      {
+        "id": 1,
+        "name": "Network Builder",
+        "description": "Established 5+ collaborations",
+        "icon": "fa-handshake",
+        "unlocked": false
+      },
+      {
+        "id": 2,
+        "name": "Social Contributor",
+        "description": "Shared 20+ posts",
+        "icon": "fa-share-alt",
+        "unlocked": true,
+        "date": "2025-04-22"
+      }
+    ]
+  },
+  "prizes": [
+    {
+      "amount": 10000,
+      "text": "Rp5.000",
+      "probability": 0.1
+    },
+    {
+      "amount": 4000,
+      "text": "Rp4.000",
+      "probability": 0.2
+    },
+    {
+      "amount": 2500,
+      "text": "Rp2.500",
+      "probability": 0.3
+    },
+    {
+      "amount": 2000,
+      "text": "Rp2.000",
+      "probability": 0.6
+    },
+    {
+      "amount": 1000,
+      "text": "Rp1.000",
+      "probability": 2.0
+    }
+  ]
+}
