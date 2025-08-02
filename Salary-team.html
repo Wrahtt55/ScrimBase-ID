@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal</title>
+    <style>
+        :root {
+        --primary: #4361ee;  /* Biru lebih profesional */
+        --primary-dark: #3a0ca3;
+        --secondary: #1a1a2e; /* Dark blue untuk kontras */
+        --danger: #f72585;    /* Pink modern */
+        --danger-dark: #b5179e;
+        --success: #4cc9f0;   /* Cyan modern */
+        --success-dark: #4895ef;
+        --gray: #6c757d;      /* Gray bootstrap */
+        --light-gray: #f8f9fa; /* Light gray bootstrap */
+        --white: #ffffff;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Shadow lebih subtle */
+    }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+
+        html, body {
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
+
+.container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        overflow: hidden; /* Tambahkan ini */
+    }
+
+        .hidden {
+            display: none !important
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        .login-box {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 350px;
+            transform: translateY(0);
+            transition: var(--transition);
+            animation: fadeInUp 0.5s ease
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .login-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15)
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--secondary)
+        }
+
+        .form-group {
+            margin-bottom: 15px
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: var(--transition)
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2)
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition)
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-dark)
+        }
+
+        .error-message {
+            color: var(--danger);
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            padding: 8px;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-radius: 4px
+        }
+
+.dashboard {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        min-height: calc(100vh - 40px); /* Sesuaikan dengan padding container */
+    }
+
+
+        @media (min-width: 992px) {
+        .dashboard {
+            flex-direction: row;
+            align-items: flex-start; /* Tambahkan ini */
+        }
+.sidebar {
+            flex: 0 0 300px; /* Lebar fixed */
+            position: sticky;
+            top: 20px;
+            height: 100vh; /* Full height */
+            overflow-y: auto; /* Scroll jika konten panjang */
+        }
+
+
+            .main-content {
+            flex: 1;
+            min-width: 0; /* Fix flex overflow */
+        }
+    }
+    
+    mobile */
+    @media (max-width: 991px) {
+        .main-content {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+    }
+
+        .sidebar {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow)
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1)
+        }
+
+        .user-profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+        }
+
+        .user-profile h4 {
+            margin-bottom: 5px;
+            font-size: 18px
+        }
+
+        .user-profile p {
+            font-size: 14px;
+            color: #bdc3c7;
+            margin-bottom: 3px
+        }
+
+        .profile-details {
+            margin-top: 15px;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 6px
+        }
+
+        .profile-details div {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between
+        }
+
+        .profile-details span:first-child {
+            color: #bdc3c7
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--danger);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500
+        }
+
+        .logout-btn:hover {
+            background-color: var(--danger-dark)
+        }
+
+        .main-content {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow)
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: var(--secondary);
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .section-title i {
+            color: var(--primary)
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px
+        }
+
+        .stat-card {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05)
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1)
+        }
+
+        .stat-card h3 {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 10px
+        }
+
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary)
+        }
+
+        .info-card {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: var(--transition)
+        }
+
+        .info-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1)
+        }
+
+        .info-card h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .info-card .date {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 10px
+        }
+
+        .notification {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition)
+        }
+
+        .notification:hover {
+            transform: translateX(5px)
+        }
+
+        .notification h4 {
+            margin-bottom: 5px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .notification p {
+            font-size: 14px;
+            color: #7f8c8d
+        }
+
+        .withdrawal-form {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            margin-bottom: 30px
+        }
+
+        .withdrawal-form h3 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px
+        }
+
+        .form-row input {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            flex: 1;
+            transition: var(--transition)
+        }
+
+        .form-row input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2)
+        }
+
+        .withdrawal-btn {
+            padding: 10px 15px;
+            background-color: var(--success);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500
+        }
+
+        .withdrawal-btn:hover {
+            background-color: var(--success-dark)
+        }
+
+        .withdrawal-btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            font-weight: 500
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary)
+        }
+
+        .tab:hover:not(.active) {
+            background-color: rgba(52, 152, 219, 0.1)
+        }
+
+.tab-content {
+        display: none;
+        overflow: hidden; /* Tambahkan ini */
+    }
+
+ .tab-content.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+        max-height: calc(100vh - 300px); /* Sesuaikan sesuai kebutuhan */
+        overflow-y: auto; /* Tambahkan scroll jika diperlukan */
+    }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+  .leaderboard-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .leaderboard {
+        min-width: 600px; /* Lebar minimum untuk tabel */
+    }
+
+        .leaderboard th, .leaderboard td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd
+        }
+
+        .leaderboard th {
+            background-color: var(--light-gray);
+            color: var(--secondary);
+            font-weight: 500
+        }
+
+        .leaderboard tr:hover {
+            background-color: rgba(52, 152, 219, 0.05)
+        }
+
+        .leaderboard .highlight {
+            background-color: rgba(46, 204, 113, 0.1)
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px
+        }
+
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2)
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background-color: rgba(52, 152, 219, 0.1)
+        }
+
+        .payment-method i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: var(--primary)
+        }
+
+        /* Panel Rank Karyawan Styles */
+        .rank-panel {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            background: #eee;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin: 10px 0 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #fbbf24;
+            width: 0;
+        }
+
+        .text-green {
+            color: green;
+        }
+
+        .text-red {
+            color: red;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: green;
+        }
+
+        .rank-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .rank-info-table th, .rank-info-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .rank-info-table th {
+            background: #f3f4f6;
+        }
+
+        .rank-details {
+            margin-top: 20px;
+        }
+
+        .rank-details ul {
+            padding-left: 20px;
+        }
+
+        .rank-details li {
+            margin-bottom: 4px;
+        }
+
+        .rank-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .rank-bonus {
+            text-align: right;
+        }
+        
+        /* Lucky Draw Styles */
+        .lucky-draw-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .draw-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .prize-display {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .draw-button {
+            background-color: #4361ee;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .draw-button:hover {
+            background-color: #3f37c9;
+            transform: translateY(-2px);
+        }
+        
+        .draw-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .draw-info {
+            font-size: 0.9rem;
+            text-align: center;
+            color: #666;
+        }
+        
+        /* Achievements Styles */
+        .achievement-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .achievement-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        
+        .achievement-card.locked {
+            opacity: 0.6;
+        }
+        
+        .achievement-badge {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            background: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #999;
+        }
+        
+        .achievement-card.unlocked .achievement-badge {
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+            color: white;
+        }
+        
+        .achievement-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .achievement-date {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 5px;
+        }
+    </style>
+    <style>
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Untuk elemen yang discroll */
+    .scrollable-content {
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div id="login-page" class="login-container">
+        <div class="login-box">
+            <h2><i class="fas fa-user-shield"></i> Employee Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <div id="error-message" class="error-message hidden"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="employee-dashboard" class="container hidden">
+        <div class="dashboard">
+            <div class="sidebar">
+                <div class="user-profile">
+                    <img id="profile-image" src="" alt="Profile">
+                    <h4 id="emp-name"></h4>
+                    <p id="emp-position"></p>
+                    <p id="emp-id"></p>
+                    <div class="profile-details">
+                        <div><span>Join Date:</span> <span id="emp-join-date">2025-01-01</span></div>
+                        <div><span>Phone:</span> <span id="emp-phone">+6288991734780</span></div>
+                        <div><span>Email:</span> <span id="emp-email">employee@example.com</span></div>
+                        <div><span>Total Withdrawals:</span> <span id="emp-total-withdrawals">Rp 0</span></div>
+                    </div>
+                </div>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+            <div class="main-content">
+                <h2 class="section-title"><i class="fas fa-tachometer-alt"></i> Employee Dashboard</h2>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Total Salary</h3>
+                        <p id="emp-salary">Rp 0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Commission</h3>
+                        <p id="emp-commission">Rp 0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Available Balance</h3>
+                        <p id="emp-balance">Rp 0</p>
+                    </div>
+                </div>
+
+                <!-- Rank Panel -->
+                <div class="rank-panel">
+                    <h3>Rank Status</h3>
+                    <div class="progress-container">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+                    
+                    <div class="rank-summary">
+                        <div>
+                            <strong>Current Rank:</strong><br>
+                            <span id="rank" style="color: #d97706;">Gold</span>
+                        </div>
+                        <div class="rank-bonus">
+                            <strong>Active Bonus:</strong><br>
+                            <span id="bonus" class="text-green">+10% Salary, +10% Commission</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        Base Salary: Rp 400 → <strong id="gaji-final">Rp 440</strong><br>
+                        Base Commission: Rp 3,800 → <strong id="komisi-final">Rp 4,180</strong><br>
+                        Total Benefit: <strong id="total-final" class="highlight">Rp 4,620</strong>
+                    </div>
+                    
+                    <div class="rank-details">
+                        <h4>Progress to Platinum:</h4>
+                        <ul>
+                            <li><span class="text-green">✓</span> Minimum commission Rp 7,000</li>
+                            <li><span class="text-red">✗</span> No 3 consecutive absent days (7-9 April empty)</li>
+                            <li><span class="text-red">✗</span> Admin tasks incomplete: Share event to 5 groups</li>
+                        </ul>
+                    </div>
+                    
+                    <h4>Rank Information:</h4>
+                    <table class="rank-info-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Commission Requirement</th>
+                                <th>Additional Activity</th>
+                                <th>Bonus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Bronze</td><td>-</td><td>-</td><td>-</td></tr>
+                            <tr><td>Silver</td><td>≥ Rp 1,000</td><td>5 active days</td><td>+5%</td></tr>
+                            <tr><td>Gold</td><td>≥ Rp 3,000</td><td>20 info shares</td><td>+10%</td></tr>
+                            <tr><td>Platinum</td><td>≥ Rp 7,000</td><td>No 3-day absence + admin tasks</td><td>+15%</td></tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size: 12px; color: gray; margin-top: 10px;">Rank valid until: 30 April 2025</p>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" data-tab="withdrawal"><i class="fas fa-money-bill-wave"></i> Withdrawal</div>
+                    <div class="tab" data-tab="notifications"><i class="fas fa-bell"></i> Notifications</div>
+                    <div class="tab" data-tab="information"><i class="fas fa-info-circle"></i> Information</div>
+                    <div class="tab" data-tab="leaderboard"><i class="fas fa-trophy"></i> Leaderboard</div>
+                </div>
+
+                <div id="withdrawal-tab" class="tab-content active">
+                    <div class="withdrawal-form">
+                        <h3><i class="fas fa-wallet"></i> Withdrawal Request</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method" data-method="bank">
+                                <i class="fas fa-university"></i>
+                                <h4>Bank Transfer</h4>
+                            </div>
+                            <div class="payment-method" data-method="ewallet">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h4>E-Wallet</h4>
+                            </div>
+                            <div class="payment-method" data-method="cash" disabled>
+                              <i class="fas fa-money-bill"></i>
+                              <h4>Cash (CLOSE)</h4>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                            <input type="number" id="withdrawal-amount" placeholder="Amount (min Rp 5,000)" min="5000">
+                            <button id="withdrawal-btn" class="withdrawal-btn" disabled>Request Withdrawal</button>
+                        </div>
+                        <p id="withdrawal-error" class="error-message hidden"></p>
+                    </div>
+                </div>
+
+                <div id="notifications-tab" class="tab-content">
+                    <div id="notifications-container"></div>
+                </div>
+
+                <div id="information-tab" class="tab-content">
+                    <div id="admin-info-container"></div>
+                </div>
+
+                <div id="leaderboard-tab" class="tab-content">
+                  <div class="leaderboard-container">
+                    <table class="leaderboard">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Employee</th>
+                                <th>Position</th>
+                                <th>Salary</th>
+                                <th>Commission</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                
+                    <!-- Lucky Draw Card -->
+                  <div class="lucky-draw-card">
+                      <h3><i class="fas fa-gift"></i> Weekly Lucky Draw</h3>
+                      <p>PDisarankan kalau sudah dapet harap di ss kirim grup admin sbid</p>
+                      <div class="draw-container">
+                          <div class="prize-display" id="prizeDisplay">?</div>
+                          <button id="drawButton" class="draw-button">
+                              <i class="fas fa-dice"></i> Try Your Luck
+                          </button>
+                      </div>
+                      <p class="draw-info" id="drawInfo">You have 1 draw remaining this week</p>
+                  </div>
+                  
+                  <div class="tab" data-tab="achievements"><i class="fas fa-trophy"></i> Achievements</div>
+                  
+                  <div id="achievements-tab" class="tab-content">
+                      <div class="achievement-filters">
+                          <button class="filter-btn active">All</button>
+                          <button class="filter-btn">Unlocked</button>
+                          <button class="filter-btn">Locked</button>
+                      </div>
+                      
+                      <div class="achievements-grid" id="achievementsGrid">
+                          <!-- Achievements will be loaded here via JavaScript -->
+                      </div>
+                  </div>
+                    
+                </div>
+            </div>
+        </div>
+    
+
+    
+<script>
+    // Global variables to store data
+    let appData = {
+        users: {},
+        userData: {},
+        leaderboardData: [],
+        rankData: {},
+        achievementsData: {},
+        prizes: [],
+        currentUser: null
+    };
+
+    // Load JSON data
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            appData.users = data.users;
+            appData.userData = data.userData;
+            appData.leaderboardData = data.leaderboardData;
+            appData.rankData = data.rankData;
+            appData.achievementsData = data.achievementsData;
+            appData.prizes = data.prizes;
+            
+            // Initialize the app after data is loaded
+            initializeApp();
+        })
+        .catch(error => {
+            console.error('Error loading data:', error);
+            document.getElementById('error-message').textContent = 'Failed to load application data';
+            document.getElementById('error-message').classList.remove('hidden');
+        });
+
+    function initializeApp() {
+        // DOM elements
+        const loginPage = document.getElementById('login-page');
+        const employeeDashboard = document.getElementById('employee-dashboard');
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const logoutBtn = document.getElementById('logout-btn');
+        const empName = document.getElementById('emp-name');
+        const empPosition = document.getElementById('emp-position');
+        const empId = document.getElementById('emp-id');
+        const empSalary = document.getElementById('emp-salary');
+        const empCommission = document.getElementById('emp-commission');
+        const empBalance = document.getElementById('emp-balance');
+        const profileImage = document.getElementById('profile-image');
+        const adminInfoContainer = document.getElementById('admin-info-container');
+        const notificationsContainer = document.getElementById('notifications-container');
+        const withdrawalAmount = document.getElementById('withdrawal-amount');
+        const withdrawalBtn = document.getElementById('withdrawal-btn');
+        const withdrawalError = document.getElementById('withdrawal-error');
+        const leaderboardBody = document.getElementById('leaderboard-body');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        
+        // Rank panel elements
+        const progressBar = document.getElementById('progressBar');
+        const rankElement = document.getElementById('rank');
+        const bonusElement = document.getElementById('bonus');
+        const gajiFinalElement = document.getElementById('gaji-final');
+        const komisiFinalElement = document.getElementById('komisi-final');
+        const totalFinalElement = document.getElementById('total-final');
+
+        let selectedPaymentMethod = null;
+
+        // Event listeners
+        loginForm.addEventListener('submit', handleLogin);
+        logoutBtn.addEventListener('click', handleLogout);
+        withdrawalAmount.addEventListener('input', validateWithdrawal);
+        withdrawalBtn.addEventListener('click', handleWithdrawal);
+        tabs.forEach(tab => tab.addEventListener('click', switchTab));
+        
+        paymentMethods.forEach(method => {
+            if (!method.hasAttribute('disabled')) {
+                method.addEventListener('click', function(e) {
+                    paymentMethods.forEach(m => m.classList.remove('selected'));
+                    e.currentTarget.classList.add('selected');
+                    selectedPaymentMethod = e.currentTarget.getAttribute('data-method');
+                    validateWithdrawal();
+                });
+            }
+        });
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (appData.users[username] && appData.users[username].password === password) {
+                appData.currentUser = appData.users[username];
+                errorMessage.classList.add('hidden');
+                loginPage.classList.add('hidden');
+                employeeDashboard.classList.remove('hidden');
+                renderDashboard();
+                renderRankPanel();
+            } else {
+                errorMessage.textContent = 'Invalid username or password';
+                errorMessage.classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            appData.currentUser = null;
+            employeeDashboard.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function isAllowedWithdrawalDay() {
+            const today = new Date();
+            const currentDate = today.getDate();
+            return currentDate === 5 || currentDate === 10;
+        }
+
+        function renderDashboard() {
+            if (!appData.currentUser) return;
+            const employeeId = appData.currentUser.id;
+            const employeeData = appData.userData[employeeId];
+
+            // Set profile info
+            empName.textContent = appData.currentUser.name;
+            empPosition.textContent = appData.currentUser.position;
+            empId.textContent = `ID: ${employeeId}`;
+            empSalary.textContent = formatCurrency(appData.currentUser.salary);
+            empCommission.textContent = formatCurrency(appData.currentUser.commission);
+            empBalance.textContent = formatCurrency(appData.currentUser.salary + appData.currentUser.commission);
+            document.getElementById('emp-join-date').textContent = appData.currentUser.joinDate;
+            document.getElementById('emp-phone').textContent = appData.currentUser.phone;
+            document.getElementById('emp-email').textContent = appData.currentUser.email;
+            document.getElementById('emp-total-withdrawals').textContent = formatCurrency(appData.currentUser.totalWithdrawals);
+            profileImage.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(appData.currentUser.name)}&background=3498db&color=fff`;
+
+            // Render info
+            adminInfoContainer.innerHTML = '';
+            const withdrawalInfo = document.createElement('div');
+            withdrawalInfo.className = 'info-card';
+            withdrawalInfo.innerHTML = `
+                <h3><i class="fas fa-calendar-alt"></i> Withdrawal Schedule</h3>
+                <p>Withdrawals can only be made on:</p>
+                <ul>
+                    <li>5th of each month</li>
+                    <li>10th of each month</li>
+                </ul>
+                <p class="date">Your join date: ${appData.currentUser.joinDate}</p>
+            `;
+            adminInfoContainer.appendChild(withdrawalInfo);
+
+            if (employeeData.info && employeeData.info.length > 0) {
+                employeeData.info.forEach(info => {
+                    const infoElement = document.createElement('div');
+                    infoElement.className = 'info-card';
+                    infoElement.innerHTML = `<h3><i class="fas fa-info-circle"></i> ${info.title}</h3><p class="date">${info.date}</p><p>${info.content}</p>`;
+                    adminInfoContainer.appendChild(infoElement);
+                });
+            }
+
+            // Render notifications
+            notificationsContainer.innerHTML = '';
+            const welcomeNotif = document.createElement('div');
+            welcomeNotif.className = 'notification';
+            welcomeNotif.innerHTML = `<h4><i class="fas fa-check-circle"></i> Welcome</h4><p class="date">${new Date().toISOString().split('T')[0]}</p><p>You have successfully logged in.</p>`;
+            notificationsContainer.appendChild(welcomeNotif);
+
+            if (employeeData.notifications && employeeData.notifications.length > 0) {
+                employeeData.notifications.forEach(notif => {
+                    const notifElement = document.createElement('div');
+                    notifElement.className = 'notification';
+                    const icon = notif.type === 'salary' ? 'fa-coins' : 
+                                notif.type === 'commission' ? 'fa-hand-holding-usd' : 'fa-info-circle';
+                    notifElement.innerHTML = `
+                        <h4><i class="fas ${icon}"></i> ${notif.type === 'salary' ? 'Salary Update' : 
+                        notif.type === 'commission' ? 'Commission Update' : 'Information'}</h4>
+                        <p class="date">${notif.date}</p>
+                        <p>${notif.message}</p>
+                    `;
+                    notificationsContainer.appendChild(notifElement);
+                });
+            }
+
+            // Render leaderboard
+            leaderboardBody.innerHTML = '';
+            appData.leaderboardData.sort((a, b) => (b.salary + b.commission) - (a.salary + a.commission));
+            appData.leaderboardData.forEach((emp, index) => {
+                const row = document.createElement('tr');
+                if (emp.id === appData.currentUser.id) row.className = 'highlight';
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${emp.name}</td>
+                    <td>${emp.position}</td>
+                    <td>${formatCurrency(emp.salary)}</td>
+                    <td>${formatCurrency(emp.commission)}</td>
+                `;
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        function renderRankPanel() {
+            if (!appData.currentUser) return;
+            const employeeId = appData.currentUser.id;
+            const rankInfo = appData.rankData[employeeId];
+            
+            if (!rankInfo) {
+                console.error('No rank data found for employee:', employeeId);
+                return;
+            }
+
+            const { komisi, targetPlatinum, gajiDasar, aktivitas } = rankInfo;
+            const progressPersen = Math.min((komisi / targetPlatinum) * 100, 100);
+            progressBar.style.width = progressPersen + "%";
+
+            let rank = "Bronze";
+            let bonus = 0;
+
+            if (komisi >= 7000 && !aktivitas.hariKosong && aktivitas.tugasAdminSelesai) {
+                rank = "Platinum";
+                bonus = 15;
+            } else if (komisi >= 3000 && aktivitas.sebarInfo >= 20) {
+                rank = "Gold";
+                bonus = 10;
+            } else if (komisi >= 1000 && aktivitas.sebarInfo >= 5) {
+                rank = "Silver";
+                bonus = 5;
+            }
+
+            rankElement.textContent = rank;
+            bonusElement.textContent = `+${bonus}% Salary, +${bonus}% Commission`;
+            
+            const gajiFinal = appData.currentUser.salary + (appData.currentUser.salary * bonus / 100);
+            const komisiFinal = appData.currentUser.commission + (appData.currentUser.commission * bonus / 100);
+            
+            gajiFinalElement.textContent = `Rp ${gajiFinal.toFixed(0)}`;
+            komisiFinalElement.textContent = `Rp ${komisiFinal.toFixed(0)}`;
+            totalFinalElement.textContent = `Rp ${(gajiFinal + komisiFinal).toFixed(0)}`;
+        }
+
+        function validateWithdrawal() {
+            if (!isAllowedWithdrawalDay()) {
+                withdrawalError.textContent = 'Withdrawals can only be made on the 5th and 10th of each month';
+                withdrawalError.classList.remove('hidden');
+                withdrawalBtn.disabled = true;
+                return;
+            }
+
+            const amount = parseInt(withdrawalAmount.value);
+            const availableBalance = appData.currentUser.salary + appData.currentUser.commission;
+            
+            if (isNaN(amount)) {
+                withdrawalBtn.disabled = true;
+                withdrawalError.classList.add('hidden');
+                return;
+            }
+
+            if (amount < 5000) {
+                withdrawalError.textContent = 'Minimum withdrawal is Rp 5,000';
+                withdrawalError.classList.remove('hidden');
+                withdrawalBtn.disabled = true;
+            } else if (amount > availableBalance) {
+                withdrawalError.textContent = 'Insufficient balance';
+                withdrawalError.classList.remove('hidden');
+                withdrawalBtn.disabled = true;
+            } else if (!selectedPaymentMethod) {
+                withdrawalError.textContent = 'Please select payment method';
+                withdrawalError.classList.remove('hidden');
+                withdrawalBtn.disabled = true;
+            } else {
+                withdrawalError.classList.add('hidden');
+                withdrawalBtn.disabled = false;
+            }
+        }
+
+        function handleWithdrawal() {
+            const amount = parseInt(withdrawalAmount.value);
+            const availableBalance = appData.currentUser.salary + appData.currentUser.commission;
+
+            if (!isAllowedWithdrawalDay()) {
+                withdrawalError.textContent = 'Withdrawals can only be made on the 5th and 10th of each month';
+                withdrawalError.classList.remove('hidden');
+                return;
+            }
+
+            if (amount < 5000 || amount > availableBalance || !selectedPaymentMethod) {
+                validateWithdrawal();
+                return;
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            const message = `Withdrawal Request\n\nEmployee ID: ${appData.currentUser.id}\nName: ${appData.currentUser.name}\nDate: ${today}\nPayment Method: ${selectedPaymentMethod}\nAmount: Rp ${amount.toLocaleString()}\n\nPlease process this request.`;
+            window.open(`https://wa.me/${appData.currentUser.whatsapp}?text=${encodeURIComponent(message)}`, '_blank');
+
+            withdrawalAmount.value = '';
+            withdrawalBtn.disabled = true;
+
+            const notifElement = document.createElement('div');
+            notifElement.className = 'notification';
+            notifElement.innerHTML = `
+                <h4><i class="fas fa-check-circle"></i> Withdrawal Requested</h4>
+                <p class="date">${today}</p>
+                <p>Requested withdrawal of Rp ${amount.toLocaleString()} via ${selectedPaymentMethod}. Wait for confirmation.</p>
+            `;
+            notificationsContainer.insertBefore(notifElement, notificationsContainer.firstChild);
+
+            // Update total withdrawals
+            appData.currentUser.totalWithdrawals += amount;
+            document.getElementById('emp-total-withdrawals').textContent = formatCurrency(appData.currentUser.totalWithdrawals);
+        }
+
+        function switchTab(e) {
+            const tabId = e.target.getAttribute('data-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            e.target.classList.add('active');
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+            
+            if (tabId === 'achievements') {
+                renderAchievements();
+            }
+        }
+
+        function renderAchievements() {
+            if (!appData.currentUser) return;
+            const achievementsGrid = document.getElementById('achievementsGrid');
+            achievementsGrid.innerHTML = '';
+            
+            const employeeId = appData.currentUser.id;
+            const achievements = appData.achievementsData[employeeId] || [];
+            
+            achievements.forEach(achievement => {
+                const achievementCard = document.createElement('div');
+                achievementCard.className = `achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`;
+                achievementCard.innerHTML = `
+                    <div class="achievement-badge">
+                        <i class="fas ${achievement.icon}"></i>
+                    </div>
+                    <h4 class="achievement-title">${achievement.name}</h4>
+                    <p class="achievement-desc">${achievement.description}</p>
+                    ${achievement.unlocked ? `<p class="achievement-date">Unlocked: ${achievement.date}</p>` : ''}
+                `;
+                achievementsGrid.appendChild(achievementCard);
+            });
+        }
+
+        // Lucky Draw Functionality
+        const drawButton = document.getElementById('drawButton');
+        const prizeDisplay = document.getElementById('prizeDisplay');
+        const drawInfo = document.getElementById('drawInfo');
+        
+        // Check if user has drawn this week
+        let hasDrawnThisWeek = localStorage.getItem('lastDrawDate') === getCurrentWeek();
+        
+        if (hasDrawnThisWeek) {
+            drawButton.disabled = true;
+            drawInfo.textContent = "You've already drawn this week. Come back next week!";
+        }
+        
+        drawButton.addEventListener('click', function() {
+            drawButton.disabled = true;
+            prizeDisplay.textContent = "...";
+            
+            setTimeout(function() {
+                const prize = getRandomPrize(appData.prizes);
+                prizeDisplay.textContent = prize.text;
+                
+                // Show notification
+                const today = new Date().toISOString().split('T')[0];
+                const notifElement = document.createElement('div');
+                notifElement.className = 'notification';
+                notifElement.innerHTML = `
+                    <h4><i class="fas fa-gift"></i> Lucky Draw Won</h4>
+                    <p class="date">${today}</p>
+                    <p>You won ${prize.text} in this week's lucky draw!</p>
+                `;
+                notificationsContainer.insertBefore(notifElement, notificationsContainer.firstChild);
+                
+                localStorage.setItem('lastDrawDate', getCurrentWeek());
+                drawInfo.textContent = "You've already drawn this week. Come back next week!";
+            }, 1000);
+        });
+
+        // Helper functions
+        function getCurrentWeek() {
+            const now = new Date();
+            const firstDayOfYear = new Date(now.getFullYear(), 0, 1);
+            const weekNumber = Math.ceil(((now - firstDayOfYear) / 86400000 + firstDayOfYear.getDay() + 1) / 7);
+            return `${now.getFullYear()}-W${weekNumber}`;
+        }
+        
+        function getRandomPrize(prizes) {
+            const random = Math.random();
+            let cumulativeProbability = 0;
+            
+            for (const prize of prizes) {
+                cumulativeProbability += prize.probability;
+                if (random <= cumulativeProbability) {
+                    return prize;
+                }
+            }
+            
+            return prizes[prizes.length - 1];
+        }
+
+        function formatCurrency(amount) {
+            return 'Rp ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+    }
+</script>
+</body>
+</html>
