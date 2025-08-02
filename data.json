@@ -40,6 +40,20 @@
       "totalWithdrawals": 0
     }
   },
+"Bintangw2": {
+      "password": "Bintangw003",
+      "name": "Ananda Saputra",
+      "position": "Update Scrim",
+      "id": "SII004",
+      "salary": 0,
+      "commission": 0,
+      "whatsapp": "6288991734789",
+      "joinDate": "2025-06-25",
+      "phone": "+62881012464468",
+      "email": "putrajakartans17@gmail.com",
+      "totalWithdrawals": 0
+    }
+  },
   "userData": {
     "SII001": {
       "notifications": [
@@ -103,6 +117,27 @@
           "date": "2025-04-29"
         }
       ]
+    },
+"SII004": {
+      "notifications": [
+        {
+          "type": "salary",
+          "message": "Salary updated: Rp 0",
+          "date": "2025-04-29"
+        },
+        {
+          "type": "info",
+          "message": "Cari Update Scrim Yang Penting",
+          "date": "2025-08-02"
+        }
+      ],
+      "info": [
+        {
+          "title": "Informasi",
+          "content": "Akun Anda Sudah Di buat dan diverifikasi oleh sistem kami",
+          "date": "2025-08-02"
+        }
+      ]
     }
   },
   "leaderboardData": [
@@ -129,8 +164,8 @@
     },
     {
       "id": "SII004",
-      "name": "Employee 4",
-      "position": "uknown",
+      "name": "Ananda Saputra",
+      "position": "Update Scrim",
       "salary": 0,
       "commission": 0
     },
@@ -164,6 +199,16 @@
       }
     },
     "SII003": {
+      "komisi": 3500,
+      "targetPlatinum": 7000,
+      "gajiDasar": 500,
+      "aktivitas": {
+        "hariKosong": true,
+        "tugasAdminSelesai": true,
+        "sebarInfo": 10
+      }
+    },
+"SII004": {
       "komisi": 3500,
       "targetPlatinum": 7000,
       "gajiDasar": 500,
@@ -241,7 +286,32 @@
         "unlocked": true,
         "date": "2025-04-22"
       }
-    ]
+    ],
+"SII004": [
+      {
+        "id": 1,
+        "name": "Early Bird",
+        "description": "Arrived early for 10 consecutive days",
+        "icon": "fa-clock",
+        "unlocked": true,
+        "date": "2025-04-10"
+      },
+      {
+        "id": 2,
+        "name": "Team Player",
+        "description": "Helped 5+ colleagues",
+        "icon": "fa-users",
+        "unlocked": true,
+        "date": "2025-04-18"
+      },
+      {
+        "id": 3,
+        "name": "Quality Star",
+        "description": "100% quality score",
+        "icon": "fa-star",
+        "unlocked": false
+      }
+    ],
   },
   "prizes": [
     {
