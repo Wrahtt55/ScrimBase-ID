@@ -51,6 +51,19 @@
       "phone": "+62881012464468",
       "email": "putrajakartans17@gmail.com",
       "totalWithdrawals": 0
+    },
+"KProjeck": {
+      "password": "KProjecK019",
+      "name": "Didi Maulana",
+      "position": "CS dan Leaderboard",
+      "id": "SII005",
+      "salary": 0,
+      "commission": 0,
+      "whatsapp": "6288991734789",
+      "joinDate": "2025-06-15",
+      "phone": "+6283150123603",
+      "email": "didimaulana2636@gmail.com",
+      "totalWithdrawals": 0
     }
   },
   "userData": {
@@ -137,6 +150,27 @@
           "date": "2025-08-02"
         }
       ]
+    },
+"SII005": {
+      "notifications": [
+        {
+          "type": "salary",
+          "message": "Salary updated: Rp 0",
+          "date": "2025-04-29"
+        },
+        {
+          "type": "info",
+          "message": "oming soon pekerjaan",
+          "date": "2025-08-02"
+        }
+      ],
+      "info": [
+        {
+          "title": "Informasi",
+          "content": "Akun Anda Sudah Di buat dan diverifikasi oleh sistem kami",
+          "date": "2025-08-02"
+        }
+      ]
     }
   },
   "leaderboardData": [
@@ -170,8 +204,8 @@
     },
     {
       "id": "SII005",
-      "name": "Employee 5",
-      "position": "uknown",
+      "name": "Didi Maulana",
+      "position": "CS dan Leaderboard",
       "salary": 0,
       "commission": 0
     }
@@ -208,6 +242,16 @@
       }
     },
 "SII004": {
+      "komisi": 3500,
+      "targetPlatinum": 7000,
+      "gajiDasar": 500,
+      "aktivitas": {
+        "hariKosong": true,
+        "tugasAdminSelesai": true,
+        "sebarInfo": 10
+      }
+    },
+"SII005": {
       "komisi": 3500,
       "targetPlatinum": 7000,
       "gajiDasar": 500,
@@ -310,7 +354,24 @@
         "icon": "fa-star",
         "unlocked": false
       }
-    ]
+    ],
+"SII005": [
+      {
+        "id": 1,
+        "name": "Network Builder",
+        "description": "Established 5+ collaborations",
+        "icon": "fa-handshake",
+        "unlocked": false
+      },
+      {
+        "id": 2,
+        "name": "Social Contributor",
+        "description": "Shared 20+ posts",
+        "icon": "fa-share-alt",
+        "unlocked": true,
+        "date": "2025-04-22"
+      }
+    ],
   },
   "prizes": [
     {
