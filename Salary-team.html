@@ -1061,7 +1061,7 @@
         function isAllowedWithdrawalDay() {
             const today = new Date();
             const currentDate = today.getDate();
-            return currentDate === 5 || currentDate === 10;
+            return currentDate === 12 || currentDate === 13;
         }
 
         function renderDashboard() {
@@ -1202,8 +1202,8 @@
                 return;
             }
 
-            if (amount < 5000) {
-                withdrawalError.textContent = 'Minimum withdrawal is Rp 5,000';
+            if (amount < 10000) {
+                withdrawalError.textContent = 'Minimum withdrawal is Rp 10,000';
                 withdrawalError.classList.remove('hidden');
                 withdrawalBtn.disabled = true;
             } else if (amount > availableBalance) {
@@ -1230,7 +1230,7 @@
                 return;
             }
 
-            if (amount < 5000 || amount > availableBalance || !selectedPaymentMethod) {
+            if (amount < 10000 || amount > availableBalance || !selectedPaymentMethod) {
                 validateWithdrawal();
                 return;
             }
