@@ -3,1026 +3,1342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScrimBase ID - Jadwal Scrim/Tour Esports</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G5XHCBS8L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8G5XHCBS8L');
-</script>
+    <title>ScrimBase ID - Platform Tournament Gaming</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Reset dan Variabel */
         :root {
-            --primary: #1a1a2e;
-            --secondary: #16213e;
-            --accent: #0f3460;
-            --highlight: #e94560;
-            --text: #f1f1f1;
-            --text-secondary: #b8b8b8;
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --accent: #00c6ff;
+            --light: #f8f9fa;
+            --dark: #121212;
+            --text: #333333;
+            --text-light: #ffffff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: var(--primary);
+            background-color: var(--light);
             color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
         }
-        
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
         .container {
+            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
-        
-        /* Ganti style header yang ada dengan ini */
-header {
-  margin-bottom: 30px;
-  animation: fadeIn 1s ease-in-out;
-}
 
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  text-align: left;
-}
-
-.logo {
-  height: 120px;
-  width: auto;
-}
-
-.title-group {
-  flex: 1;
-}
-
-/* Jika Anda ingin header menempel di atas */
-/*
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--primary);
-  padding: 10px 20px;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-.container {
-  margin-top: 100px; /* Sesuaikan dengan tinggi header */
-}
-*/
-        
-        h1 {
-            color: var(--highlight);
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-        }
-        
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-        
-    /* Perbaikan khusus untuk bagian pengumuman */
-    #pengumuman {
-        background-color: var(--secondary);
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        animation: slideUp 0.8s ease-out;
-        font-size: 0.9rem; /* Ukuran tetap */
-        line-height: 1.5;
-        overflow: hidden; /* Mencegah overflow */
-        word-wrap: break-word; /* Memastikan text tidak meluber */
-    }
-
-    #pengumuman p {
-        margin-bottom: 12px;
-        font-size: inherit; /* Mengikuti ukuran parent */
-    }
-
-    #pengumuman ul {
-        margin-bottom: 12px;
-        padding-left: 20px;
-        list-style-position: inside; /* Memastikan bullet point tetap rapi */
-    }
-
-    #pengumuman li {
-        margin-bottom: 6px;
-        font-size: inherit; /* Mengikuti ukuran parent */
-    }
-
-    /* Untuk tampilan mobile */
-    @media (max-width: 768px) {
-        #pengumuman {
-            padding: 12px;
-            font-size: 0.8rem; /* Sedikit lebih kecil di mobile */
-        }
-        
-        #pengumuman ul {
-            padding-left: 15px;
-        }
-    }
-
-    /* Untuk tampilan desktop */
-    @media (min-width: 1200px) {
-        #pengumuman {
-            padding: 20px;
-            font-size: 0.95rem; /* Sedikit lebih besar di desktop besar */
-        }
-    }
-        
         .btn {
             display: inline-block;
-            background-color: var(--highlight);
+            padding: 12px 30px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: var(--radius);
             font-weight: bold;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
         }
-        
+
         .btn:hover {
-            background-color: #d13354;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        #filter-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-            animation: fadeIn 1s ease-in-out 0.3s both;
-        }
-        
-        #filter-section select, #filter-section input {
-            padding: 10px 15px;
-            border-radius: 5px;
-            border: 1px solid var(--accent);
-            background-color: var(--secondary);
-            color: var(--text);
-            font-size: 1rem;
-            flex: 1 1 200px;
-            transition: all 0.3s ease;
-        }
-        
-        #filter-section select:focus, #filter-section input:focus {
-            outline: none;
-            border-color: var(--highlight);
-            box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
-        }
-        
-/* Container untuk tabel dengan overflow control */
-    .table-container {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling di iOS */
-        margin-bottom: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    /* Style untuk tabel */
-    #jadwal-table {
-        width: 100%;
-        min-width: 600px; /* Minimum width untuk memastikan konten tidak hancur */
-        border-collapse: collapse;
-        font-size: 0.8rem; /* Ukuran font dasar */
-    }
-
-    #jadwal-table th, 
-    #jadwal-table td {
-        padding: 8px 10px;
-        text-align: center;
-        vertical-align: middle;
-        border-bottom: 1px solid var(--accent);
-        white-space: nowrap; /* Mencegah text wrapping */
-    }
-
-    #jadwal-table th {
-        background-color: var(--accent);
-        color: white;
-        font-weight: 600;
-        position: sticky;
-        top: 0;
-    }
-
-    #jadwal-table tr:hover {
-        background-color: rgba(15, 52, 96, 0.1);
-    }
-
-    /* Style untuk tombol dan badge di mobile */
-    .detail-btn {
-        padding: 5px 8px;
-        font-size: 0.7rem;
-        display: inline-block;
-    }
-
-    .status-badge {
-        font-size: 0.7rem;
-        padding: 3px 8px;
-        display: inline-block;
-    }
-
-    /* Responsive adjustments */
-    @media (min-width: 768px) {
-        .table-container {
-            overflow-x: visible; /* Tidak perlu scroll di desktop */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 0, 224, 0.4);
         }
 
-        #jadwal-table {
-            min-width: 100%; /* Kembalikan ke width normal */
-            font-size: 0.85rem;
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
         }
 
-        #jadwal-table th, 
-        #jadwal-table td {
-            padding: 10px 12px;
-            white-space: normal; /* Izinkan text wrapping di desktop */
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
         }
 
-        .detail-btn {
-            padding: 6px 12px;
-            font-size: 0.75rem;
+        .btn-success {
+            background: var(--success);
         }
 
-        .status-badge {
-            font-size: 0.75rem;
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
         }
-    }
 
-    @media (min-width: 992px) {
-        #jadwal-table {
-            font-size: 0.9rem;
+        .btn-danger {
+            background: var(--danger);
         }
-    }
-        
-        .status-upcoming {
-            background-color: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
+
+        section {
+            padding: 80px 0;
         }
-        
-        .status-ongoing {
-            background-color: rgba(40, 167, 69, 0.2);
-            color: #28a745;
-            animation: pulse 2s infinite;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-content {
-            background-color: var(--secondary);
-            border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 25px;
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
             position: relative;
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            color: var(--dark);
         }
-        
-        .modal.active .modal-content {
-            transform: translateY(0);
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            margin: 15px auto;
+            border-radius: 2px;
         }
-        
-        .close-modal {
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Header */
+        header {
+            background: var(--dark);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            color: white;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #cccccc;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Tournament Section */
+        .tournament-section {
+            background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+        }
+
+        .tournament-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .tournament-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tournament-banner {
+            height: 180px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .tournament-info {
+            padding: 20px;
+        }
+
+        .tournament-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .tournament-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .tournament-status {
             position: absolute;
             top: 15px;
             right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: color 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
-        
-        .close-modal:hover {
-            color: var(--highlight);
-        }
-        
-        .modal-image {
-    width: 100%;
-    max-height: 300px; /* Atau tinggi maksimal yang Anda inginkan */
-    object-fit: contain; /* Mengganti dari 'cover' ke 'contain' agar seluruh gambar terlihat */
-    border-radius: 5px;
-    margin-bottom: 20px;
-    cursor: pointer; /* Menunjukkan gambar bisa diklik */
-    transition: transform 0.3s ease;
-}
 
-.modal-image:hover {
-    transform: scale(1.02); /* Efek zoom kecil saat hover */
-}
-        
-        .modal-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--highlight);
+        .status-upcoming {
+            background: var(--warning);
+            color: var(--dark);
         }
-        
-        .modal-meta {
+
+        .status-ongoing {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-completed {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Form Styles */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 0, 224, 0.1);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Tournament List */
+        .tournament-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .filter-options {
             display: flex;
             gap: 15px;
-            margin-bottom: 15px;
-            color: var(--text-secondary);
+            flex-wrap: wrap;
         }
-        
-        .modal-description {
+
+        .filter-option {
+            padding: 8px 15px;
+            background: #f1f3f5;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-option.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 60px 0 30px;
+            color: white;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
             margin-bottom: 20px;
-            line-height: 1.7;
+            color: var(--accent);
         }
-        
-        .modal-links {
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #cccccc;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .social-links {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            gap: 15px;
+            margin-top: 20px;
         }
-        
-        .modal-link {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--text);
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s ease;
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
         }
-        
-        .modal-link:hover {
-            background-color: var(--highlight);
-            transform: translateX(5px);
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
         }
-        
-        .empty-message {
+
+        .copyright {
             text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        /* Page Container */
+        .page-container {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        /* Login Section */
+        .login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .login-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             padding: 40px;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            animation: fadeIn 1s ease-in-out;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .login-card h2 {
+            margin-bottom: 30px;
+            color: var(--dark);
         }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .google-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
         }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+
+        .google-login:hover {
+            background: #357ae8;
         }
-        
-        @media (max-width: 768px) {
-            #jadwal-table {
-                display: block;
-                overflow-x: auto;
+
+        /* Dashboard */
+        .dashboard-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
             }
             
-            .modal-meta {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .form-row {
                 flex-direction: column;
-                gap: 5px;
+                gap: 0;
             }
         }
-        
-        /* Untuk tampilan desktop */
-    @media (min-width: 769px) {
-        #jadwal-table {
-            table-layout: fixed;
+
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--dark);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: var(--transition);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .tournament-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
         }
         
-        #jadwal-table th:nth-child(1), 
-        #jadwal-table td:nth-child(1) {
-            width: 5%;
+        .mb-4 {
+            margin-bottom: 1.5rem;
         }
         
-        #jadwal-table th:nth-child(2), 
-        #jadwal-table td:nth-child(2) {
-            width: 30%;
+        .mt-4 {
+            margin-top: 1.5rem;
         }
         
-        #jadwal-table th:nth-child(3), 
-        #jadwal-table td:nth-child(3) {
-            width: 15%;
+        .hidden {
+            display: none;
         }
-        
-        #jadwal-table th:nth-child(4), 
-        #jadwal-table td:nth-child(4) {
-            width: 10%;
-        }
-        
-        #jadwal-table th:nth-child(5), 
-        #jadwal-table td:nth-child(5) {
-            width: 15%;
-        }
-        
-        #jadwal-table th:nth-child(6), 
-        #jadwal-table td:nth-child(6) {
-            width: 25%;
-        }
-    }
-        
-        .banner-swiper {
-  width: 100%;
-  height: auto; /* Atur tinggi tetap */
-  border-radius: 16px;
-  overflow: hidden;
-  margin: 20px 0;
-  position: relative;
-  background: var(--accent);
-}
-
-.banner-swiper .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  background: var(--secondary);
-}
-
-.banner-swiper .swiper-slide img {
-  width: auto;
-  height: auto;
-  object-fit: cover;
-}
-
-/* Navigasi */
-.banner-swiper .swiper-button-next,
-.banner-swiper .swiper-button-prev {
-  color: white;
-  background: rgba(0, 0, 0, 0.7);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.banner-swiper .swiper-button-next:hover,
-.banner-swiper .swiper-button-prev:hover {
-  background: var(--highlight);
-}
-
-.banner-swiper .swiper-button-next::after,
-.banner-swiper .swiper-button-prev::after {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* Pagination */
-.banner-swiper .swiper-pagination-bullet {
-  background: white;
-  opacity: 0.5;
-  width: 12px;
-  height: 12px;
-}
-
-.banner-swiper .swiper-pagination-bullet-active {
-  background: var(--highlight);
-  opacity: 1;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .banner-swiper {
-    height: 200px;
-  }
-}
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-  <div class="header-content">
-    <img src="https://imageshack.com/i/pmVbFSUPp" alt="ScrimBase ID Logo" class="logo">
-    <div class="title-group">
-      <h1>ScrimBase ID</h1>
-      <p class="subtitle">Jadwal Scrim & Tournament Bloodstrike Terlengkap</p>
-    </div>
-  </div>
-</header>
-<div class="swiper banner-swiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <img src="" alt="Banner 1" loading="lazy">
-    </div>
-    <div class="swiper-slide">
-      <img src="" alt="Banner 2" loading="lazy">
-    </div>
-  </div>
-  
-  <div class="swiper-pagination"></div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
-</div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-trophy"></i>
+                    ScrimBase ID
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link" data-page="home">Beranda</a></li>
+                    <li><a href="#host-tournament" class="nav-link" data-page="host-tournament">Host Tournament</a></li>
+                    <li><a href="#tournament-participants" class="nav-link" data-page="tournament-participants">Tournament Participants</a></li>
+                    <li><a href="#" class="btn login-btn">Login dengan Google</a></li>
+                </ul>
+                <button class="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
 
-    <!-- Perbaikan 4: Inisialisasi Swiper yang benar -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-            // Ganti kode swiper yang ada dengan ini
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const swiper = new Swiper('.banner-swiper', {
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    effect: 'slide',
-    speed: 600,
-    grabCursor: true,
-    centeredSlides: true
-  });
-  
-  // Hapus kode slider custom jika ada
-  // (hapus kode yang menggunakan setInterval untuk banner-slide)
-});
-    </script>
-        
-        <section id="pengumuman">
-            <p><strong>Ingin jadwal Scrim/Tour kamu tampil di sini?</strong></p>
-            <ul>
-                <li><strong>Tanpa Form (Biasa):</strong> Hubungi admin, proses 2 - 12 jam.</li>
-                <li><strong>Request Cepat:</strong> Isi form khusus, diproses 30 menit - 1 jam (SdanK berlaku).</li>
-            </ul>
-            <button class="btn" onclick="window.open('https://forms.gle/st9EUodtKakikXbc7')">Request Cepat</button>
+    <!-- Halaman Beranda -->
+    <section id="home-page" class="page active">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>ScrimBase ID</h1>
+                    <p>Platform terbaik untuk mengatur dan berpartisipasi dalam tournament game online. Bergabunglah dengan komunitas gamers terbesar di Indonesia!</p>
+                    <div class="hero-buttons">
+                        <a href="#host-tournament" class="btn nav-link" data-page="host-tournament">Host Tournament</a>
+                        <a href="#tournament-participants" class="btn btn-outline nav-link" data-page="tournament-participants">Lihat Tournament</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Mengapa ScrimBase ID?</h2>
+                <div class="features-grid">
+                    <div class="feature-card card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Jadwal Fleksibel</h3>
+                        <p>Atur jadwal tournament sesuai kebutuhan Anda dengan sistem yang mudah digunakan.</p>
+                    </div>
+                    <div class="feature-card card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Komunitas Aktif</h3>
+                        <p>Bergabung dengan ribuan gamers aktif yang siap berkompetisi setiap hari.</p>
+                    </div>
+                    <div class="feature-card card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Sistem Terpercaya</h3>
+                        <p>Dengan sistem yang aman dan terpercaya, tournament Anda berjalan lancar.</p>
+                    </div>
+                </div>
+            </div>
         </section>
-        
-        <section id="filter-section">
-            <select id="filter-platform">
-                <option value="">Semua Platform</option>
-                <option value="Mobile">Mobile</option>
-                <option value="PC">PC</option>
-                <option value="Mobile & PC">Mobile & PC</option>
-            </select>
-            
-            <select id="filter-mode">
-                <option value="">Semua Mode</option>
-                <option value="Solo">Solo</option>
-                <option value="Duo">Duo</option>
-                <option value="Squad">Squad</option>
-            </select>
-            
-            <input type="text" id="search-title" placeholder="Cari Judul Scrim/Tour...">
+
+        <section class="tournament-section">
+            <div class="container">
+                <h2 class="section-title">Tournament Terbaru</h2>
+                <div class="tournament-grid">
+                    <div class="tournament-card card">
+                        <div class="tournament-banner">
+                            Mobile Legends Championship
+                        </div>
+                        <div class="tournament-status status-ongoing">Berlangsung</div>
+                        <div class="tournament-info">
+                            <h3>Mobile Legends MPL Style</h3>
+                            <p>Tournament dengan format MPL untuk tim amatir dan semi-pro.</p>
+                            <div class="tournament-meta">
+                                <span><i class="far fa-calendar"></i> 15 Jun 2023</span>
+                                <span><i class="fas fa-users"></i> 32 Tim</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tournament-card card">
+                        <div class="tournament-banner">
+                            PUBG Mobile Open
+                        </div>
+                        <div class="tournament-status status-upcoming">Akan Datang</div>
+                        <div class="tournament-info">
+                            <h3>PUBG Mobile Squad Battle</h3>
+                            <p>Battle royale tournament dengan hadiah total 10 juta rupiah.</p>
+                            <div class="tournament-meta">
+                                <span><i class="far fa-calendar"></i> 25 Jun 2023</span>
+                                <span><i class="fas fa-users"></i> 50 Squad</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tournament-card card">
+                        <div class="tournament-banner">
+                            Valorant Community Cup
+                        </div>
+                        <div class="tournament-status status-completed">Selesai</div>
+                        <div class="tournament-info">
+                            <h3>Valorant 5v5 Tournament</h3>
+                            <p>Tournament komunitas Valorant Indonesia dengan sistem single elimination.</p>
+                            <div class="tournament-meta">
+                                <span><i class="far fa-calendar"></i> 5 Jun 2023</span>
+                                <span><i class="fas fa-users"></i> 16 Tim</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
-        
-      <div class="table-container">
-        <table id="jadwal-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Judul</th>
-                    <th>Tanggal</th>
-                    <th>Jam</th>
-                    <th>Detail</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-            </tbody>
-        </table>
-      </div>
-        
-        <div id="empty-message" class="empty-message" style="display: none;">
-            Tidak ada jadwal yang sesuai dengan filter Anda.
-        </div>
-    </div>
-    
-    <!-- Modal untuk detail event -->
-    <div class="modal" id="event-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <img id="modal-image" class="modal-image" src="" alt="Event Image">
-            <h2 id="modal-title" class="modal-title"></h2>
-            <div class="modal-meta">
-                <span id="modal-date"></span>
-                <span id="modal-time"></span>
-                <span id="modal-platform"></span>
-                <span id="modal-mode"></span>
-            </div>
-            <p id="modal-description" class="modal-description"></p>
-            <div class="modal-links" id="modal-links">
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tambahkan ini sebelum penutup </body> -->
-<footer style="background-color: #1a1a2e; color: #f1f1f1; padding: 30px 0; margin-top: 50px;">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; flex-wrap: wrap; justify-content: space-between;">
-        <!-- Bagian Logo -->
-        <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-          <img src="https://imageshack.com/i/pmHojowFp" alt="ScrimBase ID Logo" style="height: 60px; margin-right: 15px;">
-            <div style="display: flex; align-items: center;">
-                <h3 style="color: #e94560; font-size: 1.5rem;">ScrimBase ID</h3>
-            </div>
-            <p style="margin-top: 15px; font-size: 0.9rem; color: #b8b8b8;">
-              platform jadwal scrim & tournament Bloodstrike terlengkap di Indonesia
-            </p>
-        </div>
+    </section>
 
-        <!-- Bagian Media Sosial -->
-        <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-            <h4 style="color: #e94560; margin-bottom: 15px; font-size: 1.2rem;">Media Sosial</h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <a href="https://whatsapp.com/channel/0029Vb8HoLOCxoAu26hfGP13" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
-                    Saluran WhatsApp
-                </a>
-                <a href="https://instagram.com/scrim_base_id" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
-                    Instagram
-                </a>
-                <a href="https://discord.gg/5SHDfvpb" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
-                    Discord
-                </a>
-                <a href="https://tiktok.com/@scrimbaseid" style="color: #f1f1f1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
-                    Tiktok
-                </a>
+    <!-- Halaman Host Tournament -->
+    <section id="host-tournament-page" class="page hidden">
+        <div class="page-container">
+            <div class="container">
+                <h2 class="section-title">Host Tournament</h2>
+                <div class="form-container">
+                    <form id="tournament-form">
+                        <div class="form-group">
+                            <label for="tournament-title">Judul Tournament</label>
+                            <input type="text" id="tournament-title" class="form-control" placeholder="Contoh: Mobile Legends Championship Season 5" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="game-type">Jenis Game</label>
+                                <select id="game-type" class="form-control" required>
+                                    <option value="">Pilih Game</option>
+                                    <option value="mobile-legends">Mobile Legends</option>
+                                    <option value="pubg-mobile">PUBG Mobile</option>
+                                    <option value="free-fire">Free Fire</option>
+                                    <option value="valorant">Valorant</option>
+                                    <option value="league-of-legends">League of Legends</option>
+                                    <option value="dota-2">Dota 2</option>
+                                    <option value="csgo">CS:GO</option>
+                                    <option value="other">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tournament-date">Tanggal Tournament</label>
+                                <input type="date" id="tournament-date" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="team-type">Tipe Peserta</label>
+                                <select id="team-type" class="form-control" required>
+                                    <option value="">Pilih Tipe</option>
+                                    <option value="solo">Solo</option>
+                                    <option value="duo">Duo</option>
+                                    <option value="squad">Squad (4 orang)</option>
+                                    <option value="team">Team (5 orang)</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="max-participants">Maksimal Peserta</label>
+                                <input type="number" id="max-participants" class="form-control" min="2" max="100" value="16" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tournament-banner">Banner Tournament (URL)</label>
+                            <input type="url" id="tournament-banner" class="form-control" placeholder="https://example.com/banner.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tournament-description">Deskripsi Tournament</label>
+                            <textarea id="tournament-description" class="form-control" placeholder="Jelaskan tentang tournament Anda..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tournament-rules">Aturan Tournament</label>
+                            <textarea id="tournament-rules" class="form-control" placeholder="Tuliskan aturan-aturan tournament..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="group-link">Link Grup (Discord/WhatsApp/Telegram)</label>
+                            <input type="url" id="group-link" class="form-control" placeholder="https://discord.gg/example" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sponsors">Sponsor (pisahkan dengan koma)</label>
+                            <input type="text" id="sponsors" class="form-control" placeholder="Sponsor 1, Sponsor 2, Sponsor 3">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prize-pool">Hadiah Tournament</label>
+                            <textarea id="prize-pool" class="form-control" placeholder="Juara 1: Rp 5.000.000&#10;Juara 2: Rp 3.000.000&#10;Juara 3: Rp 1.000.000" required></textarea>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn">Buat Tournament</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Bagian Syarat & Ketentuan -->
-        <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-            <h4 style="color: #e94560; margin-bottom: 15px; font-size: 1.2rem;">Legal</h4>
-            <ul style="list-style: none; padding: 0;">
-                <li style="margin-bottom: 8px;">
-                    <a href="/syarat-ketentuan" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">Syarat dan Ketentuan</a>
-                </li>
-                <li style="margin-bottom: 8px;">
-                    <a href="/kebijakan-privasi" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">Kebijakan Privasi</a>
-                </li>
-                <li style="margin-bottom: 8px;">
-                    <a href="/faq" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">FAQ</a>
-                </li>
-                <li style="margin-bottom: 8px;">
-                    <a href="https://wa.me/6288991734780" style="color: #b8b8b8; text-decoration: none; font-size: 0.9rem;">Kontak Kami</a>
-                </li>
-            </ul>
-        </div>
+    <!-- Halaman Tournament Participants -->
+    <section id="tournament-participants-page" class="page hidden">
+        <div class="page-container">
+            <div class="container">
+                <h2 class="section-title">Tournament Participants</h2>
+                
+                <div class="filter-section">
+                    <h3 class="mb-4">Filter Tournament</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-filter="all">Semua</div>
+                        <div class="filter-option" data-filter="upcoming">Akan Datang</div>
+                        <div class="filter-option" data-filter="ongoing">Berlangsung</div>
+                        <div class="filter-option" data-filter="completed">Selesai</div>
+                        <div class="filter-option" data-filter="mobile-legends">Mobile Legends</div>
+                        <div class="filter-option" data-filter="pubg-mobile">PUBG Mobile</div>
+                        <div class="filter-option" data-filter="valorant">Valorant</div>
+                    </div>
+                </div>
 
-        <!-- Bagian Copyright -->
-        <div style="width: 100%; text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #0f3460;">
-            <p style="color: #b8b8b8; font-size: 0.8rem;">
-                &copy; 2025 ScrimBase ID. All rights reserved.
-            </p>
+                <div class="tournament-list" id="tournament-list">
+                    <!-- Tournament akan dimuat secara dinamis -->
+                </div>
+            </div>
         </div>
-    </div>
-</footer>
-    
+    </section>
+
+    <!-- Halaman Login -->
+    <section id="login-page" class="page hidden">
+        <div class="login-section">
+            <div class="login-card">
+                <h2>Login ke ScrimBase ID</h2>
+                <p>Masuk dengan akun Google untuk mengakses fitur host tournament</p>
+                <button class="google-login mt-4">
+                    <i class="fab fa-google"></i>
+                    Login dengan Google
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ScrimBase ID</h3>
+                    <p>Platform tournament gaming terdepan di Indonesia dengan komunitas aktif dan sistem yang terpercaya.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Tautan Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home" class="nav-link" data-page="home">Beranda</a></li>
+                        <li><a href="#host-tournament" class="nav-link" data-page="host-tournament">Host Tournament</a></li>
+                        <li><a href="#tournament-participants" class="nav-link" data-page="tournament-participants">Tournament Participants</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Dukungan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ScrimBase ID. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        const eventsData = [
+        // Database Simulasi
+        let tournaments = JSON.parse(localStorage.getItem('tournaments')) || [
             {
-                "id": 1,
-                "judul": "Fun Match Bloodstrike",
-                "tanggal": "05/07/2025",
-                "jam": "20:00",
-                "platform": "Mobile",
-                "mode": "Solo",
-                "gambar": "https://imageshack.com/i/pm7zAyMpj",
-                "deskripsi": "P, BEWAN!, Siap siap jadi  di Fun Match BloodStrike bareng komunitas Lunaverse Gaming Community (LGC). 📅 Sabtu, 5 Juli 2025 | 18.00 WIB, 💰 Hadiah? Ada 🥇 200 Gold, 🥈 100 Gold. 📜 Rules? GAADA, Ajak temen kamu, rival kamu buat ikutan fun match ini",
-                "link": [
-                    {"label": "Link Pendaftaran", "url": "https://s.id/funmatch-lgc"},
-                    {"label": "Grup WhatsApp", "url": "https://chat.whatsapp.com/Gusvz8XRD2Z994quZwIbag"}
-                ]
+                id: 1,
+                title: "Mobile Legends MPL Style",
+                game: "mobile-legends",
+                date: "2023-06-15",
+                teamType: "team",
+                maxParticipants: 32,
+                currentParticipants: 28,
+                banner: "",
+                description: "Tournament dengan format MPL untuk tim amatir dan semi-pro.",
+                rules: "1. Setiap tim terdiri dari 5 pemain\n2. Sistem gugur\n3. Best of 3 untuk semifinal dan final",
+                groupLink: "https://discord.gg/mlexample",
+                sponsors: "GameTech, EsportsID",
+                prizePool: "Juara 1: Rp 5.000.000\nJuara 2: Rp 3.000.000\nJuara 3: Rp 1.500.000",
+                status: "ongoing",
+                host: "Admin"
             },
             {
-                "id": 2,
-                "judul": "💢SUPREME SCRIMMAGE💢",
-                "tanggal": "05/07/2025",
-                "jam": "20:00",
-                "platform": "Mobile",
-                "mode": "Squad",
-                "gambar": "",
-                "deskripsi": "RULES OF THE GAME : MOBILE ONLY, AIM ASSIST OFF, BAN WEAPON [ORIGIN-12 / AKIMBO dual UZI / NEW SHOTGUN PUTER], BAN BURN MAGAZINE, NO TEAMING, ‼️ IF YOU FIND A VIOLATION, PLEASE SEND EVIDENCE IN THE FORM OF A VIDEO OR SCREENSHOT TO ADMIN, TEAM THAT VIOLATES THE RULES -30 POINTS, ‼️ TEAMS THAT AREN'T PRESENT AT THE SCRIM WHEN STARTED WILL BE BLACKLISTED FOR THE NEXT SCRIM. POINT : #1 = 15 Poin, #2 = 13 Poin, #3 = 10 Poin, #4 = 8 Poin, #5 = 6 Poin, #6 = 4 Poin, #7-10 = 2 Poin, #11-15 = 1 Poin, 1 KILL : 1 Poin. 3 MATCH : M1 : DESERTED VALLEY, M2 : DESERTED VALLEY, M3 : SHUTTER ISLAND. REWARD : E-CERTIFICATE 🥇🥈🥉, TERMINATOR 👑🏆",
-                "link": [
-                    {"label": "Link Grup", "url": "https://chat.whatsapp.com/KsTTSEaJQlxJ6bc2TlSJMb?mode=ac_t"}
-                ]
-            },
-{
-                "id": 3,
-                "judul": "Scrimmage by Warlords",
-                "tanggal": "07/07/2025",
-                "jam": "20:00",
-                "platform": "PC",
-                "mode": "Squad",
-                "gambar": "https://imageshack.com/i/po6Y7Jtxj",
-                "deskripsi": "Prizepool: 1600 Gold (JIKA SLOT TERPENUHI) + E-Certificate. FREE REGIST. Close Registration: 6 July 2025, 15.00 WIB. Setiap tim berhak mendapatkan pengalaman kompetitif 😎. Jangan lupa follow Sosmed BSID dan WARLORDS juga ya... Info lebih lanjut bisa hubungi nomor admin yang tertera di form yaa 🥰 Semangat 🔥🥰. #BloodStrikeIndonesia #WarlordsComunity",
-                "link": [
-                    {"label": "Link Pendaftaran", "url": "https://forms.gle/yCdfbpRETw85Vrzu5"}
-                ]
+                id: 2,
+                title: "PUBG Mobile Squad Battle",
+                game: "pubg-mobile",
+                date: "2023-06-25",
+                teamType: "squad",
+                maxParticipants: 50,
+                currentParticipants: 42,
+                banner: "",
+                description: "Battle royale tournament dengan hadiah total 10 juta rupiah.",
+                rules: "1. Setiap squad terdiri dari 4 pemain\n2. 3 match dengan map berbeda\n3. Poin berdasarkan kill dan placement",
+                groupLink: "https://discord.gg/pubgexample",
+                sponsors: "GamingStore, TechLife",
+                prizePool: "Juara 1: Rp 5.000.000\nJuara 2: Rp 3.000.000\nJuara 3: Rp 2.000.000",
+                status: "upcoming",
+                host: "Admin"
             },
             {
-                "id": 4,
-                "judul": "Scrimmage by Warlords",
-                "tanggal": "10/07/2025",
-                "jam": "20:00",
-                "platform": "Mobile",
-                "mode": "Squad",
-                "gambar": "https://imageshack.com/i/poOC9vsWj",
-                "deskripsi": "Prizepool: 4000  Gold (JIKA SLOT TERPENUHI) + E-Certificate. FREE REGIST. Close Registration: 9 July 2025, 15.00 WIB. Setiap tim berhak mendapatkan pengalaman kompetitif 😎. Jangan lupa follow Sosmed BSID dan WARLORDS  juga ya... Info lebih lanjut bisa hubungi nomor admin yang tertera di form yaa 🥰 Semangat 🔥🥰. #BloodStrikeIndonesia #WarlordsComunity",
-                "link": [
-                    {"label": "Link Pendaftaran", "url": "https://forms.gle/TAcUxg72mbn6E5TE6"}
-                ]
-            },
-            
-            {
-                "id": 5,
-                "judul": "🥬 LAGA  BY 4AM 🥬",
-                "tanggal": "05/07/2025",
-                "jam": "20:10",
-                "platform": "Mobile",
-                "mode": "Squad",
-                "gambar": "https://imageshack.com/i/poOC9vsWj",
-                "deskripsi": "RULE OF THE GAME : MOBILE ONLY, AIM ASSIST OFF, BAN WEAPON [ORIGIN-12 / AKIMBO dual UZI / NEW SHOTGUN PUTER], BAN BURN MAGAZINE, NO TEAMING, ‼️ IF YOU FIND A VIOLATION, PLEASE SEND EVIDENCE IN THE FORM OF A VIDEO OR SCREENSHOT TO ADMIN, TEAM THAT VIOLATES THE RULES -30 POINTS, ‼️ TEAMS THAT AREN'T PRESENT AT THE SCRIM WHEN STARTED WILL BE BLACKLISTED FOR THE NEXT SCRIM. POINT : #1 = 15 Poin, #2 = 13 Poin, #3 = 10 Poin, #4 = 8 Poin, #5 = 6 Poin, #6 = 4 Poin, #7-10 = 2 Poin, #11-15 = 1 Poin, 1 KILL : 1 Poin. 4 MATCH : M1 : DESERTED VALLEY, M2 : SHUTTER, M3 : DESERTED VALLEY, M4 : SHUTTER. REWARD : E-CERTIFICATE 🥇🥈🥉, The Destroyer CERTIFICATE🎖. 2 TIMES #1 CHAMPION IN A ROW will be Ban on 1 scrimmage.We want various winner and giving a change",
-                "link": [
-                    {"label": "Link Grul", "url": "https://chat.whatsapp.com/FLw4NoJqMieLIkmEoPyLzM?mode=r_t"}
-                ]
-            },
-            {
-                "id": 6,
-                "judul": "SCRIM BY OCT•|√REDS",
-                "tanggal": "10/07/2025",
-                "jam": "20:07",
-                "platform": "Mobile",
-                "mode": "Squad",
-                "gambar": "",
-                "deskripsi": "BATLE ROYAL SEASON(1). RULES MODE BR S1: 1MATCH, MAP=SHUTER ISLAND, AIM ASIST OF/ON,..POLING!!!, BAN WEAPON SHOTGUN+SNIPER, NO SYSTEM POINT!!!, NO CHEAT,..CHEAT? DIS!!. REWARD=E-CERTIFICATE = FOR:#1#2#3 TERMINATOR?POLING!!!",
-                "link": [
-                    {"label": "Link Grup", "url": "chat:https://chat.whatsapp.com/FWI5FNcjVQUEpOVcRrvXwQ?mode=r_c"}
-                ]
-            },
-            {
-                "id": 7,
-                "judul": "VENGEANCE  𝐏𝐂 𝐒𝐂𝐑𝐈𝐌𝐌𝐀𝐆𝐄",
-                "tanggal": "6/07/2025",
-                "jam": "20:00",
-                "platform": "PC",
-                "mode": "Squad",
-                "gambar": "",
-                "deskripsi": "",
-                "link": [
-                    {"label": "Link Discord", "url": "https://discord.gg/KnRtJBxS"}
-                ]
+                id: 3,
+                title: "Valorant 5v5 Tournament",
+                game: "valorant",
+                date: "2023-06-05",
+                teamType: "team",
+                maxParticipants: 16,
+                currentParticipants: 16,
+                banner: "",
+                description: "Tournament komunitas Valorant Indonesia dengan sistem single elimination.",
+                rules: "1. Best of 1 untuk babak awal\n2. Best of 3 untuk semifinal dan final\n3. Map dipilih secara veto",
+                groupLink: "https://discord.gg/valexample",
+                sponsors: "ProGear, GameOn",
+                prizePool: "Juara 1: Rp 3.000.000\nJuara 2: Rp 1.500.000\nJuara 3: Rp 500.000",
+                status: "completed",
+                host: "Admin"
             }
-            
         ];
-        
-        // memeriksa status event
-        function cekStatus(tanggal, jam) {
-            const sekarang = new Date();
-            const [day, month, year] = tanggal.split('/');
-            const [hours, minutes] = jam.split(':');
-            
-            const waktuEvent = new Date(year, month - 1, day, hours, minutes);
-            const satuHariSetelahEvent = new Date(waktuEvent.getTime() + (24 * 60 * 60 * 1000));
-            
-            if (waktuEvent > sekarang) {
-                const selisih = waktuEvent - sekarang;
-                const jamTersisa = Math.floor(selisih / (1000 * 60 * 60));
-                const menitTersisa = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
-                
-                if (jamTersisa < 1) {
-                    return `Mulai dalam ${menitTersisa} menit`;
-                } else if (jamTersisa < 24) {
-                    return `Mulai dalam ${jamTersisa} jam`;
-                } else {
-                    const hariTersisa = Math.floor(jamTersisa / 24);
-                    return `Mulai dalam ${hariTersisa} hari`;
-                }
-            } else if (sekarang < satuHariSetelahEvent) {
-                return "Sedang Berlangsung";
-            } else {
-                return "Selesai";
-            }
+
+        // Simpan data ke localStorage
+        function saveTournaments() {
+            localStorage.setItem('tournaments', JSON.stringify(tournaments));
         }
-        
-        // memformat tanggal
-        function formatTanggal(tanggal) {
-            const [day, month, year] = tanggal.split('/');
-            const bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-            return `${day} ${bulan[parseInt(month) - 1]} ${year}`;
-        }
-        
-        // menampilkan data ke tabel
-        function renderTable(data) {
-            const tableBody = document.getElementById('table-body');
-            const emptyMessage = document.getElementById('empty-message');
-            
-            tableBody.innerHTML = '';
-            
-            if (data.length === 0) {
-                emptyMessage.style.display = 'block';
-                document.getElementById('jadwal-table').style.display = 'none';
-                return;
-            } else {
-                emptyMessage.style.display = 'none';
-                document.getElementById('jadwal-table').style.display = 'table';
-            }
-            
-            data.forEach((event, index) => {
-                const status = cekStatus(event.tanggal, event.jam);
-                
-                if (status === "Selesai") return;
-                
-                const row = document.createElement('tr');
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${event.judul}</td>
-                    <td>${formatTanggal(event.tanggal)}</td>
-                    <td>${event.jam}</td>
-                    <td><button class="btn detail-btn" data-id="${event.id}">Detail</button></td>
-                    <td><span class="status-badge ${status.includes('Mulai') ? 'status-upcoming' : 'status-ongoing'}">${status}</span></td>
-                `;
-                
-                tableBody.appendChild(row);
+
+        // Elemen DOM
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinksContainer = document.querySelector('.nav-links');
+        const loginBtn = document.querySelector('.login-btn');
+        const tournamentForm = document.getElementById('tournament-form');
+        const tournamentList = document.getElementById('tournament-list');
+        const filterOptions = document.querySelectorAll('.filter-option');
+
+        // Navigasi antar halaman
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('active');
             });
             
+            document.getElementById(pageId).classList.remove('hidden');
+            document.getElementById(pageId).classList.add('active');
             
+            // Scroll ke atas
+            window.scrollTo(0, 0);
+        }
+
+        // Event listener untuk navigasi
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page') + '-page';
+                showPage(pageId);
+                
+                // Tutup menu mobile jika terbuka
+                navLinksContainer.classList.remove('active');
+            });
+        });
+
+        // Toggle menu mobile
+        navToggle.addEventListener('click', () => {
+            navLinksContainer.classList.toggle('active');
+        });
+
+        // Login dengan Google
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login-page');
+        });
+
+        // Filter tournament
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Hapus kelas active dari semua opsi
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                // Tambahkan kelas active ke opsi yang diklik
+                option.classList.add('active');
+                
+                const filter = option.getAttribute('data-filter');
+                loadTournaments(filter);
+            });
+        });
+
+        // Format tanggal
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        // Load tournaments
+        function loadTournaments(filter = 'all') {
+            tournamentList.innerHTML = '';
             
-            // Tambahkan event listener tombol detail
-            document.querySelectorAll('.detail-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const eventId = parseInt(this.getAttribute('data-id'));
-                    showEventDetails(eventId);
+            let filteredTournaments = tournaments;
+            
+            if (filter !== 'all') {
+                if (['upcoming', 'ongoing', 'completed'].includes(filter)) {
+                    filteredTournaments = tournaments.filter(t => t.status === filter);
+                } else {
+                    filteredTournaments = tournaments.filter(t => t.game === filter);
+                }
+            }
+            
+            if (filteredTournaments.length === 0) {
+                tournamentList.innerHTML = '<div class="card text-center"><p>Tidak ada tournament yang sesuai dengan filter.</p></div>';
+                return;
+            }
+            
+            filteredTournaments.forEach(tournament => {
+                const statusClass = `status-${tournament.status}`;
+                let statusText = '';
+                
+                switch(tournament.status) {
+                    case 'upcoming':
+                        statusText = 'Akan Datang';
+                        break;
+                    case 'ongoing':
+                        statusText = 'Berlangsung';
+                        break;
+                    case 'completed':
+                        statusText = 'Selesai';
+                        break;
+                }
+                
+                const tournamentCard = document.createElement('div');
+                tournamentCard.className = 'tournament-card card';
+                tournamentCard.innerHTML = `
+                    <div class="tournament-banner">
+                        ${tournament.title}
+                    </div>
+                    <div class="tournament-status ${statusClass}">${statusText}</div>
+                    <div class="tournament-info">
+                        <h3>${tournament.title}</h3>
+                        <p>${tournament.description}</p>
+                        <div class="tournament-meta">
+                            <span><i class="far fa-calendar"></i> ${formatDate(tournament.date)}</span>
+                            <span><i class="fas fa-users"></i> ${tournament.currentParticipants}/${tournament.maxParticipants} Peserta</span>
+                        </div>
+                        <div class="tournament-meta">
+                            <span><i class="fas fa-gamepad"></i> ${getGameName(tournament.game)}</span>
+                            <span><i class="fas fa-user"></i> ${tournament.host}</span>
+                        </div>
+                        <div class="mt-4">
+                            <a href="${tournament.groupLink}" target="_blank" class="btn btn-success">Bergabung</a>
+                            <button class="btn btn-outline view-details" data-id="${tournament.id}">Detail</button>
+                        </div>
+                    </div>
+                `;
+                
+                tournamentList.appendChild(tournamentCard);
+            });
+            
+            // Event listener untuk tombol detail
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const tournamentId = parseInt(e.target.getAttribute('data-id'));
+                    showTournamentDetails(tournamentId);
                 });
             });
         }
-        
-        // menampilkan detail event di modal
-        function showEventDetails(eventId) {
-            const event = eventsData.find(e => e.id === eventId);
-            if (!event) return;
+
+        // Dapatkan nama game
+        function getGameName(gameKey) {
+            const games = {
+                'mobile-legends': 'Mobile Legends',
+                'pubg-mobile': 'PUBG Mobile',
+                'free-fire': 'Free Fire',
+                'valorant': 'Valorant',
+                'league-of-legends': 'League of Legends',
+                'dota-2': 'Dota 2',
+                'csgo': 'CS:GO',
+                'other': 'Lainnya'
+            };
             
-            document.getElementById('modal-image').src = event.gambar;
-            document.getElementById('modal-title').textContent = event.judul;
-            document.getElementById('modal-date').textContent = formatTanggal(event.tanggal);
-            document.getElementById('modal-time').textContent = event.jam;
-            document.getElementById('modal-platform').textContent = event.platform;
-            document.getElementById('modal-mode').textContent = event.mode;
-            document.getElementById('modal-description').textContent = event.deskripsi;
-            
-            const linksContainer = document.getElementById('modal-links');
-            linksContainer.innerHTML = '';
-            
-            event.link.forEach(link => {
-                const linkElement = document.createElement('a');
-                linkElement.href = link.url;
-                linkElement.className = 'modal-link';
-                linkElement.textContent = link.label;
-                linkElement.target = '_blank';
-                linksContainer.appendChild(linkElement);
-            });
-            
-            const modal = document.getElementById('event-modal');
-            modal.classList.add('active');
+            return games[gameKey] || gameKey;
         }
-        
-        // memfilter data
-        function filterData() {
-            const platformFilter = document.getElementById('filter-platform').value.toLowerCase();
-            const modeFilter = document.getElementById('filter-mode').value.toLowerCase();
-            const searchQuery = document.getElementById('search-title').value.toLowerCase();
+
+        // Tampilkan detail tournament
+        function showTournamentDetails(tournamentId) {
+            const tournament = tournaments.find(t => t.id === tournamentId);
+            if (!tournament) return;
             
-            const filteredData = eventsData.filter(event => {
-                const status = cekStatus(event.tanggal, event.jam);
-                if (status === "Selesai") return false;
-                
-                const platformMatch = !platformFilter || event.platform.toLowerCase().includes(platformFilter);
-                const modeMatch = !modeFilter || event.mode.toLowerCase() === modeFilter;
-                const searchMatch = !searchQuery || event.judul.toLowerCase().includes(searchQuery);
-                
-                return platformMatch && modeMatch && searchMatch;
-            });
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                padding: 20px;
+            `;
             
-            renderTable(filteredData);
-        }
-        
-        // Inisialisasi
-        document.addEventListener('DOMContentLoaded', function() {
-            // Render tabel pertama kali
-            renderTable(eventsData);
+            modal.innerHTML = `
+                <div class="modal-content" style="background: white; border-radius: 8px; padding: 30px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2>${tournament.title}</h2>
+                        <button class="close-modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><strong>Jenis Game:</strong></label>
+                            <p>${getGameName(tournament.game)}</p>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Tanggal:</strong></label>
+                            <p>${formatDate(tournament.date)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><strong>Tipe Peserta:</strong></label>
+                            <p>${tournament.teamType === 'solo' ? 'Solo' : 
+                                tournament.teamType === 'duo' ? 'Duo' : 
+                                tournament.teamType === 'squad' ? 'Squad (4 orang)' : 
+                                tournament.teamType === 'team' ? 'Team (5 orang)' : 'Custom'}</p>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Peserta:</strong></label>
+                            <p>${tournament.currentParticipants}/${tournament.maxParticipants}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Deskripsi:</strong></label>
+                        <p>${tournament.description}</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Aturan Tournament:</strong></label>
+                        <pre style="white-space: pre-wrap; background: #f8f9fa; padding: 15px; border-radius: 4px;">${tournament.rules}</pre>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Hadiah:</strong></label>
+                        <pre style="white-space: pre-wrap; background: #f8f9fa; padding: 15px; border-radius: 4px;">${tournament.prizePool}</pre>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Sponsor:</strong></label>
+                        <p>${tournament.sponsors || 'Tidak ada sponsor'}</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Link Grup:</strong></label>
+                        <p><a href="${tournament.groupLink}" target="_blank">${tournament.groupLink}</a></p>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a href="${tournament.groupLink}" target="_blank" class="btn btn-success">Bergabung Sekarang</a>
+                        <button class="btn btn-outline close-modal">Tutup</button>
+                    </div>
+                </div>
+            `;
             
-            // event listener untuk filter
-            document.getElementById('filter-platform').addEventListener('change', filterData);
-            document.getElementById('filter-mode').addEventListener('change', filterData);
-            document.getElementById('search-title').addEventListener('input', filterData);
+            document.body.appendChild(modal);
             
-            // Tutup modal
-            document.querySelector('.close-modal').addEventListener('click', function() {
-                document.getElementById('event-modal').classList.remove('active');
+            // Event listener untuk menutup modal
+            modal.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                });
             });
             
             // Tutup modal saat klik di luar konten
-            document.getElementById('event-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
                 }
             });
+        }
+
+        // Handle form tournament
+        tournamentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             
-            // Update status setiap menit
-            setInterval(() => {
-                filterData();
-            }, 60000);
+            // Cek apakah user sudah login
+            if (!localStorage.getItem('user')) {
+                alert('Anda harus login terlebih dahulu untuk membuat tournament.');
+                showPage('login-page');
+                return;
+            }
+            
+            // Cek apakah user sudah membuat tournament
+            const user = JSON.parse(localStorage.getItem('user'));
+            const userTournaments = tournaments.filter(t => t.host === user.name);
+            
+            if (userTournaments.length >= 1) {
+                alert('Anda hanya dapat membuat 1 tournament dengan akun ini.');
+                return;
+            }
+            
+            // Buat tournament baru
+            const newTournament = {
+                id: tournaments.length > 0 ? Math.max(...tournaments.map(t => t.id)) + 1 : 1,
+                title: document.getElementById('tournament-title').value,
+                game: document.getElementById('game-type').value,
+                date: document.getElementById('tournament-date').value,
+                teamType: document.getElementById('team-type').value,
+                maxParticipants: parseInt(document.getElementById('max-participants').value),
+                currentParticipants: 0,
+                banner: document.getElementById('tournament-banner').value,
+                description: document.getElementById('tournament-description').value,
+                rules: document.getElementById('tournament-rules').value,
+                groupLink: document.getElementById('group-link').value,
+                sponsors: document.getElementById('sponsors').value,
+                prizePool: document.getElementById('prize-pool').value,
+                status: "upcoming",
+                host: user.name
+            };
+            
+            tournaments.push(newTournament);
+            saveTournaments();
+            
+            alert('Tournament berhasil dibuat!');
+            tournamentForm.reset();
+            showPage('tournament-participants-page');
+            loadTournaments();
         });
-        
-        // Di dalam fungsi showEventDetails(), tambahkan ini setelah mengatur src gambar:
-const modalImage = document.getElementById('modal-image');
-modalImage.onclick = function() {
-    const zoomedImg = document.createElement('div');
-    zoomedImg.style.position = 'fixed';
-    zoomedImg.style.top = '0';
-    zoomedImg.style.left = '0';
-    zoomedImg.style.width = '100%';
-    zoomedImg.style.height = '100%';
-    zoomedImg.style.backgroundColor = 'rgba(0,0,0,0.9)';
-    zoomedImg.style.zIndex = '2000';
-    zoomedImg.style.display = 'flex';
-    zoomedImg.style.justifyContent = 'center';
-    zoomedImg.style.alignItems = 'center';
-    zoomedImg.style.cursor = 'zoom-out';
-    
-    const imgElement = document.createElement('img');
-    imgElement.src = this.src;
-    imgElement.style.maxWidth = '90%';
-    imgElement.style.maxHeight = '90%';
-    imgElement.style.objectFit = 'contain';
-    
-    zoomedImg.appendChild(imgElement);
-    zoomedImg.onclick = function() {
-        document.body.removeChild(zoomedImg);
-    };
-    
-    document.body.appendChild(zoomedImg);
-};
-        
-        modalImage.onerror = function() {
-    this.src = 'https://via.placeholder.com/600x300?text=Gambar+Tidak+Tersedia';
-    this.style.display = 'block';
-};
 
+        // Simulasi login dengan Google
+        document.querySelector('.google-login').addEventListener('click', () => {
+            const user = {
+                id: 1,
+                name: 'User Demo',
+                email: 'user@demo.com',
+                avatar: ''
+            };
+            
+            localStorage.setItem('user', JSON.stringify(user));
+            alert('Login berhasil!');
+            showPage('home-page');
+            
+            // Update tombol login
+            loginBtn.textContent = user.name;
+        });
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cek apakah user sudah login
+            const user = localStorage.getItem('user');
+            if (user) {
+                const userData = JSON.parse(user);
+                loginBtn.textContent = userData.name;
+            }
+            
+            loadTournaments();
+        });
     </script>
-    
-
-
-<button onclick="document.getElementById('popup').style.display='flex'" style="position:fixed;bottom:20px;right:20px;background:#0f3460;color:#fff;width:60px;height:60px;border-radius:50%;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.3);z-index:9999;">&#9432;</button>
-
-<div id="popup" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:9998;">
-    <div style="background:#fff;width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:10px;padding:20px;position:relative;color: #000000;">
-        <h2>Berita/Pengumuman</h2>
-        <p>Selamat datang di ScrimBase ID! Kami memiliki berita terbaru dan pengumuman penting untuk Anda. Silakan baca selengkapnya di sini.</p>
-        <button onclick="document.getElementById('popup').style.display='none'" style="position:absolute;top:10px;right:15px;background:red;color:aaaa;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;">Tutup</button>
-    </div>
-</div>
 </body>
 </html>
