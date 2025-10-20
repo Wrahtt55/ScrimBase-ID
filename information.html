@@ -74,11 +74,25 @@
             font-weight: bold;
             font-size: 1.5rem;
             color: var(--primary);
+            text-decoration: none;
         }
 
-        .logo img {
+        .logo-image {
             height: 40px;
             width: auto;
+            object-fit: contain;
+        }
+
+        .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
         }
 
         nav ul {
@@ -126,10 +140,20 @@
             font-size: 1.2rem;
             color: var(--dark);
             transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
         }
 
         body.dark-mode .theme-toggle {
             color: var(--light);
+        }
+
+        body.dark-mode .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .mobile-menu-btn {
@@ -139,6 +163,8 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--dark);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
         }
 
         body.dark-mode .mobile-menu-btn {
@@ -322,46 +348,6 @@
             gap: 1rem;
         }
 
-        /* Maintenance Page */
-        .maintenance-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-        }
-
-        .maintenance-title {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            animation: pulse 2s infinite;
-        }
-
-        .maintenance-text {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-bottom: 2rem;
-        }
-
-        .maintenance-btn {
-            background-color: white;
-            color: var(--primary);
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .maintenance-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -445,10 +431,6 @@
             .links-grid {
                 grid-template-columns: 1fr;
             }
-
-            .maintenance-title {
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
@@ -457,11 +439,11 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <!-- Placeholder untuk logo -->
-                    <div style="width: 40px; height: 40px; background-color: #4361ee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">SB</div>
+                <a href="#" class="logo">
+                    <!-- Ganti src dengan URL logo ScrimBase ID -->
+                    <img src="https://via.placeholder.com/40x40/4361ee/ffffff?text=SB" alt="ScrimBase ID Logo" class="logo-image" id="logoImage">
                     <span>ScrimBase ID</span>
-                </div>
+                </a>
                 
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
                     ☰
@@ -559,6 +541,21 @@
                 "icon": "📢"
             }
         ];
+
+        // Konfigurasi logo - GANTI URL DI SINI
+        const logoConfig = {
+            url: "https://via.placeholder.com/40x40/4361ee/ffffff?text=SB", // Ganti dengan URL logo ScrimBase ID
+            alt: "ScrimBase ID Logo"
+        };
+
+        // Fungsi untuk mengatur logo
+        function setupLogo() {
+            const logoImage = document.getElementById('logoImage');
+            if (logoConfig.url) {
+                logoImage.src = logoConfig.url;
+                logoImage.alt = logoConfig.alt;
+            }
+        }
 
         // Fungsi untuk merender link cards
         function renderLinks() {
@@ -661,6 +658,9 @@
 
         // Inisialisasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', function() {
+            // Setup logo
+            setupLogo();
+            
             // Render links
             renderLinks();
             
