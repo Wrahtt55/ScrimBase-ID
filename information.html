@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrimBase ID - Pusat Informasi Scrim & Turnamen</title>
+    <meta name="description" content="ScrimBase ID - pusat informasi dan komunitas untuk seluruh aktivitas scrim dan turnamen">
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            transition: var(--transition);
+        }
+
+        body.dark-mode {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        body.dark-mode header {
+            background-color: #2d3047;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        body.dark-mode nav a {
+            color: var(--light);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .theme-toggle {
+            color: var(--light);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        body.dark-mode .mobile-menu-btn {
+            color: var(--light);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        /* Links Section */
+        .links-section {
+            padding: 2rem 0 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        body.dark-mode .section-title {
+            color: var(--success);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .link-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+        }
+
+        body.dark-mode .link-card {
+            background-color: #2d3047;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+
+        body.dark-mode .card-icon {
+            color: var(--success);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card-description {
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+            flex-grow: 1;
+        }
+
+        body.dark-mode .card-description {
+            color: #a0a0a0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            flex-grow: 1;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        body.dark-mode .btn-secondary {
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        body.dark-mode .btn-secondary:hover {
+            background-color: rgba(76, 201, 240, 0.1);
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            animation: skeleton-loading 1s linear infinite alternate;
+            border-radius: var(--border-radius);
+        }
+
+        .skeleton-card {
+            background-color: #e0e0e0;
+            height: 180px;
+        }
+
+        body.dark-mode .skeleton-card {
+            background-color: #2d3047;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        body.dark-mode footer {
+            background-color: #0f0f1a;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Maintenance Page */
+        .maintenance-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .maintenance-title {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .maintenance-text {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .maintenance-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .maintenance-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-color: #e0e0e0;
+            }
+            100% {
+                background-color: #f5f5f5;
+            }
+        }
+
+        body.dark-mode .skeleton-loading {
+            0% {
+                background-color: #2d3047;
+            }
+            100% {
+                background-color: #3a3d5c;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                width: 100%;
+                display: none;
+                margin-top: 1rem;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .maintenance-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- Placeholder untuk logo -->
+                    <div style="width: 40px; height: 40px; background-color: #4361ee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">SB</div>
+                    <span>ScrimBase ID</span>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                    ☰
+                </button>
+                
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    🌙
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>ScrimBase ID</h1>
+            <p>Selamat datang di ScrimBase ID — pusat informasi dan komunitas untuk seluruh aktivitas scrim dan turnamen. Di sini kamu dapat menemukan link resmi kami ke berbagai platform, pengumuman event, dan sumber informasi penting lainnya. ScrimBase ID terbuka untuk semua: follow, gabung, dan ikuti update kami agar tidak ketinggalan match dan pengumuman resmi.</p>
+        </div>
+    </section>
+
+    <!-- Links Section -->
+    <section class="links-section" id="about">
+        <div class="container">
+            <h2 class="section-title">Platform & Link Resmi</h2>
+            <div class="links-grid" id="linksContainer">
+                <!-- Links akan di-generate oleh JavaScript -->
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2023 ScrimBase ID. All rights reserved.</p>
+                <p>Pusat informasi scrim dan turnamen untuk komunitas gaming Indonesia.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data JSON untuk link platform
+        const linksData = [
+            {
+                "id": "instagram",
+                "title": "Instagram",
+                "description": "Follow update singkat, highlight event, dan pengumuman.",
+                "link": "https://instagram.com/scrimbaseid",
+                "icon": "📷"
+            },
+            {
+                "id": "discord",
+                "title": "Discord",
+                "description": "Join server untuk diskusi scrim, match, dan pengumuman.",
+                "link": "https://discord.gg/scrimbaseid",
+                "icon": "💬"
+            },
+            {
+                "id": "youtube",
+                "title": "YouTube",
+                "description": "Tonton highlight match, tutorial, dan konten eksklusif.",
+                "link": "https://youtube.com/c/scrimbaseid",
+                "icon": "🎥"
+            },
+            {
+                "id": "twitter",
+                "title": "Twitter/X",
+                "description": "Ikuti update real-time dan interaksi langsung dengan tim.",
+                "link": "https://twitter.com/scrimbaseid",
+                "icon": "🐦"
+            },
+            {
+                "id": "registration",
+                "title": "Form Pendaftaran",
+                "description": "Daftar untuk mengikuti scrim dan turnamen yang diselenggarakan.",
+                "link": "https://forms.gle/scrimbaseid",
+                "icon": "📝"
+            },
+            {
+                "id": "telegram",
+                "title": "Telegram",
+                "description": "Bergabung dengan grup untuk notifikasi cepat dan diskusi.",
+                "link": "https://t.me/scrimbaseid",
+                "icon": "📢"
+            }
+        ];
+
+        // Fungsi untuk merender link cards
+        function renderLinks() {
+            const container = document.getElementById('linksContainer');
+            
+            // Kosongkan container dan tampilkan skeleton loading
+            container.innerHTML = '';
+            
+            // Tambahkan skeleton loading
+            for (let i = 0; i < 6; i++) {
+                const skeleton = document.createElement('div');
+                skeleton.className = 'skeleton skeleton-card';
+                container.appendChild(skeleton);
+            }
+            
+            // Simulasi loading data
+            setTimeout(() => {
+                container.innerHTML = '';
+                
+                linksData.forEach(link => {
+                    const card = document.createElement('div');
+                    card.className = 'link-card';
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <span class="card-icon">${link.icon}</span>
+                            <h3 class="card-title">${link.title}</h3>
+                        </div>
+                        <p class="card-description">${link.description}</p>
+                        <div class="card-actions">
+                            <a href="${link.link}" target="_blank" class="btn btn-primary" aria-label="Kunjungi ${link.title}">
+                                Kunjungi
+                            </a>
+                            <button class="btn btn-secondary copy-btn" data-link="${link.link}" aria-label="Salin link ${link.title}">
+                                Salin Link
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                
+                // Tambahkan event listener untuk tombol salin
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const link = this.getAttribute('data-link');
+                        copyToClipboard(link);
+                        
+                        // Ubah teks tombol sementara
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '✓ Tersalin!';
+                        this.style.backgroundColor = 'var(--success)';
+                        this.style.color = 'white';
+                        this.style.borderColor = 'var(--success)';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                            this.style.backgroundColor = '';
+                            this.style.color = '';
+                            this.style.borderColor = '';
+                        }, 2000);
+                    });
+                });
+            }, 1500); // Simulasi loading 1.5 detik
+        }
+
+        // Fungsi untuk menyalin teks ke clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                console.log('Link berhasil disalin: ' + text);
+            }).catch(err => {
+                console.error('Gagal menyalin link: ', err);
+                // Fallback untuk browser lama
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            });
+        }
+
+        // Fungsi untuk toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '☀️';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                themeToggle.innerHTML = '🌙';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // Fungsi untuk toggle mobile menu
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render links
+            renderLinks();
+            
+            // Set dark mode berdasarkan preferensi tersimpan
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').innerHTML = '☀️';
+            }
+            
+            // Event listener untuk toggle dark mode
+            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+            
+            // Event listener untuk mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+            
+            // Tutup mobile menu saat mengklik link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mainNav').classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
