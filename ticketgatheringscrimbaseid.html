@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pendaftaran</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <style>
+        :root {
+    --primary: #667eea;
+    --primary-dark: #5a6fd8;
+    --secondary: #764ba2;
+    --accent: #f093fb;
+    --light: #f8fafc;
+    --dark: #1e293b;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --gray-100: #f1f5f9;
+    --gray-300: #cbd5e1;
+    --gray-500: #64748b;
+    --gray-700: #334155;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-full: 50%;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    position: relative;
+}
+
+.form-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.form-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.025em;
+}
+
+.form-header p {
+    opacity: 0.9;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 32px;
+    margin-bottom: 40px;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gray-300);
+    z-index: 1;
+    border-radius: var(--radius-full);
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 0;
+    width: var(--progress-width, 0%);
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    z-index: 2;
+    border-radius: var(--radius-full);
+    transition: var(--transition-slow);
+}
+
+.progress-step {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--gray-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+    z-index: 3;
+    transition: var(--transition);
+    border: 3px solid white;
+    box-shadow: var(--shadow-sm);
+}
+
+.progress-step.active {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+}
+
+.progress-step.completed {
+    background: var(--success);
+    color: white;
+}
+
+.form-container {
+    padding: 0 32px 32px;
+}
+
+.form-page {
+    display: none;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-page.active {
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 14px;
+    letter-spacing: -0.01em;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    font-size: 16px;
+    transition: var(--transition);
+    background: white;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-control:hover {
+    border-color: var(--gray-500);
+}
+
+.form-control.error {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-message {
+    color: var(--error);
+    font-size: 13px;
+    margin-top: 6px;
+    display: none;
+    font-weight: 500;
+}
+
+.radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 16px;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    background: white;
+}
+
+.radio-option:hover {
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.radio-option input {
+    margin-right: 12px;
+    accent-color: var(--primary);
+}
+
+.radio-option:has(input:checked) {
+    border-color: var(--primary);
+    background: rgba(102, 126, 234, 0.05);
+    box-shadow: var(--shadow-sm);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 8px;
+    padding: 16px;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+    background: white;
+}
+
+.checkbox-group:hover {
+    border-color: var(--primary);
+}
+
+.checkbox-group:has(input:checked) {
+    border-color: var(--primary);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.checkbox-group input {
+    margin-right: 12px;
+    margin-top: 2px;
+    accent-color: var(--primary);
+}
+
+.checkbox-group label {
+    font-weight: 400;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    gap: 12px;
+}
+
+.btn {
+    padding: 14px 24px;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--gray-700);
+    border: 2px solid var(--gray-300);
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    padding: 48px 20px;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--gray-300);
+    border-top: 3px solid var(--primary);
+    border-radius: var(--radius-full);
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.success-message {
+    text-align: center;
+    padding: 48px 20px;
+    display: none;
+    animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.success-message i {
+    font-size: 64px;
+    color: var(--success);
+    margin-bottom: 24px;
+    display: block;
+}
+
+.success-message h2 {
+    color: var(--dark);
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.success-message p {
+    color: var(--gray-500);
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+    
+    .container {
+        border-radius: var(--radius-xl);
+    }
+    
+    .form-header {
+        padding: 24px;
+    }
+    
+    .form-header h1 {
+        font-size: 24px;
+    }
+    
+    .progress-bar {
+        margin: 24px;
+        margin-bottom: 32px;
+    }
+    
+    .form-container {
+        padding: 0 24px 24px;
+    }
+    
+    .radio-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-navigation {
+        flex-direction: column-reverse;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: var(--dark);
+        color: white;
+    }
+    
+    .form-group label {
+        color: var(--gray-100);
+    }
+    
+    .form-control {
+        background: var(--gray-700);
+        border-color: var(--gray-500);
+        color: white;
+    }
+    
+    .form-control::placeholder {
+        color: var(--gray-500);
+    }
+    
+    .radio-option,
+    .checkbox-group {
+        background: var(--gray-700);
+        border-color: var(--gray-500);
+        color: white;
+    }
+    
+    .btn-secondary {
+        background: var(--gray-700);
+        color: white;
+        border-color: var(--gray-500);
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Form Pendaftaran</h1>
+            <p>Isi data dengan benar untuk melanjutkan</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-step active" id="step1">1</div>
+            <div class="progress-step" id="step2">2</div>
+            <div class="progress-step" id="step3">3</div>
+        </div>
+        
+        <div class="form-container">
+            <!-- Halaman 1 -->
+            <div class="form-page active" id="page1">
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap</label>
+                    <input type="text" id="nama" class="form-control" placeholder="Masukkan nama lengkap">
+                    <div class="error-message" id="nama-error">Nama harus diisi</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="contoh@email.com">
+                    <div class="error-message" id="email-error">Email tidak valid</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Nomor HP (Berawalan 62)</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="62xxxxxxxxxxx">
+                    <div class="error-message" id="phone-error">Nomor HP harus berawalan 62 dan minimal 10 digit</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="community">Asal Komunitas (Opsional)</label>
+                    <input type="text" id="community" class="form-control" placeholder="Nama komunitas">
+                </div>
+                
+                <div class="form-group">
+                    <label for="domicile">Domisili</label>
+                    <input type="text" id="domicile" class="form-control" placeholder="Kota tempat tinggal">
+                    <div class="error-message" id="domicile-error">Domisili harus diisi</div>
+                </div>
+                
+                <div class="form-navigation">
+                    <div></div> <!-- Placeholder untuk penyeimbang -->
+                    <button class="btn btn-primary" id="next1">Selanjutnya</button>
+                </div>
+            </div>
+            
+            <!-- Halaman 2 -->
+            <div class="form-page" id="page2">
+                <div class="form-group">
+                    <label>Kategori Umur</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="age" value="18-25"> 18-25 tahun
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="age" value="26-35"> 26-35 tahun
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="age" value="36-45"> 36-45 tahun
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="age" value="46+"> 46+ tahun
+                        </label>
+                    </div>
+                    <div class="error-message" id="age-error">Pilih kategori umur</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Apakah Anda akan hadir?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="attendance" value="Ya"> Ya
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="attendance" value="Tidak"> Tidak
+                        </label>
+                    </div>
+                    <div class="error-message" id="attendance-error">Pilih jawaban</div>
+                </div>
+                
+                <div class="form-navigation">
+                    <button class="btn btn-secondary" id="prev2">Kembali</button>
+                    <button class="btn btn-primary" id="next2">Selanjutnya</button>
+                </div>
+            </div>
+            
+            <!-- Halaman 3 -->
+            <div class="form-page" id="page3">
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms">
+                        <label for="terms">Saya menyetujui syarat dan ketentuan yang berlaku. Data yang saya berikan akan digunakan untuk keperluan administrasi dan komunikasi terkait acara ini.</label>
+                    </div>
+                    <div class="error-message" id="terms-error">Anda harus menyetujui syarat dan ketentuan</div>
+                </div>
+                
+                <div class="form-navigation">
+                    <button class="btn btn-secondary" id="prev3">Kembali</button>
+                    <button class="btn btn-primary" id="submit">Kirim</button>
+                </div>
+            </div>
+            
+            <!-- Loading -->
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Mengirim data...</p>
+            </div>
+            
+            <!-- Success Message -->
+            <div class="success-message" id="success">
+                <i>✓</i>
+                <h2>Pendaftaran Berhasil!</h2>
+                <p>Terima kasih telah mendaftar. Konfirmasi telah dikirim ke email Anda.</p>
+                <button class="btn btn-primary" id="reset">Isi Form Lagi</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDyqVWeB7qU4XaamzSdf2X8FnB1VPoF0xM",
+            authDomain: "ticket-id-scrimbaseid.firebaseapp.com",
+            projectId: "ticket-id-scrimbaseid",
+            storageBucket: "ticket-id-scrimbaseid.firebasestorage.app",
+            messagingSenderId: "403881895183",
+            appId: "1:403881895183:web:2d13de9501371462198a7a"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Konfigurasi EmailJS
+        emailjs.init("e02BjMnQcYcfaBn7z");
+
+        // Variabel global
+        let currentPage = 1;
+        const totalPages = 3;
+
+        // DOM Elements
+        const pages = document.querySelectorAll('.form-page');
+        const progressSteps = document.querySelectorAll('.progress-step');
+        const nextButtons = document.querySelectorAll('[id^="next"]');
+        const prevButtons = document.querySelectorAll('[id^="prev"]');
+        const submitButton = document.getElementById('submit');
+        const resetButton = document.getElementById('reset');
+        const loadingElement = document.getElementById('loading');
+        const successElement = document.getElementById('success');
+
+        // Fungsi untuk berpindah halaman
+        function goToPage(pageNumber) {
+            // Sembunyikan semua halaman
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Tampilkan halaman yang dipilih
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+            
+            // Update progress bar
+            progressSteps.forEach((step, index) => {
+                if (index + 1 <= pageNumber) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+                
+                // Tandai step sebelumnya sebagai completed
+                if (index + 1 < pageNumber) {
+                    step.classList.add('completed');
+                } else {
+                    step.classList.remove('completed');
+                }
+            });
+            
+            // Update progress bar line
+            const progressLine = document.querySelector('.progress-bar::after');
+            if (progressLine) {
+                const progressPercentage = ((pageNumber - 1) / (totalPages - 1)) * 100;
+                document.documentElement.style.setProperty('--progress-width', `${progressPercentage}%`);
+            }
+            
+            currentPage = pageNumber;
+        }
+
+        // Validasi form halaman 1
+        function validatePage1() {
+            let isValid = true;
+            
+            // Validasi nama
+            const nama = document.getElementById('nama').value.trim();
+            if (!nama) {
+                document.getElementById('nama-error').style.display = 'block';
+                document.getElementById('nama').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('nama-error').style.display = 'none';
+                document.getElementById('nama').classList.remove('error');
+            }
+            
+            // Validasi email
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                document.getElementById('email-error').style.display = 'block';
+                document.getElementById('email').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('email-error').style.display = 'none';
+                document.getElementById('email').classList.remove('error');
+            }
+            
+            // Validasi nomor HP
+            const phone = document.getElementById('phone').value.trim();
+            const phoneRegex = /^62\d{9,}$/;
+            if (!phone || !phoneRegex.test(phone)) {
+                document.getElementById('phone-error').style.display = 'block';
+                document.getElementById('phone').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('phone-error').style.display = 'none';
+                document.getElementById('phone').classList.remove('error');
+            }
+            
+            // Validasi domisili
+            const domicile = document.getElementById('domicile').value.trim();
+            if (!domicile) {
+                document.getElementById('domicile-error').style.display = 'block';
+                document.getElementById('domicile').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('domicile-error').style.display = 'none';
+                document.getElementById('domicile').classList.remove('error');
+            }
+            
+            return isValid;
+        }
+
+        // Validasi form halaman 2
+        function validatePage2() {
+            let isValid = true;
+            
+            // Validasi kategori umur
+            const ageSelected = document.querySelector('input[name="age"]:checked');
+            if (!ageSelected) {
+                document.getElementById('age-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('age-error').style.display = 'none';
+            }
+            
+            // Validasi kehadiran
+            const attendanceSelected = document.querySelector('input[name="attendance"]:checked');
+            if (!attendanceSelected) {
+                document.getElementById('attendance-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('attendance-error').style.display = 'none';
+            }
+            
+            return isValid;
+        }
+
+        // Validasi form halaman 3
+        function validatePage3() {
+            const termsChecked = document.getElementById('terms').checked;
+            
+            if (!termsChecked) {
+                document.getElementById('terms-error').style.display = 'block';
+                return false;
+            } else {
+                document.getElementById('terms-error').style.display = 'none';
+                return true;
+            }
+        }
+
+        // Kumpulkan data form
+        function collectFormData() {
+            return {
+                nama: document.getElementById('nama').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                community: document.getElementById('community').value.trim(),
+                domicile: document.getElementById('domicile').value.trim(),
+                age: document.querySelector('input[name="age"]:checked').value,
+                attendance: document.querySelector('input[name="attendance"]:checked').value,
+                timestamp: new Date().toISOString()
+            };
+        }
+
+        // Simpan data ke Firebase
+        async function saveToFirebase(data) {
+            try {
+                const docRef = await db.collection('registrations').add(data);
+                console.log('Data tersimpan dengan ID: ', docRef.id);
+                return true;
+            } catch (error) {
+                console.error('Error menyimpan data: ', error);
+                return false;
+            }
+        }
+
+        // Kirim email menggunakan EmailJS
+        async function sendEmail(data) {
+            try {
+                const templateParams = {
+                    to_name: data.nama,
+                    to_email: data.email,
+                    phone: data.phone,
+                    community: data.community || 'Tidak disebutkan',
+                    domicile: data.domicile,
+                    age: data.age,
+                    attendance: data.attendance
+                };
+
+                const response = await emailjs.send(
+                    'service_t4fzyzf',
+                    'template_asqzdk8',
+                    templateParams
+                );
+                
+                console.log('Email berhasil dikirim: ', response);
+                return true;
+            } catch (error) {
+                console.error('Error mengirim email: ', error);
+                return false;
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('next1').addEventListener('click', () => {
+            if (validatePage1()) {
+                goToPage(2);
+            }
+        });
+
+        document.getElementById('next2').addEventListener('click', () => {
+            if (validatePage2()) {
+                goToPage(3);
+            }
+        });
+
+        document.getElementById('prev2').addEventListener('click', () => {
+            goToPage(1);
+        });
+
+        document.getElementById('prev3').addEventListener('click', () => {
+            goToPage(2);
+        });
+
+        document.getElementById('submit').addEventListener('click', async () => {
+            if (!validatePage3()) return;
+            
+            // Tampilkan loading
+            document.getElementById('page3').style.display = 'none';
+            loadingElement.style.display = 'block';
+            
+            // Kumpulkan data
+            const formData = collectFormData();
+            
+            try {
+                // Simpan ke Firebase
+                const firebaseSuccess = await saveToFirebase(formData);
+                
+                // Kirim email
+                const emailSuccess = await sendEmail(formData);
+                
+                // Tampilkan hasil
+                loadingElement.style.display = 'none';
+                
+                if (firebaseSuccess && emailSuccess) {
+                    successElement.style.display = 'block';
+                } else {
+                    alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+                    document.getElementById('page3').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error: ', error);
+                loadingElement.style.display = 'none';
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+                document.getElementById('page3').style.display = 'block';
+            }
+        });
+
+        document.getElementById('reset').addEventListener('click', () => {
+            // Reset form
+            document.getElementById('nama').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('community').value = '';
+            document.getElementById('domicile').value = '';
+            
+            const ageRadios = document.querySelectorAll('input[name="age"]');
+            ageRadios.forEach(radio => radio.checked = false);
+            
+            const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
+            attendanceRadios.forEach(radio => radio.checked = false);
+            
+            document.getElementById('terms').checked = false;
+            
+            // Reset tampilan
+            successElement.style.display = 'none';
+            goToPage(1);
+        });
+
+        // Inisialisasi progress bar
+        document.documentElement.style.setProperty('--progress-width', '0%');
+    </script>
+</body>
+</html>
