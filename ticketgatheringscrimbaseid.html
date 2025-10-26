@@ -9,487 +9,487 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <style>
         :root {
-    --primary: #667eea;
-    --primary-dark: #5a6fd8;
-    --secondary: #764ba2;
-    --accent: #f093fb;
-    --light: #f8fafc;
-    --dark: #1e293b;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --error: #ef4444;
-    --gray-100: #f1f5f9;
-    --gray-300: #cbd5e1;
-    --gray-500: #64748b;
-    --gray-700: #334155;
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-    --radius-2xl: 24px;
-    --radius-full: 50%;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
+            --primary: #667eea;
+            --primary-dark: #5a6fd8;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gray-100: #f1f5f9;
+            --gray-300: #cbd5e1;
+            --gray-500: #64748b;
+            --gray-700: #334155;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 50%;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    color: var(--dark);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px;
-}
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
 
-.container {
-    width: 100%;
-    max-width: 480px;
-    background: white;
-    border-radius: var(--radius-2xl);
-    box-shadow: var(--shadow-xl);
-    overflow: hidden;
-    position: relative;
-}
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            position: relative;
+        }
 
-.form-header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: white;
-    padding: 32px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
+        .form-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-.form-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-    animation: shimmer 3s infinite;
-}
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
 
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
 
-.form-header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    letter-spacing: -0.025em;
-}
+        .form-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
 
-.form-header p {
-    opacity: 0.9;
-    font-size: 16px;
-    font-weight: 400;
-}
+        .form-header p {
+            opacity: 0.9;
+            font-size: 16px;
+            font-weight: 400;
+        }
 
-.progress-bar {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    margin: 32px;
-    margin-bottom: 40px;
-}
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 32px;
+            margin-bottom: 40px;
+        }
 
-.progress-bar::before {
-    content: '';
-    position: absolute;
-    top: 16px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--gray-300);
-    z-index: 1;
-    border-radius: var(--radius-full);
-}
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gray-300);
+            z-index: 1;
+            border-radius: var(--radius-full);
+        }
 
-.progress-bar::after {
-    content: '';
-    position: absolute;
-    top: 16px;
-    left: 0;
-    width: var(--progress-width, 0%);
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    z-index: 2;
-    border-radius: var(--radius-full);
-    transition: var(--transition-slow);
-}
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 0;
+            width: var(--progress-width, 0%);
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            z-index: 2;
+            border-radius: var(--radius-full);
+            transition: var(--transition-slow);
+        }
 
-.progress-step {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full);
-    background: var(--gray-300);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 14px;
-    position: relative;
-    z-index: 3;
-    transition: var(--transition);
-    border: 3px solid white;
-    box-shadow: var(--shadow-sm);
-}
+        .progress-step {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            background: var(--gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            position: relative;
+            z-index: 3;
+            transition: var(--transition);
+            border: 3px solid white;
+            box-shadow: var(--shadow-sm);
+        }
 
-.progress-step.active {
-    background: var(--primary);
-    color: white;
-    transform: scale(1.1);
-    box-shadow: var(--shadow-md);
-}
+        .progress-step.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
 
-.progress-step.completed {
-    background: var(--success);
-    color: white;
-}
+        .progress-step.completed {
+            background: var(--success);
+            color: white;
+        }
 
-.form-container {
-    padding: 0 32px 32px;
-}
+        .form-container {
+            padding: 0 32px 32px;
+        }
 
-.form-page {
-    display: none;
-    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .form-page {
+            display: none;
+            animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-.form-page.active {
-    display: block;
-}
+        .form-page.active {
+            display: block;
+        }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
-.form-group {
-    margin-bottom: 24px;
-}
+        .form-group {
+            margin-bottom: 24px;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--gray-700);
-    font-size: 14px;
-    letter-spacing: -0.01em;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 14px;
+            letter-spacing: -0.01em;
+        }
 
-.form-control {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid var(--gray-300);
-    border-radius: var(--radius-lg);
-    font-size: 16px;
-    transition: var(--transition);
-    background: white;
-    font-family: inherit;
-}
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+            font-family: inherit;
+        }
 
-.form-control:focus {
-    border-color: var(--primary);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    transform: translateY(-1px);
-}
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
 
-.form-control:hover {
-    border-color: var(--gray-500);
-}
+        .form-control:hover {
+            border-color: var(--gray-500);
+        }
 
-.form-control.error {
-    border-color: var(--error);
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
+        .form-control.error {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
 
-.error-message {
-    color: var(--error);
-    font-size: 13px;
-    margin-top: 6px;
-    display: none;
-    font-weight: 500;
-}
+        .error-message {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
+        }
 
-.radio-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 8px;
-}
+        .radio-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
 
-.radio-option {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 12px 16px;
-    border: 2px solid var(--gray-300);
-    border-radius: var(--radius-md);
-    transition: var(--transition);
-    background: white;
-}
+        .radio-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            background: white;
+        }
 
-.radio-option:hover {
-    border-color: var(--primary);
-    transform: translateY(-1px);
-}
+        .radio-option:hover {
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
 
-.radio-option input {
-    margin-right: 12px;
-    accent-color: var(--primary);
-}
+        .radio-option input {
+            margin-right: 12px;
+            accent-color: var(--primary);
+        }
 
-.radio-option:has(input:checked) {
-    border-color: var(--primary);
-    background: rgba(102, 126, 234, 0.05);
-    box-shadow: var(--shadow-sm);
-}
+        .radio-option:has(input:checked) {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.05);
+            box-shadow: var(--shadow-sm);
+        }
 
-.checkbox-group {
-    display: flex;
-    align-items: flex-start;
-    margin-top: 8px;
-    padding: 16px;
-    border: 2px solid var(--gray-300);
-    border-radius: var(--radius-lg);
-    transition: var(--transition);
-    background: white;
-}
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 8px;
+            padding: 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+            background: white;
+        }
 
-.checkbox-group:hover {
-    border-color: var(--primary);
-}
+        .checkbox-group:hover {
+            border-color: var(--primary);
+        }
 
-.checkbox-group:has(input:checked) {
-    border-color: var(--primary);
-    background: rgba(102, 126, 234, 0.05);
-}
+        .checkbox-group:has(input:checked) {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.05);
+        }
 
-.checkbox-group input {
-    margin-right: 12px;
-    margin-top: 2px;
-    accent-color: var(--primary);
-}
+        .checkbox-group input {
+            margin-right: 12px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+        }
 
-.checkbox-group label {
-    font-weight: 400;
-    margin-bottom: 0;
-    line-height: 1.5;
-}
+        .checkbox-group label {
+            font-weight: 400;
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
 
-.form-navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 32px;
-    gap: 12px;
-}
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            gap: 12px;
+        }
 
-.btn {
-    padding: 14px 24px;
-    border: none;
-    border-radius: var(--radius-lg);
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-family: inherit;
-    letter-spacing: -0.01em;
-}
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+            letter-spacing: -0.01em;
+        }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: white;
-    box-shadow: var(--shadow-md);
-}
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
 
-.btn-primary:active {
-    transform: translateY(0);
-}
+        .btn-primary:active {
+            transform: translateY(0);
+        }
 
-.btn-secondary {
-    background: white;
-    color: var(--gray-700);
-    border: 2px solid var(--gray-300);
-}
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
 
-.btn-secondary:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    transform: translateY(-1px);
-}
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
 
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-}
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
 
-.loading {
-    display: none;
-    text-align: center;
-    padding: 48px 20px;
-}
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 48px 20px;
+        }
 
-.loading-spinner {
-    width: 48px;
-    height: 48px;
-    border: 3px solid var(--gray-300);
-    border-top: 3px solid var(--primary);
-    border-radius: var(--radius-full);
-    animation: spin 1s linear infinite;
-    margin: 0 auto 20px;
-}
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--gray-300);
+            border-top: 3px solid var(--primary);
+            border-radius: var(--radius-full);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-.success-message {
-    text-align: center;
-    padding: 48px 20px;
-    display: none;
-    animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .success-message {
+            text-align: center;
+            padding: 48px 20px;
+            display: none;
+            animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-.success-message i {
-    font-size: 64px;
-    color: var(--success);
-    margin-bottom: 24px;
-    display: block;
-}
+        .success-message i {
+            font-size: 64px;
+            color: var(--success);
+            margin-bottom: 24px;
+            display: block;
+        }
 
-.success-message h2 {
-    color: var(--dark);
-    margin-bottom: 16px;
-    font-size: 24px;
-    font-weight: 700;
-}
+        .success-message h2 {
+            color: var(--dark);
+            margin-bottom: 16px;
+            font-size: 24px;
+            font-weight: 700;
+        }
 
-.success-message p {
-    color: var(--gray-500);
-    margin-bottom: 32px;
-    line-height: 1.6;
-}
+        .success-message p {
+            color: var(--gray-500);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
 
-@media (max-width: 480px) {
-    body {
-        padding: 12px;
-    }
-    
-    .container {
-        border-radius: var(--radius-xl);
-    }
-    
-    .form-header {
-        padding: 24px;
-    }
-    
-    .form-header h1 {
-        font-size: 24px;
-    }
-    
-    .progress-bar {
-        margin: 24px;
-        margin-bottom: 32px;
-    }
-    
-    .form-container {
-        padding: 0 24px 24px;
-    }
-    
-    .radio-group {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-navigation {
-        flex-direction: column-reverse;
-    }
-    
-    .btn {
-        width: 100%;
-    }
-}
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            
+            .container {
+                border-radius: var(--radius-xl);
+            }
+            
+            .form-header {
+                padding: 24px;
+            }
+            
+            .form-header h1 {
+                font-size: 24px;
+            }
+            
+            .progress-bar {
+                margin: 24px;
+                margin-bottom: 32px;
+            }
+            
+            .form-container {
+                padding: 0 24px 24px;
+            }
+            
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-navigation {
+                flex-direction: column-reverse;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    .container {
-        background: var(--dark);
-        color: white;
-    }
-    
-    .form-group label {
-        color: var(--gray-100);
-    }
-    
-    .form-control {
-        background: var(--gray-700);
-        border-color: var(--gray-500);
-        color: white;
-    }
-    
-    .form-control::placeholder {
-        color: var(--gray-500);
-    }
-    
-    .radio-option,
-    .checkbox-group {
-        background: var(--gray-700);
-        border-color: var(--gray-500);
-        color: white;
-    }
-    
-    .btn-secondary {
-        background: var(--gray-700);
-        color: white;
-        border-color: var(--gray-500);
-    }
-}
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .container {
+                background: var(--dark);
+                color: white;
+            }
+            
+            .form-group label {
+                color: var(--gray-100);
+            }
+            
+            .form-control {
+                background: var(--gray-700);
+                border-color: var(--gray-500);
+                color: white;
+            }
+            
+            .form-control::placeholder {
+                color: var(--gray-500);
+            }
+            
+            .radio-option,
+            .checkbox-group {
+                background: var(--gray-700);
+                border-color: var(--gray-500);
+                color: white;
+            }
+            
+            .btn-secondary {
+                background: var(--gray-700);
+                color: white;
+                border-color: var(--gray-500);
+            }
+        }
     </style>
 </head>
 <body>
@@ -499,7 +499,7 @@ body {
             <p>Isi data dengan benar untuk melanjutkan</p>
         </div>
         
-        <div class="progress-bar">
+        <div class="progress-bar" id="progressBar">
             <div class="progress-step active" id="step1">1</div>
             <div class="progress-step" id="step2">2</div>
             <div class="progress-step" id="step3">3</div>
@@ -538,7 +538,7 @@ body {
                 </div>
                 
                 <div class="form-navigation">
-                    <div></div> <!-- Placeholder untuk penyeimbang -->
+                    <div></div>
                     <button class="btn btn-primary" id="next1">Selanjutnya</button>
                 </div>
             </div>
@@ -595,22 +595,27 @@ body {
                 
                 <div class="form-navigation">
                     <button class="btn btn-secondary" id="prev3">Kembali</button>
-                    <button class="btn btn-primary" id="submit">Kirim</button>
+                    <button class="btn btn-primary" id="submit">Kirim Pendaftaran</button>
                 </div>
             </div>
             
             <!-- Loading -->
             <div class="loading" id="loading">
                 <div class="loading-spinner"></div>
-                <p>Mengirim data...</p>
+                <h3>Sedang Memproses Pendaftaran...</h3>
+                <p>Harap tunggu sebentar, data Anda sedang dikirim dan konfirmasi akan dikirim ke email/WhatsApp Anda.</p>
+                <p class="loading-detail" id="loadingDetail"></p>
             </div>
             
             <!-- Success Message -->
             <div class="success-message" id="success">
                 <i>✓</i>
                 <h2>Pendaftaran Berhasil!</h2>
-                <p>Terima kasih telah mendaftar. Konfirmasi telah dikirim ke email Anda.</p>
-                <button class="btn btn-primary" id="reset">Isi Form Lagi</button>
+                <p>Terima kasih <strong id="successName"></strong> telah mendaftar.</p>
+                <p>Konfirmasi telah dikirim ke:</p>
+                <p><strong id="successContact"></strong></p>
+                <p>Tim kami akan menghubungi Anda dalam 1x24 jam untuk informasi lebih lanjut.</p>
+                <button class="btn btn-primary" id="reset">Daftar Lagi</button>
             </div>
         </div>
     </div>
@@ -640,12 +645,18 @@ body {
         // DOM Elements
         const pages = document.querySelectorAll('.form-page');
         const progressSteps = document.querySelectorAll('.progress-step');
-        const nextButtons = document.querySelectorAll('[id^="next"]');
-        const prevButtons = document.querySelectorAll('[id^="prev"]');
-        const submitButton = document.getElementById('submit');
-        const resetButton = document.getElementById('reset');
+        const progressBar = document.querySelector('.progress-bar');
         const loadingElement = document.getElementById('loading');
         const successElement = document.getElementById('success');
+        const successName = document.getElementById('successName');
+        const successContact = document.getElementById('successContact');
+        const loadingDetail = document.getElementById('loadingDetail');
+
+        // Fungsi untuk update progress bar
+        function updateProgressBar(pageNumber) {
+            const progressPercentage = ((pageNumber - 1) / (totalPages - 1)) * 100;
+            progressBar.style.setProperty('--progress-width', `${progressPercentage}%`);
+        }
 
         // Fungsi untuk berpindah halaman
         function goToPage(pageNumber) {
@@ -671,12 +682,8 @@ body {
                 }
             });
             
-            // Update progress bar line
-            const progressLine = document.querySelector('.progress-bar::after');
-            if (progressLine) {
-                const progressPercentage = ((pageNumber - 1) / (totalPages - 1)) * 100;
-                document.documentElement.style.setProperty('--progress-width', `${progressPercentage}%`);
-            }
+            // Update progress bar visual
+            updateProgressBar(pageNumber);
             
             currentPage = pageNumber;
         }
@@ -782,25 +789,28 @@ body {
                 domicile: document.getElementById('domicile').value.trim(),
                 age: document.querySelector('input[name="age"]:checked').value,
                 attendance: document.querySelector('input[name="attendance"]:checked').value,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                status: 'pending'
             };
         }
 
         // Simpan data ke Firebase
         async function saveToFirebase(data) {
             try {
+                loadingDetail.textContent = 'Menyimpan data ke database...';
                 const docRef = await db.collection('registrations').add(data);
                 console.log('Data tersimpan dengan ID: ', docRef.id);
-                return true;
+                return { success: true, id: docRef.id };
             } catch (error) {
                 console.error('Error menyimpan data: ', error);
-                return false;
+                return { success: false, error: error };
             }
         }
 
         // Kirim email menggunakan EmailJS
         async function sendEmail(data) {
             try {
+                loadingDetail.textContent = 'Mengirim konfirmasi email...';
                 const templateParams = {
                     to_name: data.nama,
                     to_email: data.email,
@@ -808,7 +818,8 @@ body {
                     community: data.community || 'Tidak disebutkan',
                     domicile: data.domicile,
                     age: data.age,
-                    attendance: data.attendance
+                    attendance: data.attendance,
+                    date: new Date().toLocaleDateString('id-ID')
                 };
 
                 const response = await emailjs.send(
@@ -818,10 +829,10 @@ body {
                 );
                 
                 console.log('Email berhasil dikirim: ', response);
-                return true;
+                return { success: true };
             } catch (error) {
                 console.error('Error mengirim email: ', error);
-                return false;
+                return { success: false, error: error };
             }
         }
 
@@ -849,33 +860,45 @@ body {
         document.getElementById('submit').addEventListener('click', async () => {
             if (!validatePage3()) return;
             
-            // Tampilkan loading
+            // Tampilkan loading dengan pesan detail
             document.getElementById('page3').style.display = 'none';
             loadingElement.style.display = 'block';
+            loadingDetail.textContent = 'Memulai proses pendaftaran...';
             
             // Kumpulkan data
             const formData = collectFormData();
             
             try {
                 // Simpan ke Firebase
-                const firebaseSuccess = await saveToFirebase(formData);
+                const firebaseResult = await saveToFirebase(formData);
+                
+                if (!firebaseResult.success) {
+                    throw new Error('Gagal menyimpan data: ' + firebaseResult.error);
+                }
                 
                 // Kirim email
-                const emailSuccess = await sendEmail(formData);
+                const emailResult = await sendEmail(formData);
                 
                 // Tampilkan hasil
                 loadingElement.style.display = 'none';
                 
-                if (firebaseSuccess && emailSuccess) {
+                if (emailResult.success) {
+                    // Tampilkan success message dengan data personal
+                    successName.textContent = formData.nama;
+                    successContact.textContent = `${formData.email} / ${formData.phone}`;
                     successElement.style.display = 'block';
                 } else {
-                    alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
-                    document.getElementById('page3').style.display = 'block';
+                    // Jika email gagal, tetap tampilkan success tapi dengan catatan
+                    successName.textContent = formData.nama;
+                    successContact.textContent = `${formData.email} / ${formData.phone}`;
+                    document.querySelector('#success p:nth-child(4)').textContent = 
+                        'Pendaftaran berhasil! (Email konfirmasi mungkin tertunda)';
+                    successElement.style.display = 'block';
                 }
             } catch (error) {
                 console.error('Error: ', error);
                 loadingElement.style.display = 'none';
-                alert('Terjadi kesalahan. Silakan coba lagi.');
+                alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi atau hubungi admin.\n\nError: ' + error.message);
                 document.getElementById('page3').style.display = 'block';
             }
         });
@@ -902,7 +925,7 @@ body {
         });
 
         // Inisialisasi progress bar
-        document.documentElement.style.setProperty('--progress-width', '0%');
+        updateProgressBar(1);
     </script>
 </body>
 </html>
