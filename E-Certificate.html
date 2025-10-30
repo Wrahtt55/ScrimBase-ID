@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scrimbaseid e certificate</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text: #ffffff;
+            --text-secondary: #b8b8b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        header {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--highlight), #ff7b00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        select {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--accent);
+            background: rgba(15, 52, 96, 0.3);
+            color: var(--text);
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus {
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(to right, var(--highlight), #ff7b00);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(233, 69, 96, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, var(--accent), #1a5fb4);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 7px 15px rgba(15, 52, 96, 0.4);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: modalAppear 0.4s ease-out;
+        }
+        
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--text);
+            font-size: 1.8rem;
+        }
+        
+        .modal p {
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .modal-buttons .btn {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: var(--highlight);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tournament Scrimbaseid wave 2</h1>
+            <p class="subtitle">Download Sertifikat Partisipasi Tim Esports</p>
+        </header>
+        
+        <div class="form-group">
+            <label for="team-select">Pilih Tim Esports:</label>
+            <select id="team-select">
+              <option value="">-- Pilih Tim --</option>
+              <option value="team1">DARKLUNA GLOOMY</option>
+              <option value="team2">DARKLUNA SUPERNOVA</option>
+              <option value="team3">CFJJ</option>
+              <option value="team4">GL 2 RECKLESS</option>
+              <option value="team5">BLACK•BLOOD</option>
+              <option value="team6">Decyc</option>
+              <option value="team7">𝟏𝐌𝐀𝐍𝐒𝐐𝐔𝐀𝐃</option>
+              <option value="team8">San Fortress</option>
+              <option value="team9">EAGLE TEAM</option>
+              <option value="team10">The diddlers</option>
+              <option value="team11">SKN2</option>
+              <option value="team12">FOXY-X</option>
+              <option value="team13">FJC ( For Justice)</option>
+              <option value="team14">PA Undead</option>
+              <option value="team15">Red Heaven Moon</option>
+              <option value="team16">THEUNDERDOG</option>
+              <option value="team17">VENGEANCE REVENGE</option>
+              <option value="team18">Sahang Merah</option>
+              <option value="team19">SkyLine</option>
+              <option value="team20">DT TRINITY ONE</option>
+              <option value="team21">Badan Intelejen Bloodstrike Dunia</option>
+              <option value="team22">EX'CLIPS PREDATOR</option>
+              <option value="team23">FOXY-X²</option>
+              <option value="team24">Team Respect</option>
+              <option value="team25">silence</option>
+              <option value="team26">Arcane 4V</option>
+              <option value="team27">LOOP FIVE</option>
+              <option value="team28">NOPE SEVEN</option>
+              <option value="team29">SAVALINE LEGION</option>
+              <option value="team30">SAVALINE FORCE</option>
+            </select>
+        </div>
+        
+        <button id="submit-btn" class="btn">Tampilkan Sertifikat</button>
+        
+        <footer>
+            <p>Scrimbaseid 2025 &copy; All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <!-- Modal Popup -->
+    <div id="certificate-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal">&times;</button>
+            <h2>Sertifikat Tersedia!</h2>
+            <p>Sertifikat untuk <span id="selected-team-name"></span> siap untuk diunduh.</p>
+            <div class="modal-buttons">
+                <a id="gdrive-link" href="#" target="_blank" class="btn">Download via Google Drive</a>
+                <button id="close-modal-btn" class="btn btn-secondary">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const teamSelect = document.getElementById('team-select');
+            const submitBtn = document.getElementById('submit-btn');
+            const certificateModal = document.getElementById('certificate-modal');
+            const closeModal = document.getElementById('close-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const gdriveLink = document.getElementById('gdrive-link');
+            const selectedTeamName = document.getElementById('selected-team-name');
+            
+            // Sample Google Drive links (replace with actual links)
+            const gdriveLinks = {
+                team1: "https://drive.google.com/file/d/1MFZNAW3xx21KmpdVZdOv7xyK5k0ywlZn/view?usp=drivesdk",
+                team2: "https://drive.google.com/file/d/1sE24P1KQGStRunhwM3Q5AgIUMI3PdNeL/view?usp=drivesdk",
+                team3: "https://drive.google.com/file/d/1jb-U5F6x8z7Q60UgVqM4Xi1u_YKFuzRp/view?usp=drivesdk",
+                team4: "https://drive.google.com/file/d/1Sqr3O6S-06_wCIT32vaZy__mxj1DK8GU/view?usp=drivesdk",
+                team5: "https://drive.google.com/file/d/1GSJs5ISXQw2gchLa5yGSbBt_Lh5uTysL/view?usp=drivesdk",
+                team6: "https://drive.google.com/file/d/1Zc7cdd9rFx8jKoEHsJdVgUR7UMnVUya2/view?usp=drivesdk",
+                team7: "https://drive.google.com/file/d/1A9y9vD-kgMDcCLDYGZVKmuOLNpynndCg/view?usp=drivesdk",
+                team8: "https://drive.google.com/file/d/1OQm2y3iI_Uxol_9vpa-OXURU3ThjRXVE/view?usp=drivesdk",
+                team9: "https://drive.google.com/file/d/1AdAJcsdi-7UTRaaZt2li-8-D_bPSbOxw/view?usp=drivesdk",
+                team10: "https://drive.google.com/file/d/1izchvZ2DTCYss0g220UtC7h42cNWa4VW/view?usp=drivesdk",
+                team11: "https://drive.google.com/file/d/1KcvqAgHkXsgHD-W84tERIPjWRc4YLTB-/view?usp=drivesdk",
+                team12: "https://drive.google.com/file/d/1UgliYUuIebC6t00WV4AlfTzmgDkxBQXl/view?usp=drivesdk",
+                team13: "https://drive.google.com/file/d/10gJbaJSau8XlzdmqbhZdmbIgz0ktuN6c/view?usp=drivesdk",
+                team14: "https://drive.google.com/file/d/1cY1JaLRVCxVwqEBSQ6cS0vtIsltJdjoq/view?usp=drivesdk",
+                team15: "https://drive.google.com/file/d/1Ib9K1mZQmB_thZTeGwEeNuplbh49NidU/view?usp=drivesdk",
+                team16: "https://drive.google.com/file/d/1UMo_fgCs8_qQm2r7QT6jw1vMd5Tl4dhJ/view?usp=drivesdk",
+                team17: "https://drive.google.com/file/d/1bpmgg3-g9vy4mlTrG7Fx0lBuxcKfRj8p/view?usp=drivesdk",
+                team18: "https://drive.google.com/file/d/1CFpKPWC4FTVMWn1XJAsKLTC6Uai41TSM/view?usp=drivesdk",
+                team19: "https://drive.google.com/file/d/10Q_kLWbUkXIbM-ZG06iBxq-58HkCtkZQ/view?usp=drivesdk",
+                team20: "https://drive.google.com/file/d/1gqw1BcoY8f0JmpR1q7bu4oDe2Cm-w86F/view?usp=drivesdk",
+                team21: "https://drive.google.com/file/d/1WGapgsyRH8oKM-1knqodCy0Jge6vp3fy/view?usp=drivesdk",
+                team22: "https://drive.google.com/file/d/1FxdU0MVOSt2Emgmuo3KPUHyJKWb-RT51/view?usp=drivesdk",
+                team23: "https://drive.google.com/file/d/1J2577vFyxZDITAard2R_AlQqeDtH2riR/view?usp=drivesdk",
+                team24: "https://drive.google.com/file/d/14WVOkRC1BjPBu_yDkOgFSlyxOR_x0HQw/view?usp=drivesdk",
+                team25: "https://drive.google.com/file/d/1aGUAOer8iSTW4_3fOO1igi8fqlOtJcGN/view?usp=drivesdk",
+                team26: "https://drive.google.com/file/d/1uNwtQN8jZtt0xfk8GnvcWAzh0hCmW5M3/view?usp=drivesdk",
+                team27: "https://drive.google.com/file/d/13tNltFZy4QmOGdqdKIVhq1E9iRW_JRoG/view?usp=drivesdk",
+                team28: "https://drive.google.com/file/d/1xhmx-qNRTUvkVIe7Bxhp_SnZncTmhGaQ/view?usp=drivesdk",
+                team29: "https://drive.google.com/file/d/1SGa5CGkHriiIvpHJoZsm0dpWG5kKwS0l/view?usp=drivesdk",
+                team30: "https://drive.google.com/file/d/1qd9rcMGcgETy1_kqdBkL9KV71QTc9XGr/view?usp=drivesdk"
+            };
+            
+            // Submit button event
+            submitBtn.addEventListener('click', function() {
+                const selectedTeam = teamSelect.value;
+                
+                if (!selectedTeam) {
+                    alert('Silakan pilih tim terlebih dahulu!');
+                    return;
+                }
+                
+                // Get team name
+                const teamName = teamSelect.options[teamSelect.selectedIndex].text;
+                selectedTeamName.textContent = teamName;
+                
+                // Set Google Drive link
+                gdriveLink.href = gdriveLinks[selectedTeam] || "https://drive.google.com";
+                
+                // Show modal
+                certificateModal.style.display = 'flex';
+            });
+            
+            // Close modal events
+            closeModal.addEventListener('click', function() {
+                certificateModal.style.display = 'none';
+            });
+            
+            closeModalBtn.addEventListener('click', function() {
+                certificateModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === certificateModal) {
+                    certificateModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
