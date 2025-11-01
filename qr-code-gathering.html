@@ -393,7 +393,7 @@
         // Load data dari data.json
         async function loadParticipantData() {
             try {
-                const response = await fetch('./data.json');
+                const response = await fetch('./data-gathering.json');
                 if (!response.ok) throw new Error('Gagal memuat data');
                 
                 appState.participants = await response.json();
