@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BadgeScan - Verifikasi Peserta</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: var(--gray-100);
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gray-600);
+            color: var(--gray-600);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        #videoElement {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .scan-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { border-color: var(--primary); }
+            50% { border-color: #60a5fa; }
+            100% { border-color: var(--primary); }
+        }
+
+        .result-card {
+            text-align: center;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .result-card.lolos {
+            border-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .result-card.tidak-lolos {
+            border-color: var(--danger);
+            background: #fef2f2;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .participant-info {
+            text-align: left;
+            margin: 16px 0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .history-item {
+            padding: 12px;
+            border-left: 4px solid var(--gray-600);
+            margin-bottom: 8px;
+            background: var(--gray-100);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .history-item.lolos {
+            border-left-color: var(--success);
+        }
+
+        .history-item.tidak-lolos {
+            border-left-color: var(--danger);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error-message {
+            color: var(--danger);
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border-left: 4px solid var(--danger);
+        }
+
+        .success-message {
+            color: var(--success);
+            background: #f0fdf4;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border-left: 4px solid var(--success);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 4px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🪪 BadgeScan</h1>
+            <p>Verifikasi peserta dengan scan barcode/QR code</p>
+        </div>
+
+        <!-- Status Aplikasi -->
+        <div id="appStatus" class="card">
+            <div id="dataStatus">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Memuat data peserta...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kamera Section -->
+        <div id="cameraSection" class="card hidden">
+            <h2>📷 Scan Kamera</h2>
+            <div class="video-container">
+                <video id="videoElement" playsinline></video>
+                <div class="scan-overlay"></div>
+            </div>
+            <div class="btn-group">
+                <button id="startCamera" class="btn btn-primary">
+                    ▶ Start Camera
+                </button>
+                <button id="stopCamera" class="btn btn-danger" disabled>
+                    ⏹ Stop Camera
+                </button>
+            </div>
+        </div>
+
+        <!-- Manual Input Section -->
+        <div class="card">
+            <h2>⌨️ Input Manual</h2>
+            <div class="form-group">
+                <label for="manualInput">Kode Barcode/QR:</label>
+                <input type="text" id="manualInput" placeholder="Masukkan kode barcode/QR...">
+            </div>
+            <button id="verifyManual" class="btn btn-primary">✓ Verifikasi Manual</button>
+        </div>
+
+        <!-- Upload Image Section -->
+        <div class="card">
+            <h2>📁 Upload Gambar</h2>
+            <input type="file" id="imageUpload" accept="image/*" class="hidden">
+            <button id="uploadImage" class="btn btn-outline">📎 Pilih Gambar</button>
+            <div id="imagePreview" class="hidden"></div>
+        </div>
+
+        <!-- Hasil Verifikasi -->
+        <div id="resultSection" class="card hidden">
+            <h2>📋 Hasil Verifikasi</h2>
+            <div id="verificationResult"></div>
+            <div class="btn-group">
+                <button id="scanAgain" class="btn btn-primary">🔄 Scan Lagi</button>
+            </div>
+        </div>
+
+        <!-- Riwayat Scan -->
+        <div class="card">
+            <h2>📊 Riwayat Scan (10 Terakhir)</h2>
+            <div id="scanHistory"></div>
+            <div class="btn-group">
+                <button id="exportCSV" class="btn btn-success">📥 Export CSV</button>
+                <button id="clearHistory" class="btn btn-danger">🗑️ Hapus Riwayat</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data aplikasi
+        const appState = {
+            participants: [],
+            isScanning: false,
+            lastScanTime: 0,
+            scanDebounce: 1000,
+            mediaStream: null
+        };
+
+        // Elemen DOM
+        const elements = {
+            appStatus: document.getElementById('appStatus'),
+            dataStatus: document.getElementById('dataStatus'),
+            cameraSection: document.getElementById('cameraSection'),
+            videoElement: document.getElementById('videoElement'),
+            startCamera: document.getElementById('startCamera'),
+            stopCamera: document.getElementById('stopCamera'),
+            manualInput: document.getElementById('manualInput'),
+            verifyManual: document.getElementById('verifyManual'),
+            imageUpload: document.getElementById('imageUpload'),
+            uploadImage: document.getElementById('uploadImage'),
+            imagePreview: document.getElementById('imagePreview'),
+            resultSection: document.getElementById('resultSection'),
+            verificationResult: document.getElementById('verificationResult'),
+            scanAgain: document.getElementById('scanAgain'),
+            scanHistory: document.getElementById('scanHistory'),
+            exportCSV: document.getElementById('exportCSV'),
+            clearHistory: document.getElementById('clearHistory')
+        };
+
+        // Inisialisasi aplikasi
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        async function initializeApp() {
+            await loadParticipantData();
+            setupEventListeners();
+            updateScanHistory();
+        }
+
+        // Load data dari data.json
+        async function loadParticipantData() {
+            try {
+                const response = await fetch('./data.json');
+                if (!response.ok) throw new Error('Gagal memuat data');
+                
+                appState.participants = await response.json();
+                elements.dataStatus.innerHTML = `
+                    <div class="success-message">
+                        ✅ Data peserta berhasil dimuat (${appState.participants.length} peserta)
+                    </div>
+                `;
+                elements.cameraSection.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error loading data:', error);
+                elements.dataStatus.innerHTML = `
+                    <div class="error-message">
+                        ❌ Gagal memuat data.json: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            elements.startCamera.addEventListener('click', startCamera);
+            elements.stopCamera.addEventListener('click', stopCamera);
+            elements.verifyManual.addEventListener('click', verifyManualInput);
+            elements.uploadImage.addEventListener('click', () => elements.imageUpload.click());
+            elements.imageUpload.addEventListener('change', handleImageUpload);
+            elements.scanAgain.addEventListener('click', resetScan);
+            elements.exportCSV.addEventListener('click', exportToCSV);
+            elements.clearHistory.addEventListener('click', clearHistory);
+            elements.manualInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') verifyManualInput();
+            });
+        }
+
+        // Fungsi kamera
+        async function startCamera() {
+            try {
+                elements.startCamera.disabled = true;
+                elements.startCamera.textContent = '⏳ Membuka kamera...';
+
+                appState.mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: { 
+                        facingMode: "environment",
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                });
+
+                elements.videoElement.srcObject = appState.mediaStream;
+                elements.stopCamera.disabled = false;
+                elements.startCamera.textContent = '▶ Start Camera';
+                
+                // Mulai scanning setelah video siap
+                elements.videoElement.addEventListener('loadeddata', startScanning);
+                
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                elements.dataStatus.innerHTML += `
+                    <div class="error-message">
+                        ❌ Tidak dapat mengakses kamera: ${error.message}
+                    </div>
+                `;
+                elements.startCamera.disabled = false;
+                elements.startCamera.textContent = '▶ Start Camera';
+            }
+        }
+
+        function stopCamera() {
+            if (appState.mediaStream) {
+                appState.mediaStream.getTracks().forEach(track => track.stop());
+                appState.mediaStream = null;
+            }
+            elements.videoElement.srcObject = null;
+            elements.startCamera.disabled = false;
+            elements.stopCamera.disabled = true;
+            appState.isScanning = false;
+        }
+
+        function startScanning() {
+            appState.isScanning = true;
+            scanFrame();
+        }
+
+        // Simple barcode detection (placeholder implementation)
+        function scanFrame() {
+            if (!appState.isScanning) return;
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = elements.videoElement.videoWidth;
+            canvas.height = elements.videoElement.videoHeight;
+            
+            context.drawImage(elements.videoElement, 0, 0, canvas.width, canvas.height);
+            
+            // Ini adalah implementasi sederhana untuk demo
+            // Dalam implementasi nyata, di sini akan ada algoritma decode barcode/QR
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const detectedCode = simulateBarcodeDetection(imageData);
+            
+            if (detectedCode && (Date.now() - appState.lastScanTime) > appState.scanDebounce) {
+                appState.lastScanTime = Date.now();
+                verifyCode(detectedCode);
+            }
+
+            // Continue scanning
+            if (appState.isScanning) {
+                setTimeout(scanFrame, 100); // 10 FPS
+            }
+        }
+
+        // Simulasi deteksi barcode (untuk demo)
+        function simulateBarcodeDetection(imageData) {
+            // Dalam implementasi nyata, ini akan berisi algoritma decode
+            // Untuk demo, kita return null dan andalkan input manual/upload
+            return null;
+        }
+
+        // Verifikasi kode
+        function verifyCode(code) {
+            const normalizedCode = normalizeCode(code);
+            const participant = appState.participants.find(p => 
+                normalizeCode(p.barcode) === normalizedCode
+            );
+
+            const scanRecord = {
+                timestamp: new Date().toISOString(),
+                scannedValue: code,
+                result: participant ? 'LOLOS' : 'TIDAK LOLOS',
+                matchedRecord: participant || null
+            };
+
+            // Save to localStorage
+            saveScanRecord(scanRecord);
+            
+            // Show result
+            showVerificationResult(scanRecord);
+            
+            // Play sound and vibrate if available
+            provideFeedback(participant);
+            
+            // Stop scanning temporarily
+            appState.isScanning = false;
+            setTimeout(() => {
+                if (elements.videoElement.srcObject) {
+                    appState.isScanning = true;
+                    scanFrame();
+                }
+            }, appState.scanDebounce);
+        }
+
+        function verifyManualInput() {
+            const code = elements.manualInput.value.trim();
+            if (!code) {
+                alert('Masukkan kode barcode/QR terlebih dahulu');
+                return;
+            }
+
+            verifyCode(code);
+            elements.manualInput.value = '';
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Untuk demo, kita minta input manual dari gambar
+                // Dalam implementasi nyata, di sini akan ada proses decode gambar
+                const code = prompt(
+                    'Fitur decode gambar sedang dalam pengembangan.\nMasukkan kode barcode/QR secara manual:',
+                    ''
+                );
+                if (code) {
+                    verifyCode(code);
+                }
+                elements.imageUpload.value = '';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Tampilkan hasil verifikasi
+        function showVerificationResult(scanRecord) {
+            elements.resultSection.classList.remove('hidden');
+            
+            if (scanRecord.matchedRecord) {
+                const p = scanRecord.matchedRecord;
+                elements.verificationResult.innerHTML = `
+                    <div class="result-card lolos">
+                        <div class="badge badge-success">✅ LOLOS</div>
+                        <div class="participant-info">
+                            <div class="info-row">
+                                <span>Nama:</span>
+                                <strong>${p.name}</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>ID:</span>
+                                <span>${p.id}</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Group:</span>
+                                <span>${p.group}</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Status:</span>
+                                <span>${p.status}</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Barcode:</span>
+                                <code>${p.barcode}</code>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                elements.verificationResult.innerHTML = `
+                    <div class="result-card tidak-lolos">
+                        <div class="badge badge-danger">❌ TIDAK LOLOS</div>
+                        <p>Kode <strong>"${scanRecord.scannedValue}"</strong> tidak terdaftar.</p>
+                        <div class="error-message">
+                            <strong>Instruksi:</strong><br>
+                            • Periksa kembali barcode/QR code<br>
+                            • Pastikan peserta terdaftar di sistem<br>
+                            • Gunakan input manual jika diperlukan
+                        </div>
+                    </div>
+                `;
+            }
+            
+            updateScanHistory();
+        }
+
+        function resetScan() {
+            elements.resultSection.classList.add('hidden');
+            if (elements.videoElement.srcObject) {
+                appState.isScanning = true;
+                scanFrame();
+            }
+        }
+
+        // LocalStorage functions
+        function saveScanRecord(record) {
+            const history = getScanHistory();
+            history.unshift(record);
+            // Simpan hanya 100 record terbaru
+            const limitedHistory = history.slice(0, 100);
+            localStorage.setItem('badgescan_history', JSON.stringify(limitedHistory));
+        }
+
+        function getScanHistory() {
+            try {
+                return JSON.parse(localStorage.getItem('badgescan_history') || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        function updateScanHistory() {
+            const history = getScanHistory().slice(0, 10); // 10 terbaru
+            elements.scanHistory.innerHTML = history.length === 0 
+                ? '<p>Belum ada riwayat scan</p>'
+                : history.map(record => `
+                    <div class="history-item ${record.result === 'LOLOS' ? 'lolos' : 'tidak-lolos'}">
+                        <strong>${formatDateTime(record.timestamp)}</strong><br>
+                        <code>${record.scannedValue}</code> - 
+                        <strong>${record.result}</strong>
+                        ${record.matchedRecord ? `<br>${record.matchedRecord.name}` : ''}
+                    </div>
+                `).join('');
+        }
+
+        function exportToCSV() {
+            const history = getScanHistory();
+            if (history.length === 0) {
+                alert('Tidak ada data untuk di-export');
+                return;
+            }
+
+            const headers = ['Timestamp', 'Scanned Value', 'Result', 'Name', 'ID', 'Group', 'Status'];
+            const csvData = history.map(record => [
+                record.timestamp,
+                `"${record.scannedValue}"`,
+                record.result,
+                record.matchedRecord ? `"${record.matchedRecord.name}"` : '',
+                record.matchedRecord ? record.matchedRecord.id : '',
+                record.matchedRecord ? record.matchedRecord.group : '',
+                record.matchedRecord ? record.matchedRecord.status : ''
+            ]);
+
+            const csvContent = [headers, ...csvData]
+                .map(row => row.join(','))
+                .join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `badgescan-history-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearHistory() {
+            if (confirm('Hapus semua riwayat scan?')) {
+                localStorage.removeItem('badgescan_history');
+                updateScanHistory();
+            }
+        }
+
+        // Helper functions
+        function normalizeCode(code) {
+            return code.toString().trim().toUpperCase();
+        }
+
+        function formatDateTime(isoString) {
+            return new Date(isoString).toLocaleString('id-ID');
+        }
+
+        function provideFeedback(isSuccess) {
+            // Sound feedback
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = isSuccess ? 800 : 400;
+                gainNode.gain.value = 0.1;
+                
+                oscillator.start();
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch (error) {
+                console.log('Audio feedback tidak didukung');
+            }
+
+            // Vibration feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(isSuccess ? [100, 50, 100] : [200]);
+            }
+        }
+    </script>
+</body>
+</html>
