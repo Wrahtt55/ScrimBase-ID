@@ -1,0 +1,37 @@
+[
+  {
+    "barcode": "PSN-2025-0001",
+    "name": "Andi Saputra",
+    "id": "PSN0001",
+    "group": "A",
+    "status": "registered"
+  },
+  {
+    "barcode": "PSN-2025-0002",
+    "name": "Siti Rahma",
+    "id": "PSN0002",
+    "group": "B",
+    "status": "registered"
+  },
+  {
+    "barcode": "PSN-2025-0003",
+    "name": "Budi Santoso",
+    "id": "PSN0003",
+    "group": "A",
+    "status": "registered"
+  },
+  {
+    "barcode": "PSN-2025-0004",
+    "name": "Maya Wijaya",
+    "id": "PSN0004",
+    "group": "C",
+    "status": "pending"
+  },
+  {
+    "barcode": "PSN-2025-0005",
+    "name": "Rizki Pratama",
+    "id": "PSN0005",
+    "group": "B",
+    "status": "registered"
+  }
+]
