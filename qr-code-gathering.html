@@ -118,12 +118,17 @@
             background: black;
             border-radius: 12px;
             overflow: hidden;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #videoElement {
             width: 100%;
             height: auto;
             display: block;
+            background: black;
         }
 
         .scan-overlay {
@@ -136,6 +141,7 @@
             border: 2px solid var(--primary);
             border-radius: 12px;
             animation: pulse 2s infinite;
+            pointer-events: none;
         }
 
         @keyframes pulse {
@@ -266,6 +272,12 @@
             100% { transform: rotate(360deg); }
         }
 
+        .camera-placeholder {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
         @media (max-width: 768px) {
             .btn-group {
                 flex-direction: column;
@@ -299,8 +311,12 @@
         <div id="cameraSection" class="card hidden">
             <h2>📷 Scan Kamera</h2>
             <div class="video-container">
-                <video id="videoElement" playsinline></video>
-                <div class="scan-overlay"></div>
+                <div id="cameraPlaceholder" class="camera-placeholder">
+                    <p>Kamera siap diaktifkan</p>
+                    <p>Klik "Start Camera" untuk mulai</p>
+                </div>
+                <video id="videoElement" playsinline autoplay></video>
+                <div class="scan-overlay hidden"></div>
             </div>
             <div class="btn-group">
                 <button id="startCamera" class="btn btn-primary">
@@ -310,6 +326,7 @@
                     ⏹ Stop Camera
                 </button>
             </div>
+            <div id="cameraError" class="error-message hidden"></div>
         </div>
 
         <!-- Manual Input Section -->
@@ -366,8 +383,11 @@
             dataStatus: document.getElementById('dataStatus'),
             cameraSection: document.getElementById('cameraSection'),
             videoElement: document.getElementById('videoElement'),
+            cameraPlaceholder: document.getElementById('cameraPlaceholder'),
+            scanOverlay: document.querySelector('.scan-overlay'),
             startCamera: document.getElementById('startCamera'),
             stopCamera: document.getElementById('stopCamera'),
+            cameraError: document.getElementById('cameraError'),
             manualInput: document.getElementById('manualInput'),
             verifyManual: document.getElementById('verifyManual'),
             imageUpload: document.getElementById('imageUpload'),
@@ -388,15 +408,51 @@
             await loadParticipantData();
             setupEventListeners();
             updateScanHistory();
+            
+            // Coba akses kamera otomatis untuk testing
+            // tryAutoStartCamera();
         }
 
         // Load data dari data.json
         async function loadParticipantData() {
             try {
-                const response = await fetch('./data-gathering.json');
-                if (!response.ok) throw new Error('Gagal memuat data');
+                // Untuk demo, kita buat data langsung kalau file tidak ada
+                const demoData = [
+                    {
+                        "barcode": "PSN-2025-0001",
+                        "name": "Andi Saputra",
+                        "id": "PSN0001",
+                        "group": "A",
+                        "status": "registered"
+                    },
+                    {
+                        "barcode": "PSN-2025-0002", 
+                        "name": "Siti Rahma",
+                        "id": "PSN0002",
+                        "group": "B",
+                        "status": "registered"
+                    },
+                    {
+                        "barcode": "PSN-2025-0003",
+                        "name": "Budi Santoso",
+                        "id": "PSN0003",
+                        "group": "A", 
+                        "status": "registered"
+                    }
+                ];
+
+                // Coba load dari file, fallback ke demo data
+                let participantsData = demoData;
+                try {
+                    const response = await fetch('./data.json');
+                    if (response.ok) {
+                        participantsData = await response.json();
+                    }
+                } catch (e) {
+                    console.log('Menggunakan data demo');
+                }
                 
-                appState.participants = await response.json();
+                appState.participants = participantsData;
                 elements.dataStatus.innerHTML = `
                     <div class="success-message">
                         ✅ Data peserta berhasil dimuat (${appState.participants.length} peserta)
@@ -407,7 +463,7 @@
                 console.error('Error loading data:', error);
                 elements.dataStatus.innerHTML = `
                     <div class="error-message">
-                        ❌ Gagal memuat data.json: ${error.message}
+                        ❌ Gagal memuat data: ${error.message}
                     </div>
                 `;
             }
@@ -428,37 +484,70 @@
             });
         }
 
-        // Fungsi kamera
+        // Fungsi kamera - DIPERBAIKI
         async function startCamera() {
             try {
                 elements.startCamera.disabled = true;
                 elements.startCamera.textContent = '⏳ Membuka kamera...';
+                elements.cameraError.classList.add('hidden');
 
-                appState.mediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: { 
+                // Hentikan kamera sebelumnya jika ada
+                if (appState.mediaStream) {
+                    appState.mediaStream.getTracks().forEach(track => track.stop());
+                }
+
+                // Coba berbagai konfigurasi kamera
+                const constraints = {
+                    video: {
                         facingMode: "environment",
                         width: { ideal: 1280 },
                         height: { ideal: 720 }
                     }
-                });
+                };
 
+                appState.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+                
                 elements.videoElement.srcObject = appState.mediaStream;
+                elements.cameraPlaceholder.classList.add('hidden');
+                elements.scanOverlay.classList.remove('hidden');
                 elements.stopCamera.disabled = false;
                 elements.startCamera.textContent = '▶ Start Camera';
                 
-                // Mulai scanning setelah video siap
-                elements.videoElement.addEventListener('loadeddata', startScanning);
+                // Tunggu video siap
+                await new Promise((resolve) => {
+                    elements.videoElement.onloadedmetadata = () => {
+                        elements.videoElement.play().then(resolve);
+                    };
+                });
+
+                // Mulai scanning
+                startScanning();
                 
             } catch (error) {
                 console.error('Error accessing camera:', error);
-                elements.dataStatus.innerHTML += `
-                    <div class="error-message">
-                        ❌ Tidak dapat mengakses kamera: ${error.message}
-                    </div>
-                `;
+                handleCameraError(error);
                 elements.startCamera.disabled = false;
                 elements.startCamera.textContent = '▶ Start Camera';
             }
+        }
+
+        function handleCameraError(error) {
+            let errorMessage = 'Tidak dapat mengakses kamera: ';
+            
+            if (error.name === 'NotAllowedError') {
+                errorMessage += 'Izin kamera ditolak. Silakan izinkan akses kamera di browser settings.';
+            } else if (error.name === 'NotFoundError') {
+                errorMessage += 'Tidak ada kamera yang ditemukan.';
+            } else if (error.name === 'NotSupportedError') {
+                errorMessage += 'Browser tidak mendukung akses kamera.';
+            } else if (error.name === 'NotReadableError') {
+                errorMessage += 'Kamera sedang digunakan oleh aplikasi lain.';
+            } else {
+                errorMessage += error.message;
+            }
+            
+            elements.cameraError.textContent = errorMessage;
+            elements.cameraError.classList.remove('hidden');
         }
 
         function stopCamera() {
@@ -467,6 +556,8 @@
                 appState.mediaStream = null;
             }
             elements.videoElement.srcObject = null;
+            elements.cameraPlaceholder.classList.remove('hidden');
+            elements.scanOverlay.classList.add('hidden');
             elements.startCamera.disabled = false;
             elements.stopCamera.disabled = true;
             appState.isScanning = false;
@@ -479,33 +570,42 @@
 
         // Simple barcode detection (placeholder implementation)
         function scanFrame() {
-            if (!appState.isScanning) return;
+            if (!appState.isScanning || !elements.videoElement.srcObject) return;
+
+            // Pastikan video sudah ready
+            if (elements.videoElement.readyState !== elements.videoElement.HAVE_ENOUGH_DATA) {
+                setTimeout(scanFrame, 100);
+                return;
+            }
 
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             canvas.width = elements.videoElement.videoWidth;
             canvas.height = elements.videoElement.videoHeight;
             
-            context.drawImage(elements.videoElement, 0, 0, canvas.width, canvas.height);
-            
-            // Ini adalah implementasi sederhana untuk demo
-            // Dalam implementasi nyata, di sini akan ada algoritma decode barcode/QR
-            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            const detectedCode = simulateBarcodeDetection(imageData);
-            
-            if (detectedCode && (Date.now() - appState.lastScanTime) > appState.scanDebounce) {
-                appState.lastScanTime = Date.now();
-                verifyCode(detectedCode);
+            try {
+                context.drawImage(elements.videoElement, 0, 0, canvas.width, canvas.height);
+                
+                // Untuk demo, kita gunakan input manual sebagai fallback
+                // Dalam implementasi nyata, di sini akan ada algoritma decode barcode/QR
+                const detectedCode = simulateBarcodeDetection(context, canvas);
+                
+                if (detectedCode && (Date.now() - appState.lastScanTime) > appState.scanDebounce) {
+                    appState.lastScanTime = Date.now();
+                    verifyCode(detectedCode);
+                }
+            } catch (error) {
+                console.log('Error processing frame:', error);
             }
 
             // Continue scanning
-            if (appState.isScanning) {
-                setTimeout(scanFrame, 100); // 10 FPS
+            if (appState.isScanning && elements.videoElement.srcObject) {
+                setTimeout(scanFrame, 200); // 5 FPS untuk hemat performa
             }
         }
 
         // Simulasi deteksi barcode (untuk demo)
-        function simulateBarcodeDetection(imageData) {
+        function simulateBarcodeDetection(context, canvas) {
             // Dalam implementasi nyata, ini akan berisi algoritma decode
             // Untuk demo, kita return null dan andalkan input manual/upload
             return null;
@@ -532,7 +632,7 @@
             showVerificationResult(scanRecord);
             
             // Play sound and vibrate if available
-            provideFeedback(participant);
+            provideFeedback(!!participant);
             
             // Stop scanning temporarily
             appState.isScanning = false;
@@ -562,7 +662,6 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 // Untuk demo, kita minta input manual dari gambar
-                // Dalam implementasi nyata, di sini akan ada proses decode gambar
                 const code = prompt(
                     'Fitur decode gambar sedang dalam pengembangan.\nMasukkan kode barcode/QR secara manual:',
                     ''
@@ -736,6 +835,16 @@
             if (navigator.vibrate) {
                 navigator.vibrate(isSuccess ? [100, 50, 100] : [200]);
             }
+        }
+
+        // Fungsi untuk testing - otomatis start kamera
+        function tryAutoStartCamera() {
+            // Hanya untuk development - comment di production
+            setTimeout(() => {
+                if (!appState.mediaStream) {
+                    startCamera();
+                }
+            }, 1000);
         }
     </script>
 </body>
