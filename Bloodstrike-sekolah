@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hub Leaderboard & Form</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#4f46e5;
+      --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#071128 0%, #081827 60%);
+      color:#e6eef8;
+      padding:28px;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:18px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:6px;
+    }
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+
+    @media(min-width:900px){
+      .row{grid-template-columns: 360px 1fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      padding:16px;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+    }
+
+    .form-actions{display:flex;flex-direction:column;gap:8px}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:10px;border:0;
+      cursor:pointer;font-weight:600;color:white;
+      background:linear-gradient(90deg,var(--accent), #7c3aed);
+      box-shadow: 0 6px 18px rgba(79,70,229,0.12);
+    }
+    .btn.secondary{
+      background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04);
+      box-shadow:none;font-weight:600;
+    }
+    .small{font-size:13px;padding:8px 10px;border-radius:8px}
+
+    .meta{
+      font-size:13px;color:var(--muted);
+      display:flex;gap:8px;flex-wrap:wrap;
+    }
+    .linkbox{
+      background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);word-break:break-all;
+      font-size:13px;color:var(--muted)
+    }
+
+    /* iframe area */
+    .embed-wrap{
+      height:600px;
+      border-radius:10px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
+      background:#020617;
+    }
+    .embed-wrap iframe{width:100%;height:100%;border:0;display:block}
+
+    /* modal */
+    .modal{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+      background:linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.7));z-index:1200;
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:95%;max-width:980px;height:80vh;background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;
+      box-shadow:0 18px 50px rgba(2,6,23,0.7);
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .modal-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+    .close{
+      background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer;padding:8px;border-radius:8px
+    }
+    .warn{color:#ffd166;font-size:13px;margin-bottom:8px}
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+
+    footer{margin-top:6px;color:var(--muted);font-size:13px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Hub Leaderboard & Form</h1>
+        <p class="lead">Satu halaman untuk buka form isian dan lihat leaderboard — responsif & siap pakai.</p>
+      </div>
+      <div class="meta">
+        <div class="small">Status: <strong style="color:#bfe3ff">Live</strong></div>
+        <div class="small">Pasang & edit link di script</div>
+      </div>
+    </header>
+
+    <div class="row">
+      <!-- kiri: controls -->
+      <div class="card">
+        <h3 style="margin:0 0 10px 0">Google Form (isian)</h3>
+
+        <div class="form-actions">
+          <button id="openModalBtn" class="btn">Buka Form dalam modal</button>
+          <button id="openNewTabBtn" class="btn secondary">Buka di tab baru (fallback)</button>
+          <div style="display:flex;gap:8px">
+            <button id="copyFormBtn" class="btn small">Salin URL Form</button>
+            <button id="copyEmbedBtn" class="btn small secondary">Salin embed iframe</button>
+          </div>
+          <div class="note">Jika Form tidak bisa ditampilkan dalam modal (X-Frame-Options), gunakan tombol "Buka di tab baru".</div>
+        </div>
+
+        <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)">
+
+        <h3 style="margin:0 0 8px 0">Link & preview</h3>
+        <div class="linkbox" id="formLinkBox"></div>
+
+        <div style="margin-top:12px">
+          <h4 style="margin:6px 0">Preview singkat</h4>
+          <div style="background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); padding:8px;border-radius:8px">
+            <strong style="color:var(--muted)">Form URL:</strong>
+            <div id="formLinkShort" style="margin-top:6px;color:#cfe9ff;word-break:break-all"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- kanan: embed leaderboard -->
+      <div class="card">
+        <h3 style="margin:0 0 10px 0">Leaderboard (Awesome Table)</h3>
+        <p class="lead" style="margin-bottom:12px">Tampilan ter-embed langsung. Tinggi 600px — bisa diubah di file jika perlu.</p>
+
+        <div class="embed-wrap" id="leaderboardWrap">
+          <!-- default iframe, replace src via JS -->
+          <iframe id="leaderboardIframe" referrerpolicy="no-referrer-when-downgrade" src="" title="Leaderboard embed"></iframe>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:10px;align-items:center;justify-content:flex-end">
+          <button id="copyBoardBtn" class="btn small">Salin URL leaderboard</button>
+          <button id="openBoardNewTab" class="btn small secondary">Buka leaderboard di tab baru</button>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>Made for leaderboard & form hub — ganti URL di script bagian atas untuk menyesuaikan.</footer>
+  </div>
+
+  <!-- Modal for Form -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div style="display:flex;flex-direction:column">
+          <strong>Isi Form</strong>
+          <span class="warn" id="modalWarn" style="display:none">Perhatian: Browser memblokir embedding form ini. Tombol "Buka di tab baru" tersedia sebagai alternatif.</span>
+        </div>
+        <div>
+          <button id="openExtern" class="btn small" style="margin-right:8px">Buka di tab baru</button>
+          <button id="closeModal" class="close">✕ Tutup</button>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0">
+        <iframe id="formIframe" referrerpolicy="no-referrer-when-downgrade" src="" title="Form embed"></iframe>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* === GANTI LINK DI SINI JIKA PERLU === */
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfymJzr6Ua64l5KAMOtuG_-NrgUNcS8GMjOgrHi_l94l815hQ/viewform";
+const LEADERBOARD_URL = "https://view-awesome-table.com/-OdsLn6mqbKx-NuvDa1d/view";
+/* ===================================== */
+
+const openModalBtn = document.getElementById('openModalBtn');
+const openNewTabBtn = document.getElementById('openNewTabBtn');
+const copyFormBtn = document.getElementById('copyFormBtn');
+const copyEmbedBtn = document.getElementById('copyEmbedBtn');
+const formLinkBox = document.getElementById('formLinkBox');
+const formLinkShort = document.getElementById('formLinkShort');
+
+const leaderboardIframe = document.getElementById('leaderboardIframe');
+const copyBoardBtn = document.getElementById('copyBoardBtn');
+const openBoardNewTab = document.getElementById('openBoardNewTab');
+
+const modal = document.getElementById('modal');
+const formIframe = document.getElementById('formIframe');
+const closeModal = document.getElementById('closeModal');
+const modalWarn = document.getElementById('modalWarn');
+const openExtern = document.getElementById('openExtern');
+
+function updateUI(){
+  // show URLs
+  formLinkBox.textContent = FORM_URL;
+  formLinkShort.textContent = FORM_URL;
+  leaderboardIframe.src = LEADERBOARD_URL;
+}
+
+updateUI();
+
+/* Copy helpers */
+function copyToClipboard(text, label){
+  navigator.clipboard.writeText(text).then(() => {
+    alert(label + " berhasil disalin ke clipboard.");
+  }).catch(()=> alert("Gagal menyalin. Silakan salin manual: " + text));
+}
+
+/* Buttons */
+copyFormBtn.addEventListener('click', ()=> copyToClipboard(FORM_URL, "URL Form"));
+copyEmbedBtn.addEventListener('click', ()=> {
+  const embed = `<iframe src="${FORM_URL}" style="width:100%;height:700px;border:0;" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+  copyToClipboard(embed, "Tag iframe Form");
+});
+
+copyBoardBtn.addEventListener('click', ()=> copyToClipboard(LEADERBOARD_URL, "URL Leaderboard"));
+openBoardNewTab.addEventListener('click', ()=> window.open(LEADERBOARD_URL, '_blank'));
+
+openNewTabBtn.addEventListener('click', ()=> window.open(FORM_URL, '_blank'));
+openExtern.addEventListener('click', ()=> window.open(FORM_URL, '_blank'));
+
+/* Modal open: set iframe src and show. Detect if embed blocked by trying to access contentWindow after load timeout */
+openModalBtn.addEventListener('click', ()=>{
+  modalWarn.style.display = 'none';
+  formIframe.src = FORM_URL;
+  modal.classList.add('open');
+  // after some time, check if embedding is blocked (X-Frame-Options). We can't access cross-origin contents, so we use a heuristic:
+  // if the iframe fails to load visible content height within X seconds, suggest open in new tab.
+  let timedOut = false;
+  const t = setTimeout(()=> {
+    timedOut = true;
+    modalWarn.style.display = 'block';
+  }, 1200);
+
+  // try to detect basic load event
+  formIframe.onload = () => {
+    // clear timer, if it loaded likely OK
+    clearTimeout(t);
+    if(!timedOut){
+      modalWarn.style.display = 'none';
+    }
+  };
+});
+
+closeModal.addEventListener('click', ()=> {
+  modal.classList.remove('open');
+  // remove src to stop any active loads
+  formIframe.src = "about:blank";
+});
+
+modal.addEventListener('click', (ev)=>{
+  if(ev.target === modal){
+    closeModal.click();
+  }
+});
+
+/* Accessibility: ESC to close modal */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && modal.classList.contains('open')){
+    closeModal.click();
+  }
+});
+</script>
+</body>
+</html>
