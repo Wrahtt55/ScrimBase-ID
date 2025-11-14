@@ -13,6 +13,7 @@
             --dark: #212529;
             --danger: #e63946;
             --gray: #6c757d;
+            --warning: #ff9e00;
         }
         
         * {
@@ -33,7 +34,7 @@
         
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -144,6 +145,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            margin: 5px;
         }
         
         .btn-primary {
@@ -153,6 +156,28 @@
         
         .btn-primary:hover {
             background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #3aa8d0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e68a00;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
@@ -283,6 +308,62 @@
             background-color: rgba(67, 97, 238, 0.05);
         }
         
+        .action-cell {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .settings-panel {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .settings-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .notification {
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .notification.success {
+            background-color: rgba(76, 201, 240, 0.2);
+            border: 1px solid var(--success);
+            color: #0d6c8c;
+        }
+        
+        .notification.error {
+            background-color: rgba(230, 57, 70, 0.2);
+            border: 1px solid var(--danger);
+            color: #a71d2a;
+        }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -303,6 +384,10 @@
             .data-table th, .data-table td {
                 padding: 8px 10px;
             }
+            
+            .action-cell {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -318,6 +403,7 @@
                 <div class="tab active" data-tab="scanner">Scanner</div>
                 <div class="tab" data-tab="upload">Upload File</div>
                 <div class="tab" data-tab="data">Data Kehadiran</div>
+                <div class="tab" data-tab="settings">Pengaturan</div>
             </div>
             
             <!-- Scanner Tab -->
@@ -329,8 +415,12 @@
                     </div>
                     <p>Arahkan kamera ke barcode atau QR code</p>
                     <div style="margin-top: 15px;">
-                        <button id="startButton" class="btn btn-primary">Mulai Scan</button>
-                        <button id="stopButton" class="btn btn-outline" style="display: none;">Stop Scan</button>
+                        <button id="startButton" class="btn btn-primary">
+                            <span>📷</span> Mulai Scan
+                        </button>
+                        <button id="stopButton" class="btn btn-outline" style="display: none;">
+                            <span>⏹️</span> Stop Scan
+                        </button>
                     </div>
                 </div>
                 
@@ -345,6 +435,14 @@
                             <div class="result-label">Kode Barcode</div>
                             <div class="result-value" id="resultBarcode">-</div>
                         </div>
+                    </div>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button id="saveDataBtn" class="btn btn-success">
+                            <span>💾</span> Simpan Data
+                        </button>
+                        <button id="sendWhatsAppBtn" class="btn btn-warning">
+                            <span>📱</span> Kirim ke WhatsApp
+                        </button>
                     </div>
                 </div>
             </div>
@@ -371,12 +469,33 @@
                             <div class="result-value" id="uploadBarcode">-</div>
                         </div>
                     </div>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button id="saveUploadDataBtn" class="btn btn-success">
+                            <span>💾</span> Simpan Data
+                        </button>
+                        <button id="sendUploadWhatsAppBtn" class="btn btn-warning">
+                            <span>📱</span> Kirim ke WhatsApp
+                        </button>
+                    </div>
                 </div>
             </div>
             
             <!-- Data Tab -->
             <div class="tab-content" id="data">
-                <h3 style="margin-bottom: 15px;">Data Kehadiran</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>Data Kehadiran</h3>
+                    <div>
+                        <button id="exportDataBtn" class="btn btn-outline">
+                            <span>📤</span> Export Data
+                        </button>
+                        <button id="clearDataBtn" class="btn btn-outline" style="border-color: var(--danger); color: var(--danger);">
+                            <span>🗑️</span> Hapus Semua
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="dataNotification" class="notification"></div>
+                
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -384,6 +503,7 @@
                             <th>Nama</th>
                             <th>Kode Barcode</th>
                             <th>Waktu</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="attendanceTable">
@@ -391,10 +511,49 @@
                     </tbody>
                 </table>
             </div>
+            
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings">
+                <div class="settings-panel">
+                    <div class="settings-title">Pengaturan WhatsApp</div>
+                    <div class="form-group">
+                        <label class="form-label" for="phoneNumber">Nomor WhatsApp (dengan kode negara)</label>
+                        <input type="text" id="phoneNumber" class="form-input" placeholder="Contoh: 6281234567890">
+                        <small>Format: 62xxxxxxxxxxx (tanpa + dan spasi)</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="messageTemplate">Template Pesan</label>
+                        <textarea id="messageTemplate" class="form-input" rows="4" placeholder="Pesan yang akan dikirim via WhatsApp">Data kehadiran:
+Nama: {nama}
+Kode: {barcode}
+Waktu: {waktu}
+Tanggal: {tanggal}</textarea>
+                    </div>
+                    <button id="saveSettingsBtn" class="btn btn-primary">
+                        <span>💾</span> Simpan Pengaturan
+                    </button>
+                </div>
+                
+                <div class="settings-panel">
+                    <div class="settings-title">Pengaturan Data</div>
+                    <div class="form-group">
+                        <label class="form-label">Backup & Restore Data</label>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button id="backupDataBtn" class="btn btn-outline">
+                                <span>📥</span> Backup Data
+                            </button>
+                            <button id="restoreDataBtn" class="btn btn-outline">
+                                <span>📤</span> Restore Data
+                            </button>
+                            <input type="file" id="restoreFileInput" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <footer>
-            <p>Barcode Scanner &copy; 2023</p>
+            <p>Barcode Scanner &copy; 2023 | Data tersimpan di localStorage browser</p>
         </footer>
     </div>
 
@@ -404,15 +563,21 @@
     <script>
         // Data contoh untuk simulasi
         const sampleData = [
-            { barcode: "scrimbaseid-23452512694745300", name: "IJAR SETIAWAN" },
+            { barcode: "scrimbaseid-85324571132714300", name: "Ahmad Rizki" },
             { barcode: "987654321", name: "Siti Nurhaliza" },
             { barcode: "456789123", name: "Budi Santoso" },
             { barcode: "789123456", name: "Maya Sari" },
             { barcode: "321654987", name: "Rina Wijaya" }
         ];
         
-        // Data kehadiran
+        // Data kehadiran - akan diambil dari localStorage
         let attendanceData = [];
+        
+        // Pengaturan aplikasi
+        let appSettings = {
+            phoneNumber: '',
+            messageTemplate: 'Data kehadiran:\nNama: {nama}\nKode: {barcode}\nWaktu: {waktu}\nTanggal: {tanggal}'
+        };
         
         // Elemen DOM
         const video = document.getElementById('video');
@@ -429,12 +594,67 @@
         const attendanceTable = document.getElementById('attendanceTable');
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
+        const saveDataBtn = document.getElementById('saveDataBtn');
+        const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
+        const saveUploadDataBtn = document.getElementById('saveUploadDataBtn');
+        const sendUploadWhatsAppBtn = document.getElementById('sendUploadWhatsAppBtn');
+        const exportDataBtn = document.getElementById('exportDataBtn');
+        const clearDataBtn = document.getElementById('clearDataBtn');
+        const dataNotification = document.getElementById('dataNotification');
+        const phoneNumberInput = document.getElementById('phoneNumber');
+        const messageTemplateInput = document.getElementById('messageTemplate');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const backupDataBtn = document.getElementById('backupDataBtn');
+        const restoreDataBtn = document.getElementById('restoreDataBtn');
+        const restoreFileInput = document.getElementById('restoreFileInput');
+        
+        // Data sementara untuk hasil scan
+        let currentScanData = null;
+        let currentUploadData = null;
         
         // Variabel untuk scanner
         let stream = null;
         let scanning = false;
         let canvasElement = null;
         let canvasContext = null;
+        
+        // Inisialisasi aplikasi
+        function initApp() {
+            loadAttendanceData();
+            loadSettings();
+            updateAttendanceTable();
+        }
+        
+        // Fungsi untuk memuat data kehadiran dari localStorage
+        function loadAttendanceData() {
+            const storedData = localStorage.getItem('attendanceData');
+            if (storedData) {
+                attendanceData = JSON.parse(storedData);
+            }
+        }
+        
+        // Fungsi untuk menyimpan data kehadiran ke localStorage
+        function saveAttendanceData() {
+            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+        }
+        
+        // Fungsi untuk memuat pengaturan dari localStorage
+        function loadSettings() {
+            const storedSettings = localStorage.getItem('appSettings');
+            if (storedSettings) {
+                appSettings = JSON.parse(storedSettings);
+                phoneNumberInput.value = appSettings.phoneNumber || '';
+                messageTemplateInput.value = appSettings.messageTemplate || '';
+            }
+        }
+        
+        // Fungsi untuk menyimpan pengaturan ke localStorage
+        function saveSettings() {
+            appSettings.phoneNumber = phoneNumberInput.value.trim();
+            appSettings.messageTemplate = messageTemplateInput.value;
+            localStorage.setItem('appSettings', JSON.stringify(appSettings));
+            showNotification('Pengaturan berhasil disimpan!', 'success');
+        }
         
         // Fungsi untuk mengubah tab
         tabs.forEach(tab => {
@@ -533,17 +753,12 @@
                 resultBarcode.textContent = foundData.barcode;
                 resultContainer.classList.add('show');
                 
-                // Tambah ke data kehadiran jika belum ada
-                const alreadyExists = attendanceData.some(item => 
-                    item.barcode === foundData.barcode);
-                
-                if (!alreadyExists) {
-                    attendanceData.push({
-                        ...foundData,
-                        timestamp: new Date().toLocaleString('id-ID')
-                    });
-                    updateAttendanceTable();
-                }
+                // Simpan data sementara
+                currentScanData = {
+                    ...foundData,
+                    timestamp: new Date().toLocaleString('id-ID'),
+                    date: new Date().toLocaleDateString('id-ID')
+                };
                 
                 // Berhenti scanning setelah berhasil
                 setTimeout(() => {
@@ -554,12 +769,66 @@
                 resultName.textContent = "Tidak Dikenali";
                 resultBarcode.textContent = barcodeData;
                 resultContainer.classList.add('show');
+                currentScanData = null;
             }
         }
+        
+        // Fungsi untuk menyimpan data hasil scan
+        saveDataBtn.addEventListener('click', () => {
+            if (!currentScanData) {
+                alert('Tidak ada data untuk disimpan!');
+                return;
+            }
+            
+            // Cek apakah data sudah ada
+            const alreadyExists = attendanceData.some(item => 
+                item.barcode === currentScanData.barcode && 
+                item.date === currentScanData.date);
+            
+            if (alreadyExists) {
+                alert('Data untuk hari ini sudah tercatat!');
+                return;
+            }
+            
+            // Tambah ke data kehadiran
+            attendanceData.push(currentScanData);
+            saveAttendanceData();
+            updateAttendanceTable();
+            
+            showNotification('Data berhasil disimpan!', 'success');
+            resultContainer.classList.remove('show');
+            currentScanData = null;
+        });
+        
+        // Fungsi untuk mengirim data ke WhatsApp
+        sendWhatsAppBtn.addEventListener('click', () => {
+            if (!currentScanData) {
+                alert('Tidak ada data untuk dikirim!');
+                return;
+            }
+            
+            if (!appSettings.phoneNumber) {
+                alert('Silakan atur nomor WhatsApp terlebih dahulu di tab Pengaturan!');
+                return;
+            }
+            
+            sendToWhatsApp(currentScanData);
+        });
         
         // Fungsi untuk update tabel kehadiran
         function updateAttendanceTable() {
             attendanceTable.innerHTML = '';
+            
+            if (attendanceData.length === 0) {
+                attendanceTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px; color: var(--gray);">
+                            Belum ada data kehadiran
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
             
             attendanceData.forEach((item, index) => {
                 const row = document.createElement('tr');
@@ -568,9 +837,66 @@
                     <td>${item.name}</td>
                     <td>${item.barcode}</td>
                     <td>${item.timestamp}</td>
+                    <td class="action-cell">
+                        <button class="btn btn-outline send-item-wa" data-index="${index}">
+                            <span>📱</span> WA
+                        </button>
+                        <button class="btn btn-outline delete-item" data-index="${index}" style="border-color: var(--danger); color: var(--danger);">
+                            <span>🗑️</span> Hapus
+                        </button>
+                    </td>
                 `;
                 attendanceTable.appendChild(row);
             });
+            
+            // Tambah event listener untuk tombol di tabel
+            document.querySelectorAll('.send-item-wa').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    sendToWhatsApp(attendanceData[index]);
+                });
+            });
+            
+            document.querySelectorAll('.delete-item').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    deleteAttendanceItem(index);
+                });
+            });
+        }
+        
+        // Fungsi untuk menghapus item kehadiran
+        function deleteAttendanceItem(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                attendanceData.splice(index, 1);
+                saveAttendanceData();
+                updateAttendanceTable();
+                showNotification('Data berhasil dihapus!', 'success');
+            }
+        }
+        
+        // Fungsi untuk mengirim data ke WhatsApp
+        function sendToWhatsApp(data) {
+            if (!appSettings.phoneNumber) {
+                alert('Silakan atur nomor WhatsApp terlebih dahulu di tab Pengaturan!');
+                return;
+            }
+            
+            // Format pesan
+            let message = appSettings.messageTemplate
+                .replace(/{nama}/g, data.name)
+                .replace(/{barcode}/g, data.barcode)
+                .replace(/{waktu}/g, data.timestamp)
+                .replace(/{tanggal}/g, data.date);
+            
+            // Encode pesan untuk URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Buat URL WhatsApp
+            const whatsappUrl = `https://wa.me/${appSettings.phoneNumber}?text=${encodedMessage}`;
+            
+            // Buka WhatsApp
+            window.open(whatsappUrl, '_blank');
         }
         
         // Fungsi untuk upload file
@@ -648,6 +974,7 @@
                         uploadName.textContent = "Tidak Dikenali";
                         uploadBarcode.textContent = "Barcode tidak terdeteksi";
                         uploadResult.classList.add('show');
+                        currentUploadData = null;
                     }
                 };
                 img.src = e.target.result;
@@ -667,27 +994,172 @@
                 uploadBarcode.textContent = foundData.barcode;
                 uploadResult.classList.add('show');
                 
-                // Tambah ke data kehadiran jika belum ada
-                const alreadyExists = attendanceData.some(item => 
-                    item.barcode === foundData.barcode);
-                
-                if (!alreadyExists) {
-                    attendanceData.push({
-                        ...foundData,
-                        timestamp: new Date().toLocaleString('id-ID')
-                    });
-                    updateAttendanceTable();
-                }
+                // Simpan data sementara
+                currentUploadData = {
+                    ...foundData,
+                    timestamp: new Date().toLocaleString('id-ID'),
+                    date: new Date().toLocaleDateString('id-ID')
+                };
             } else {
                 // Barcode tidak dikenali
                 uploadName.textContent = "Tidak Dikenali";
                 uploadBarcode.textContent = barcodeData;
                 uploadResult.classList.add('show');
+                currentUploadData = null;
             }
         }
         
-        // Inisialisasi tabel kehadiran
-        updateAttendanceTable();
+        // Fungsi untuk menyimpan data hasil upload
+        saveUploadDataBtn.addEventListener('click', () => {
+            if (!currentUploadData) {
+                alert('Tidak ada data untuk disimpan!');
+                return;
+            }
+            
+            // Cek apakah data sudah ada
+            const alreadyExists = attendanceData.some(item => 
+                item.barcode === currentUploadData.barcode && 
+                item.date === currentUploadData.date);
+            
+            if (alreadyExists) {
+                alert('Data untuk hari ini sudah tercatat!');
+                return;
+            }
+            
+            // Tambah ke data kehadiran
+            attendanceData.push(currentUploadData);
+            saveAttendanceData();
+            updateAttendanceTable();
+            
+            showNotification('Data berhasil disimpan!', 'success');
+            uploadResult.classList.remove('show');
+            currentUploadData = null;
+        });
+        
+        // Fungsi untuk mengirim data upload ke WhatsApp
+        sendUploadWhatsAppBtn.addEventListener('click', () => {
+            if (!currentUploadData) {
+                alert('Tidak ada data untuk dikirim!');
+                return;
+            }
+            
+            if (!appSettings.phoneNumber) {
+                alert('Silakan atur nomor WhatsApp terlebih dahulu di tab Pengaturan!');
+                return;
+            }
+            
+            sendToWhatsApp(currentUploadData);
+        });
+        
+        // Fungsi untuk mengekspor data
+        exportDataBtn.addEventListener('click', () => {
+            if (attendanceData.length === 0) {
+                alert('Tidak ada data untuk diekspor!');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(attendanceData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `data-kehadiran-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Data berhasil diekspor!', 'success');
+        });
+        
+        // Fungsi untuk menghapus semua data
+        clearDataBtn.addEventListener('click', () => {
+            if (attendanceData.length === 0) {
+                alert('Tidak ada data untuk dihapus!');
+                return;
+            }
+            
+            if (confirm('Apakah Anda yakin ingin menghapus SEMUA data kehadiran? Tindakan ini tidak dapat dibatalkan!')) {
+                attendanceData = [];
+                saveAttendanceData();
+                updateAttendanceTable();
+                showNotification('Semua data berhasil dihapus!', 'success');
+            }
+        });
+        
+        // Fungsi untuk menyimpan pengaturan
+        saveSettingsBtn.addEventListener('click', saveSettings);
+        
+        // Fungsi untuk backup data
+        backupDataBtn.addEventListener('click', () => {
+            if (attendanceData.length === 0) {
+                alert('Tidak ada data untuk dibackup!');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(attendanceData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `backup-data-kehadiran-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Backup data berhasil!', 'success');
+        });
+        
+        // Fungsi untuk restore data
+        restoreDataBtn.addEventListener('click', () => {
+            restoreFileInput.click();
+        });
+        
+        restoreFileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const restoredData = JSON.parse(e.target.result);
+                    
+                    if (Array.isArray(restoredData)) {
+                        if (confirm('Apakah Anda yakin ingin mengimpor data? Data lama akan digantikan dengan data baru.')) {
+                            attendanceData = restoredData;
+                            saveAttendanceData();
+                            updateAttendanceTable();
+                            showNotification('Data berhasil dipulihkan!', 'success');
+                        }
+                    } else {
+                        alert('Format file tidak valid!');
+                    }
+                } catch (error) {
+                    alert('Terjadi kesalahan saat memproses file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset input file
+            this.value = '';
+        });
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type) {
+            dataNotification.textContent = message;
+            dataNotification.className = `notification ${type}`;
+            dataNotification.style.display = 'block';
+            
+            setTimeout(() => {
+                dataNotification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Inisialisasi aplikasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
