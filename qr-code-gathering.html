@@ -3,849 +3,691 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BadgeScan - Verifikasi Peserta</title>
+    <title>Barcode Scanner</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --success: #16a34a;
-            --danger: #dc2626;
-            --warning: #d97706;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-600: #4b5563;
-            --gray-800: #1f2937;
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --danger: #e63946;
+            --gray: #6c757d;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--gray-800);
-            background: var(--gray-100);
-            padding: 16px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-            padding: 16px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .header h1 {
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        .btn {
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tab {
             padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            margin: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .scanner-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #video {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            display: block;
+            object-fit: cover;
+            border: 2px dashed var(--gray);
+        }
+        
+        .scanner-overlay {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background-color: var(--success);
+            top: 50%;
+            left: 0;
+            animation: scan 2s infinite linear;
+            box-shadow: 0 0 10px var(--success);
+        }
+        
+        @keyframes scan {
+            0% { top: 10%; }
+            50% { top: 90%; }
+            100% { top: 10%; }
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
         }
-
+        
         .btn-primary {
-            background: var(--primary);
+            background-color: var(--primary);
             color: white;
         }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: white;
-        }
-
+        
         .btn-outline {
-            background: transparent;
-            border: 2px solid var(--gray-600);
-            color: var(--gray-600);
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
         }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
         }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 16px 0;
+        
+        .result-container {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            display: none;
         }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            background: black;
-            border-radius: 12px;
-            overflow: hidden;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #videoElement {
-            width: 100%;
-            height: auto;
+        
+        .result-container.show {
             display: block;
-            background: black;
+            animation: fadeIn 0.5s ease-out;
         }
-
-        .scan-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            animation: pulse 2s infinite;
-            pointer-events: none;
+        
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
         }
-
-        @keyframes pulse {
-            0% { border-color: var(--primary); }
-            50% { border-color: #60a5fa; }
-            100% { border-color: var(--primary); }
+        
+        .result-data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
-
-        .result-card {
+        
+        .result-item {
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .result-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .file-upload-container {
             text-align: center;
-            border: 3px solid transparent;
-            transition: all 0.3s;
+            padding: 30px;
+            border: 2px dashed var(--gray);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
-
-        .result-card.lolos {
+        
+        .file-upload-container:hover {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .file-upload-container.dragover {
             border-color: var(--success);
-            background: #f0fdf4;
+            background-color: rgba(76, 201, 240, 0.1);
         }
-
-        .result-card.tidak-lolos {
-            border-color: var(--danger);
-            background: #fef2f2;
+        
+        .file-input {
+            display: none;
         }
-
-        .badge {
+        
+        .file-label {
             display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 8px 0;
-        }
-
-        .badge-success {
-            background: var(--success);
+            padding: 12px 25px;
+            background-color: var(--primary);
             color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-
-        .badge-danger {
-            background: var(--danger);
-            color: white;
+        
+        .file-label:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
         }
-
-        .participant-info {
+        
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
             text-align: left;
-            margin: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
         }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .history-item {
-            padding: 12px;
-            border-left: 4px solid var(--gray-600);
-            margin-bottom: 8px;
-            background: var(--gray-100);
-            border-radius: 0 8px 8px 0;
-        }
-
-        .history-item.lolos {
-            border-left-color: var(--success);
-        }
-
-        .history-item.tidak-lolos {
-            border-left-color: var(--danger);
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
+        
+        .data-table th {
+            background-color: var(--primary);
+            color: white;
             font-weight: 600;
         }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--gray-200);
-            border-radius: 8px;
-            font-size: 16px;
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
         }
-
-        .hidden {
-            display: none !important;
+        
+        .data-table tr:hover {
+            background-color: rgba(67, 97, 238, 0.05);
         }
-
-        .error-message {
-            color: var(--danger);
-            background: #fef2f2;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 16px 0;
-            border-left: 4px solid var(--danger);
-        }
-
-        .success-message {
-            color: var(--success);
-            background: #f0fdf4;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 16px 0;
-            border-left: 4px solid var(--success);
-        }
-
-        .loading {
+        
+        footer {
             text-align: center;
             padding: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 20px;
         }
-
-        .spinner {
-            border: 4px solid var(--gray-200);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .camera-placeholder {
-            text-align: center;
-            color: white;
-            padding: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .btn-group {
-                flex-direction: column;
+        
+        @media (max-width: 600px) {
+            .result-data {
+                grid-template-columns: 1fr;
             }
             
-            .btn {
-                width: 100%;
-                margin: 4px 0;
+            .data-table {
+                font-size: 0.9rem;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 8px 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🪪 Scan Peserta Gathering</h1>
-            <p>Verifikasi peserta dengan scan barcode/QR code</p>
-        </div>
-
-        <!-- Status Aplikasi -->
-        <div id="appStatus" class="card">
-            <div id="dataStatus">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Memuat data peserta...</p>
+        <header>
+            <h1>Barcode Scanner</h1>
+            <p class="subtitle">Scan barcode atau QR code untuk mencatat kehadiran</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="tab-container">
+                <div class="tab active" data-tab="scanner">Scanner</div>
+                <div class="tab" data-tab="upload">Upload File</div>
+                <div class="tab" data-tab="data">Data Kehadiran</div>
+            </div>
+            
+            <!-- Scanner Tab -->
+            <div class="tab-content active" id="scanner">
+                <div class="scanner-container">
+                    <div class="scanner-overlay">
+                        <video id="video" playsinline></video>
+                        <div class="scanner-line"></div>
+                    </div>
+                    <p>Arahkan kamera ke barcode atau QR code</p>
+                    <div style="margin-top: 15px;">
+                        <button id="startButton" class="btn btn-primary">Mulai Scan</button>
+                        <button id="stopButton" class="btn btn-outline" style="display: none;">Stop Scan</button>
+                    </div>
+                </div>
+                
+                <div id="result" class="result-container">
+                    <div class="result-title">Data Ditemukan</div>
+                    <div class="result-data">
+                        <div class="result-item">
+                            <div class="result-label">Nama</div>
+                            <div class="result-value" id="resultName">-</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Kode Barcode</div>
+                            <div class="result-value" id="resultBarcode">-</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Kamera Section -->
-        <div id="cameraSection" class="card hidden">
-            <h2>📷 Scan Kamera</h2>
-            <div class="video-container">
-                <div id="cameraPlaceholder" class="camera-placeholder">
-                    <p>Kamera siap diaktifkan</p>
-                    <p>Klik "Start Camera" untuk mulai</p>
+            
+            <!-- Upload Tab -->
+            <div class="tab-content" id="upload">
+                <div class="file-upload-container" id="dropArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>Upload File Barcode</h3>
+                    <p>Seret file ke sini atau klik untuk memilih</p>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                    <label for="fileInput" class="file-label">Pilih File</label>
                 </div>
-                <video id="videoElement" playsinline autoplay></video>
-                <div class="scan-overlay hidden"></div>
+                
+                <div id="uploadResult" class="result-container">
+                    <div class="result-title">Hasil Upload</div>
+                    <div class="result-data">
+                        <div class="result-item">
+                            <div class="result-label">Nama</div>
+                            <div class="result-value" id="uploadName">-</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Kode Barcode</div>
+                            <div class="result-value" id="uploadBarcode">-</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="btn-group">
-                <button id="startCamera" class="btn btn-primary">
-                    ▶ Start Camera
-                </button>
-                <button id="stopCamera" class="btn btn-danger" disabled>
-                    ⏹ Stop Camera
-                </button>
-            </div>
-            <div id="cameraError" class="error-message hidden"></div>
-        </div>
-
-        <!-- Manual Input Section -->
-        <div class="card">
-            <h2>⌨️ Input Manual</h2>
-            <div class="form-group">
-                <label for="manualInput">Kode Barcode/QR:</label>
-                <input type="text" id="manualInput" placeholder="Masukkan kode barcode/QR...">
-            </div>
-            <button id="verifyManual" class="btn btn-primary">✓ Verifikasi Manual</button>
-        </div>
-
-        <!-- Upload Image Section -->
-        <div class="card">
-            <h2>📁 Upload Gambar</h2>
-            <input type="file" id="imageUpload" accept="image/*" class="hidden">
-            <button id="uploadImage" class="btn btn-outline">📎 Pilih Gambar</button>
-            <div id="imagePreview" class="hidden"></div>
-        </div>
-
-        <!-- Hasil Verifikasi -->
-        <div id="resultSection" class="card hidden">
-            <h2>📋 Hasil Verifikasi</h2>
-            <div id="verificationResult"></div>
-            <div class="btn-group">
-                <button id="scanAgain" class="btn btn-primary">🔄 Scan Lagi</button>
+            
+            <!-- Data Tab -->
+            <div class="tab-content" id="data">
+                <h3 style="margin-bottom: 15px;">Data Kehadiran</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Kode Barcode</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTable">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <!-- Riwayat Scan -->
-        <div class="card">
-            <h2>📊 Riwayat Scan (10 Terakhir)</h2>
-            <div id="scanHistory"></div>
-            <div class="btn-group">
-                <button id="exportCSV" class="btn btn-success">📥 Export CSV</button>
-                <button id="clearHistory" class="btn btn-danger">🗑️ Hapus Riwayat</button>
-            </div>
-        </div>
+        
+        <footer>
+            <p>Barcode Scanner &copy; 2023</p>
+        </footer>
     </div>
 
+    <!-- Library untuk membaca barcode -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    
     <script>
-        // Data aplikasi
-        const appState = {
-            participants: [],
-            isScanning: false,
-            lastScanTime: 0,
-            scanDebounce: 1000,
-            mediaStream: null
-        };
-
+        // Data contoh untuk simulasi
+        const sampleData = [
+            { barcode: "123456789", name: "Ahmad Rizki" },
+            { barcode: "987654321", name: "Siti Nurhaliza" },
+            { barcode: "456789123", name: "Budi Santoso" },
+            { barcode: "789123456", name: "Maya Sari" },
+            { barcode: "321654987", name: "Rina Wijaya" }
+        ];
+        
+        // Data kehadiran
+        let attendanceData = [];
+        
         // Elemen DOM
-        const elements = {
-            appStatus: document.getElementById('appStatus'),
-            dataStatus: document.getElementById('dataStatus'),
-            cameraSection: document.getElementById('cameraSection'),
-            videoElement: document.getElementById('videoElement'),
-            cameraPlaceholder: document.getElementById('cameraPlaceholder'),
-            scanOverlay: document.querySelector('.scan-overlay'),
-            startCamera: document.getElementById('startCamera'),
-            stopCamera: document.getElementById('stopCamera'),
-            cameraError: document.getElementById('cameraError'),
-            manualInput: document.getElementById('manualInput'),
-            verifyManual: document.getElementById('verifyManual'),
-            imageUpload: document.getElementById('imageUpload'),
-            uploadImage: document.getElementById('uploadImage'),
-            imagePreview: document.getElementById('imagePreview'),
-            resultSection: document.getElementById('resultSection'),
-            verificationResult: document.getElementById('verificationResult'),
-            scanAgain: document.getElementById('scanAgain'),
-            scanHistory: document.getElementById('scanHistory'),
-            exportCSV: document.getElementById('exportCSV'),
-            clearHistory: document.getElementById('clearHistory')
-        };
-
-        // Inisialisasi aplikasi
-        document.addEventListener('DOMContentLoaded', initializeApp);
-
-        async function initializeApp() {
-            await loadParticipantData();
-            setupEventListeners();
-            updateScanHistory();
-            
-            // Coba akses kamera otomatis untuk testing
-            // tryAutoStartCamera();
-        }
-
-        // Load data dari data.json
-        async function loadParticipantData() {
+        const video = document.getElementById('video');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const resultContainer = document.getElementById('result');
+        const resultName = document.getElementById('resultName');
+        const resultBarcode = document.getElementById('resultBarcode');
+        const uploadResult = document.getElementById('uploadResult');
+        const uploadName = document.getElementById('uploadName');
+        const uploadBarcode = document.getElementById('uploadBarcode');
+        const fileInput = document.getElementById('fileInput');
+        const dropArea = document.getElementById('dropArea');
+        const attendanceTable = document.getElementById('attendanceTable');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Variabel untuk scanner
+        let stream = null;
+        let scanning = false;
+        let canvasElement = null;
+        let canvasContext = null;
+        
+        // Fungsi untuk mengubah tab
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Hapus kelas active dari semua tab dan konten
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Tambah kelas active ke tab yang diklik
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Jika berpindah ke tab scanner, stop scanner sebelumnya
+                if (tabId !== 'scanner' && scanning) {
+                    stopScanner();
+                }
+            });
+        });
+        
+        // Fungsi untuk memulai scanner
+        startButton.addEventListener('click', async () => {
             try {
-                // Untuk demo, kita buat data langsung kalau file tidak ada
-                const demoData = [
-                    {
-                        "barcode": "PSN-2025-0001",
-                        "name": "Andi Saputra",
-                        "id": "PSN0001",
-                        "group": "A",
-                        "status": "registered"
-                    },
-                    {
-                        "barcode": "PSN-2025-0002", 
-                        "name": "Siti Rahma",
-                        "id": "PSN0002",
-                        "group": "B",
-                        "status": "registered"
-                    },
-                    {
-                        "barcode": "PSN-2025-0003",
-                        "name": "Budi Santoso",
-                        "id": "PSN0003",
-                        "group": "A", 
-                        "status": "registered"
-                    }
-                ];
-
-                // Coba load dari file, fallback ke demo data
-                let participantsData = demoData;
-                try {
-                    const response = await fetch('./data.json');
-                    if (response.ok) {
-                        participantsData = await response.json();
-                    }
-                } catch (e) {
-                    console.log('Menggunakan data demo');
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "environment" } 
+                });
+                video.srcObject = stream;
+                video.play();
+                
+                startButton.style.display = 'none';
+                stopButton.style.display = 'inline-flex';
+                scanning = true;
+                
+                // Setup canvas untuk analisis gambar
+                if (!canvasElement) {
+                    canvasElement = document.createElement('canvas');
+                    canvasContext = canvasElement.getContext('2d');
                 }
                 
-                appState.participants = participantsData;
-                elements.dataStatus.innerHTML = `
-                    <div class="success-message">
-                        ✅ Data peserta berhasil dimuat (${appState.participants.length} peserta)
-                    </div>
-                `;
-                elements.cameraSection.classList.remove('hidden');
-            } catch (error) {
-                console.error('Error loading data:', error);
-                elements.dataStatus.innerHTML = `
-                    <div class="error-message">
-                        ❌ Gagal memuat data: ${error.message}
-                    </div>
-                `;
+                // Mulai scanning
+                requestAnimationFrame(scanBarcode);
+            } catch (err) {
+                console.error("Error accessing camera:", err);
+                alert("Tidak dapat mengakses kamera. Pastikan Anda memberikan izin akses kamera.");
+            }
+        });
+        
+        // Fungsi untuk menghentikan scanner
+        stopButton.addEventListener('click', () => {
+            stopScanner();
+        });
+        
+        function stopScanner() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            scanning = false;
+            startButton.style.display = 'inline-flex';
+            stopButton.style.display = 'none';
+        }
+        
+        // Fungsi untuk scanning barcode
+        function scanBarcode() {
+            if (!scanning) return;
+            
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvasElement.width = video.videoWidth;
+                canvasElement.height = video.videoHeight;
+                
+                canvasContext.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+                const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                
+                if (code) {
+                    // Barcode ditemukan
+                    const barcodeData = code.data;
+                    processBarcode(barcodeData);
+                }
+            }
+            
+            if (scanning) {
+                requestAnimationFrame(scanBarcode);
             }
         }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            elements.startCamera.addEventListener('click', startCamera);
-            elements.stopCamera.addEventListener('click', stopCamera);
-            elements.verifyManual.addEventListener('click', verifyManualInput);
-            elements.uploadImage.addEventListener('click', () => elements.imageUpload.click());
-            elements.imageUpload.addEventListener('change', handleImageUpload);
-            elements.scanAgain.addEventListener('click', resetScan);
-            elements.exportCSV.addEventListener('click', exportToCSV);
-            elements.clearHistory.addEventListener('click', clearHistory);
-            elements.manualInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') verifyManualInput();
+        
+        // Fungsi untuk memproses data barcode
+        function processBarcode(barcodeData) {
+            // Cari data yang sesuai dengan barcode
+            const foundData = sampleData.find(item => item.barcode === barcodeData);
+            
+            if (foundData) {
+                // Tampilkan hasil
+                resultName.textContent = foundData.name;
+                resultBarcode.textContent = foundData.barcode;
+                resultContainer.classList.add('show');
+                
+                // Tambah ke data kehadiran jika belum ada
+                const alreadyExists = attendanceData.some(item => 
+                    item.barcode === foundData.barcode);
+                
+                if (!alreadyExists) {
+                    attendanceData.push({
+                        ...foundData,
+                        timestamp: new Date().toLocaleString('id-ID')
+                    });
+                    updateAttendanceTable();
+                }
+                
+                // Berhenti scanning setelah berhasil
+                setTimeout(() => {
+                    stopScanner();
+                }, 2000);
+            } else {
+                // Barcode tidak dikenali
+                resultName.textContent = "Tidak Dikenali";
+                resultBarcode.textContent = barcodeData;
+                resultContainer.classList.add('show');
+            }
+        }
+        
+        // Fungsi untuk update tabel kehadiran
+        function updateAttendanceTable() {
+            attendanceTable.innerHTML = '';
+            
+            attendanceData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>${item.barcode}</td>
+                    <td>${item.timestamp}</td>
+                `;
+                attendanceTable.appendChild(row);
             });
         }
-
-        // Fungsi kamera - DIPERBAIKI
-        async function startCamera() {
-            try {
-                elements.startCamera.disabled = true;
-                elements.startCamera.textContent = '⏳ Membuka kamera...';
-                elements.cameraError.classList.add('hidden');
-
-                // Hentikan kamera sebelumnya jika ada
-                if (appState.mediaStream) {
-                    appState.mediaStream.getTracks().forEach(track => track.stop());
-                }
-
-                // Coba berbagai konfigurasi kamera
-                const constraints = {
-                    video: {
-                        facingMode: "environment",
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
+        
+        // Fungsi untuk upload file
+        fileInput.addEventListener('change', handleFileUpload);
+        
+        // Fungsi untuk drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.classList.add('dragover');
+        }
+        
+        function unhighlight() {
+            dropArea.classList.remove('dragover');
+        }
+        
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length) {
+                handleFiles(files);
+            }
+        }
+        
+        function handleFileUpload(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+        
+        function handleFiles(files) {
+            const file = files[0];
+            
+            if (!file.type.match('image.*')) {
+                alert('Harap pilih file gambar.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Buat canvas untuk analisis gambar
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                    
+                    if (code) {
+                        const barcodeData = code.data;
+                        processUploadedBarcode(barcodeData);
+                    } else {
+                        uploadName.textContent = "Tidak Dikenali";
+                        uploadBarcode.textContent = "Barcode tidak terdeteksi";
+                        uploadResult.classList.add('show');
                     }
                 };
-
-                appState.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-                
-                elements.videoElement.srcObject = appState.mediaStream;
-                elements.cameraPlaceholder.classList.add('hidden');
-                elements.scanOverlay.classList.remove('hidden');
-                elements.stopCamera.disabled = false;
-                elements.startCamera.textContent = '▶ Start Camera';
-                
-                // Tunggu video siap
-                await new Promise((resolve) => {
-                    elements.videoElement.onloadedmetadata = () => {
-                        elements.videoElement.play().then(resolve);
-                    };
-                });
-
-                // Mulai scanning
-                startScanning();
-                
-            } catch (error) {
-                console.error('Error accessing camera:', error);
-                handleCameraError(error);
-                elements.startCamera.disabled = false;
-                elements.startCamera.textContent = '▶ Start Camera';
-            }
-        }
-
-        function handleCameraError(error) {
-            let errorMessage = 'Tidak dapat mengakses kamera: ';
-            
-            if (error.name === 'NotAllowedError') {
-                errorMessage += 'Izin kamera ditolak. Silakan izinkan akses kamera di browser settings.';
-            } else if (error.name === 'NotFoundError') {
-                errorMessage += 'Tidak ada kamera yang ditemukan.';
-            } else if (error.name === 'NotSupportedError') {
-                errorMessage += 'Browser tidak mendukung akses kamera.';
-            } else if (error.name === 'NotReadableError') {
-                errorMessage += 'Kamera sedang digunakan oleh aplikasi lain.';
-            } else {
-                errorMessage += error.message;
-            }
-            
-            elements.cameraError.textContent = errorMessage;
-            elements.cameraError.classList.remove('hidden');
-        }
-
-        function stopCamera() {
-            if (appState.mediaStream) {
-                appState.mediaStream.getTracks().forEach(track => track.stop());
-                appState.mediaStream = null;
-            }
-            elements.videoElement.srcObject = null;
-            elements.cameraPlaceholder.classList.remove('hidden');
-            elements.scanOverlay.classList.add('hidden');
-            elements.startCamera.disabled = false;
-            elements.stopCamera.disabled = true;
-            appState.isScanning = false;
-        }
-
-        function startScanning() {
-            appState.isScanning = true;
-            scanFrame();
-        }
-
-        // Simple barcode detection (placeholder implementation)
-        function scanFrame() {
-            if (!appState.isScanning || !elements.videoElement.srcObject) return;
-
-            // Pastikan video sudah ready
-            if (elements.videoElement.readyState !== elements.videoElement.HAVE_ENOUGH_DATA) {
-                setTimeout(scanFrame, 100);
-                return;
-            }
-
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.width = elements.videoElement.videoWidth;
-            canvas.height = elements.videoElement.videoHeight;
-            
-            try {
-                context.drawImage(elements.videoElement, 0, 0, canvas.width, canvas.height);
-                
-                // Untuk demo, kita gunakan input manual sebagai fallback
-                // Dalam implementasi nyata, di sini akan ada algoritma decode barcode/QR
-                const detectedCode = simulateBarcodeDetection(context, canvas);
-                
-                if (detectedCode && (Date.now() - appState.lastScanTime) > appState.scanDebounce) {
-                    appState.lastScanTime = Date.now();
-                    verifyCode(detectedCode);
-                }
-            } catch (error) {
-                console.log('Error processing frame:', error);
-            }
-
-            // Continue scanning
-            if (appState.isScanning && elements.videoElement.srcObject) {
-                setTimeout(scanFrame, 200); // 5 FPS untuk hemat performa
-            }
-        }
-
-        // Simulasi deteksi barcode (untuk demo)
-        function simulateBarcodeDetection(context, canvas) {
-            // Dalam implementasi nyata, ini akan berisi algoritma decode
-            // Untuk demo, kita return null dan andalkan input manual/upload
-            return null;
-        }
-
-        // Verifikasi kode
-        function verifyCode(code) {
-            const normalizedCode = normalizeCode(code);
-            const participant = appState.participants.find(p => 
-                normalizeCode(p.barcode) === normalizedCode
-            );
-
-            const scanRecord = {
-                timestamp: new Date().toISOString(),
-                scannedValue: code,
-                result: participant ? 'LOLOS' : 'TIDAK LOLOS',
-                matchedRecord: participant || null
+                img.src = e.target.result;
             };
-
-            // Save to localStorage
-            saveScanRecord(scanRecord);
             
-            // Show result
-            showVerificationResult(scanRecord);
-            
-            // Play sound and vibrate if available
-            provideFeedback(!!participant);
-            
-            // Stop scanning temporarily
-            appState.isScanning = false;
-            setTimeout(() => {
-                if (elements.videoElement.srcObject) {
-                    appState.isScanning = true;
-                    scanFrame();
-                }
-            }, appState.scanDebounce);
-        }
-
-        function verifyManualInput() {
-            const code = elements.manualInput.value.trim();
-            if (!code) {
-                alert('Masukkan kode barcode/QR terlebih dahulu');
-                return;
-            }
-
-            verifyCode(code);
-            elements.manualInput.value = '';
-        }
-
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Untuk demo, kita minta input manual dari gambar
-                const code = prompt(
-                    'Fitur decode gambar sedang dalam pengembangan.\nMasukkan kode barcode/QR secara manual:',
-                    ''
-                );
-                if (code) {
-                    verifyCode(code);
-                }
-                elements.imageUpload.value = '';
-            };
             reader.readAsDataURL(file);
         }
-
-        // Tampilkan hasil verifikasi
-        function showVerificationResult(scanRecord) {
-            elements.resultSection.classList.remove('hidden');
+        
+        // Fungsi untuk memproses barcode dari file upload
+        function processUploadedBarcode(barcodeData) {
+            // Cari data yang sesuai dengan barcode
+            const foundData = sampleData.find(item => item.barcode === barcodeData);
             
-            if (scanRecord.matchedRecord) {
-                const p = scanRecord.matchedRecord;
-                elements.verificationResult.innerHTML = `
-                    <div class="result-card lolos">
-                        <div class="badge badge-success">✅ LOLOS</div>
-                        <div class="participant-info">
-                            <div class="info-row">
-                                <span>Nama:</span>
-                                <strong>${p.name}</strong>
-                            </div>
-                            <div class="info-row">
-                                <span>ID:</span>
-                                <span>${p.id}</span>
-                            </div>
-                            <div class="info-row">
-                                <span>Group:</span>
-                                <span>${p.group}</span>
-                            </div>
-                            <div class="info-row">
-                                <span>Status:</span>
-                                <span>${p.status}</span>
-                            </div>
-                            <div class="info-row">
-                                <span>Barcode:</span>
-                                <code>${p.barcode}</code>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                elements.verificationResult.innerHTML = `
-                    <div class="result-card tidak-lolos">
-                        <div class="badge badge-danger">❌ TIDAK LOLOS</div>
-                        <p>Kode <strong>"${scanRecord.scannedValue}"</strong> tidak terdaftar.</p>
-                        <div class="error-message">
-                            <strong>Instruksi:</strong><br>
-                            • Periksa kembali barcode/QR code<br>
-                            • Pastikan peserta terdaftar di sistem<br>
-                            • Gunakan input manual jika diperlukan
-                        </div>
-                    </div>
-                `;
-            }
-            
-            updateScanHistory();
-        }
-
-        function resetScan() {
-            elements.resultSection.classList.add('hidden');
-            if (elements.videoElement.srcObject) {
-                appState.isScanning = true;
-                scanFrame();
-            }
-        }
-
-        // LocalStorage functions
-        function saveScanRecord(record) {
-            const history = getScanHistory();
-            history.unshift(record);
-            // Simpan hanya 100 record terbaru
-            const limitedHistory = history.slice(0, 100);
-            localStorage.setItem('badgescan_history', JSON.stringify(limitedHistory));
-        }
-
-        function getScanHistory() {
-            try {
-                return JSON.parse(localStorage.getItem('badgescan_history') || '[]');
-            } catch {
-                return [];
-            }
-        }
-
-        function updateScanHistory() {
-            const history = getScanHistory().slice(0, 10); // 10 terbaru
-            elements.scanHistory.innerHTML = history.length === 0 
-                ? '<p>Belum ada riwayat scan</p>'
-                : history.map(record => `
-                    <div class="history-item ${record.result === 'LOLOS' ? 'lolos' : 'tidak-lolos'}">
-                        <strong>${formatDateTime(record.timestamp)}</strong><br>
-                        <code>${record.scannedValue}</code> - 
-                        <strong>${record.result}</strong>
-                        ${record.matchedRecord ? `<br>${record.matchedRecord.name}` : ''}
-                    </div>
-                `).join('');
-        }
-
-        function exportToCSV() {
-            const history = getScanHistory();
-            if (history.length === 0) {
-                alert('Tidak ada data untuk di-export');
-                return;
-            }
-
-            const headers = ['Timestamp', 'Scanned Value', 'Result', 'Name', 'ID', 'Group', 'Status'];
-            const csvData = history.map(record => [
-                record.timestamp,
-                `"${record.scannedValue}"`,
-                record.result,
-                record.matchedRecord ? `"${record.matchedRecord.name}"` : '',
-                record.matchedRecord ? record.matchedRecord.id : '',
-                record.matchedRecord ? record.matchedRecord.group : '',
-                record.matchedRecord ? record.matchedRecord.status : ''
-            ]);
-
-            const csvContent = [headers, ...csvData]
-                .map(row => row.join(','))
-                .join('\n');
-
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `badgescan-history-${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function clearHistory() {
-            if (confirm('Hapus semua riwayat scan?')) {
-                localStorage.removeItem('badgescan_history');
-                updateScanHistory();
-            }
-        }
-
-        // Helper functions
-        function normalizeCode(code) {
-            return code.toString().trim().toUpperCase();
-        }
-
-        function formatDateTime(isoString) {
-            return new Date(isoString).toLocaleString('id-ID');
-        }
-
-        function provideFeedback(isSuccess) {
-            // Sound feedback
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
+            if (foundData) {
+                // Tampilkan hasil
+                uploadName.textContent = foundData.name;
+                uploadBarcode.textContent = foundData.barcode;
+                uploadResult.classList.add('show');
                 
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
+                // Tambah ke data kehadiran jika belum ada
+                const alreadyExists = attendanceData.some(item => 
+                    item.barcode === foundData.barcode);
                 
-                oscillator.frequency.value = isSuccess ? 800 : 400;
-                gainNode.gain.value = 0.1;
-                
-                oscillator.start();
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
-                oscillator.stop(audioContext.currentTime + 0.2);
-            } catch (error) {
-                console.log('Audio feedback tidak didukung');
-            }
-
-            // Vibration feedback
-            if (navigator.vibrate) {
-                navigator.vibrate(isSuccess ? [100, 50, 100] : [200]);
-            }
-        }
-
-        // Fungsi untuk testing - otomatis start kamera
-        function tryAutoStartCamera() {
-            // Hanya untuk development - comment di production
-            setTimeout(() => {
-                if (!appState.mediaStream) {
-                    startCamera();
+                if (!alreadyExists) {
+                    attendanceData.push({
+                        ...foundData,
+                        timestamp: new Date().toLocaleString('id-ID')
+                    });
+                    updateAttendanceTable();
                 }
-            }, 1000);
+            } else {
+                // Barcode tidak dikenali
+                uploadName.textContent = "Tidak Dikenali";
+                uploadBarcode.textContent = barcodeData;
+                uploadResult.classList.add('show');
+            }
         }
+        
+        // Inisialisasi tabel kehadiran
+        updateAttendanceTable();
     </script>
 </body>
 </html>
