@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrimBase ID - Layanan Kreatif & EO Gaming</title>
+    <style>
+        /* Reset & Base Styles */
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --light: #f1f1f1;
+            --gray: #8a8a8a;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--highlight);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--highlight);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #d6335c;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--highlight);
+            color: var(--highlight);
+        }
+
+        .btn-secondary:hover {
+            background: var(--highlight);
+            color: white;
+        }
+
+        .btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: rgba(26, 26, 46, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        .logo span {
+            color: var(--highlight);
+        }
+
+        .nav-links {
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--highlight);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--highlight);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: var(--light);
+            margin: 5px;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(26, 26, 46, 0.8), rgba(26, 26, 46, 0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231a1a2e"/><path d="M0 0L100 100M100 0L0 100" stroke="%230f3460" stroke-width="1"/></svg>');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--gray);
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--secondary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 30px;
+            transition: var(--transition);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--highlight);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--highlight);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        /* Portfolio Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 250px;
+            cursor: pointer;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 52, 96, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-overlay h3 {
+            color: white;
+            text-align: center;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--secondary);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-card.featured {
+            transform: scale(1.05);
+            border-color: var(--highlight);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--highlight);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .pricing-header {
+            margin-bottom: 30px;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 10px;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .pricing-features {
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .contact-details {
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .contact-icon {
+            margin-right: 15px;
+            color: var(--highlight);
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--highlight);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--highlight);
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--highlight);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--highlight);
+        }
+
+        /* Status Section */
+        .status-section {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .status-open {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-closed {
+            background: var(--warning);
+            color: white;
+        }
+
+        .schedule-table {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th, .schedule-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--highlight);
+        }
+
+        .current-day {
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 70%;
+                height: calc(100vh - 80px);
+                background: var(--secondary);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: var(--transition);
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 15px;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">ScrimBase<span>.ID</span></a>
+                <ul class="nav-links">
+                    <li><a href="#" data-page="home">Beranda</a></li>
+                    <li><a href="#" data-page="services">Layanan</a></li>
+                    <li><a href="#" data-page="portfolio">Portofolio</a></li>
+                    <li><a href="#" data-page="pricing">Harga</a></li>
+                    <li><a href="#" data-page="status">Status Toko</a></li>
+                    <li><a href="#" data-page="order">Pemesanan</a></li>
+                    <li><a href="#" data-page="contact">Kontak</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content fade-in">
+                    <h1>Solusi Lengkap untuk Event Gaming Anda</h1>
+                    <p>ScrimBase ID menyediakan layanan kreatif dan Event Organizer khusus gaming dengan kualitas premium. Dari desain poster hingga produksi event lengkap, kami siap membantu kesuksesan acara Anda.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn" data-page="services">Lihat Layanan</a>
+                        <a href="#" class="btn btn-secondary" data-page="order">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Preview -->
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Layanan Unggulan</h2>
+                    <p>Berbagai layanan kreatif dan EO yang kami tawarkan untuk mendukung kesuksesan event gaming Anda</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🎨</div>
+                        <h3>Desain Poster Turnamen</h3>
+                        <p>Desain poster profesional yang menarik perhatian dan sesuai dengan tema event gaming Anda.</p>
+                        <a href="#" class="btn btn-secondary" data-page="services">Selengkapnya</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎙️</div>
+                        <h3>Caster & Host Profesional</h3>
+                        <p>Penyiar dan host berpengalaman untuk menghidupkan acara dan meningkatkan engagement penonton.</p>
+                        <a href="#" class="btn btn-secondary" data-page="services">Selengkapnya</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📊</div>
+                        <h3>Bracket Turnamen</h3>
+                        <p>Pembuatan bracket turnamen single/double elimination yang rapi dan mudah dipantau.</p>
+                        <a href="#" class="btn btn-secondary" data-page="services">Selengkapnya</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="page-section">
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Semua Layanan</h2>
+                    <p>Jelajahi berbagai layanan kreatif dan EO yang kami sediakan untuk kebutuhan gaming Anda</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🎨</div>
+                        <h3>Desain Poster Turnamen</h3>
+                        <p>Desain poster profesional yang menarik perhatian dan sesuai dengan tema event gaming Anda.</p>
+                        <a href="#" class="btn btn-secondary" data-service="poster">Pilih Layanan</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎙️</div>
+                        <h3>Caster & Host Profesional</h3>
+                        <p>Penyiar dan host berpengalaman untuk menghidupkan acara dan meningkatkan engagement penonton.</p>
+                        <a href="#" class="btn btn-secondary" data-service="caster">Pilih Layanan</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📊</div>
+                        <h3>Bracket Turnamen</h3>
+                        <p>Pembuatan bracket turnamen single/double elimination yang rapi dan mudah dipantau.</p>
+                        <a href="#" class="btn btn-secondary" data-service="bracket">Pilih Layanan</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🖥️</div>
+                        <h3>Overlay & Asset Streaming</h3>
+                        <p>Desain overlay, scene transition, dan aset streaming yang menarik untuk platform seperti Twitch dan YouTube.</p>
+                        <a href="#" class="btn btn-secondary" data-service="overlay">Pilih Layanan</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎪</div>
+                        <h3>Paket Branding Event</h3>
+                        <p>Paket lengkap branding event termasuk logo, color scheme, dan aset visual lainnya.</p>
+                        <a href="#" class="btn btn-secondary" data-service="branding">Pilih Layanan</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🚀</div>
+                        <h3>Paket EO All-In-One</h3>
+                        <p>Layanan Event Organizer lengkap dari perencanaan hingga eksekusi untuk event gaming Anda.</p>
+                        <a href="#" class="btn btn-secondary" data-service="eo">Pilih Layanan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="page-section">
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Portofolio</h2>
+                    <p>Lihat contoh hasil kerja kami dalam berbagai proyek event gaming dan layanan kreatif</p>
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%2316213e'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%23e94560'>Poster Turnamen</text></svg>" alt="Poster Turnamen">
+                        <div class="portfolio-overlay">
+                            <h3>Poster Turnamen Valorant</h3>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%2316213e'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%23e94560'>Overlay Streaming</text></svg>" alt="Overlay Streaming">
+                        <div class="portfolio-overlay">
+                            <h3>Overlay Streaming MLBB</h3>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%2316213e'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%23e94560'>Bracket Turnamen</text></svg>" alt="Bracket Turnamen">
+                        <div class="portfolio-overlay">
+                            <h3>Bracket Turnamen PUBG</h3>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%2316213e'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%23e94560'>Branding Pack</text></svg>" alt="Branding Pack">
+                        <div class="portfolio-overlay">
+                            <h3>Branding Pack Tournament</h3>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%2316213e'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%23e94560'>Stream Assets</text></svg>" alt="Stream Assets">
+                        <div class="portfolio-overlay">
+                            <h3>Stream Assets Package</h3>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%2316213e'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%23e94560'>EO Event</text></svg>" alt="EO Event">
+                        <div class="portfolio-overlay">
+                            <h3>Full EO Services</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="page-section">
+        <div class="section pricing">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Paket Harga</h2>
+                    <p>Pilih paket layanan yang sesuai dengan kebutuhan dan budget event gaming Anda</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Basic</h3>
+                            <div class="price">Rp 150.000<span> / project</span></div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>1x Revisi Desain</li>
+                            <li>Waktu Pengerjaan 3-5 Hari</li>
+                            <li>Format File: JPG, PNG</li>
+                            <li>Support via WhatsApp</li>
+                            <li>Tanpa Source File</li>
+                        </ul>
+                        <a href="#" class="btn btn-secondary" data-service="basic">Pilih Paket</a>
+                    </div>
+                    <div class="pricing-card featured">
+                        <div class="pricing-header">
+                            <h3>Standard</h3>
+                            <div class="price">Rp 300.000<span> / project</span></div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>3x Revisi Desain</li>
+                            <li>Waktu Pengerjaan 2-4 Hari</li>
+                            <li>Format File: JPG, PNG, PDF</li>
+                            <li>Priority Support</li>
+                            <li>Include Source File</li>
+                        </ul>
+                        <a href="#" class="btn" data-service="standard">Pilih Paket</a>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Premium</h3>
+                            <div class="price">Rp 500.000<span> / project</span></div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Revisi Unlimited</li>
+                            <li>Waktu Pengerjaan 1-3 Hari</li>
+                            <li>Semua Format File</li>
+                            <li>24/7 Priority Support</li>
+                            <li>Include Source File + Dokumentasi</li>
+                        </ul>
+                        <a href="#" class="btn btn-secondary" data-service="premium">Pilih Paket</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Section -->
+    <section id="status" class="page-section">
+        <div class="section status-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Status Toko</h2>
+                    <p>Informasi mengenai jam operasional dan status layanan kami</p>
+                </div>
+                <div id="status-indicator" class="status-indicator status-open">TOKO BUKA</div>
+                <p id="status-message">Kami sedang buka dan siap melayani pesanan Anda. Pesan sekarang juga!</p>
+                
+                <h3 class="mt-20">Jam Operasional</h3>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Hari</th>
+                            <th>Jam Buka</th>
+                            <th>Jam Tutup</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body">
+                        <!-- Schedule will be populated by JavaScript -->
+                    </tbody>
+                </table>
+                
+                <div class="mt-20">
+                    <h3>Informasi Tambahan</h3>
+                    <p>Untuk pertanyaan mendesak di luar jam operasional, silakan hubungi kami melalui WhatsApp. Kami akan membalas secepat mungkin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="page-section">
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Pemesanan</h2>
+                    <p>Isi formulir berikut untuk memesan layanan yang Anda butuhkan</p>
+                </div>
+                <div class="contact-form">
+                    <form id="order-form">
+                        <div class="form-group">
+                            <label for="service-type">Jenis Layanan</label>
+                            <select id="service-type" class="form-control" required>
+                                <option value="">-- Pilih Layanan --</option>
+                                <option value="Desain Poster Turnamen">Desain Poster Turnamen</option>
+                                <option value="Caster & Host Profesional">Caster & Host Profesional</option>
+                                <option value="Bracket Turnamen">Bracket Turnamen</option>
+                                <option value="Overlay & Asset Streaming">Overlay & Asset Streaming</option>
+                                <option value="Paket Branding Event">Paket Branding Event</option>
+                                <option value="Paket EO All-In-One">Paket EO All-In-One</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="package">Paket Layanan</label>
+                            <select id="package" class="form-control" required>
+                                <option value="">-- Pilih Paket --</option>
+                                <option value="Basic">Basic - Rp 150.000</option>
+                                <option value="Standard">Standard - Rp 300.000</option>
+                                <option value="Premium">Premium - Rp 500.000</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-name">Nama Pemesan</label>
+                            <input type="text" id="customer-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-name">Nama Event / Keperluan</label>
+                            <input type="text" id="event-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deadline">Deadline</label>
+                            <input type="date" id="deadline" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reference">Link Referensi / File</label>
+                            <input type="url" id="reference" class="form-control" placeholder="https://">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Catatan Tambahan</label>
+                            <textarea id="notes" class="form-control" placeholder="Jelaskan detail kebutuhan Anda..."></textarea>
+                        </div>
+                        <button type="submit" id="submit-order" class="btn">Pesan Sekarang</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="page-section">
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Kontak Kami</h2>
+                    <p>Hubungi kami untuk konsultasi atau pertanyaan lebih lanjut mengenai layanan yang kami tawarkan</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>Informasi Kontak</h3>
+                        <p>Silakan hubungi kami melalui salah satu cara di bawah ini. Kami akan dengan senang hati membantu Anda.</p>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon">📧</div>
+                                <div>scriminfoid@gmail.com</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">📱</div>
+                                <div>+62 889-9173-4780</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">📍</div>
+                                <div>Surabaya, Indonesia</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">🕒</div>
+                                <div id="operating-hours">Senin - Jumat: 09:00 - 18:00</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Nama Lengkap</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subjek</label>
+                                <input type="text" id="subject" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Pesan</label>
+                                <textarea id="message" class="form-control" required></textarea>
+                            </div>
+                            <button type="submit" class="btn">Kirim Pesan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ScrimBase.ID</h3>
+                    <p>Platform layanan kreatif dan Event Organizer khusus gaming yang menyediakan solusi lengkap untuk kebutuhan turnamen, komunitas, dan brand.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Layanan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="services">Desain Poster</a></li>
+                        <li><a href="#" data-page="services">Caster & Host</a></li>
+                        <li><a href="#" data-page="services">Bracket Turnamen</a></li>
+                        <li><a href="#" data-page="services">Overlay Streaming</a></li>
+                        <li><a href="#" data-page="services">Paket Branding</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Navigasi</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="home">Beranda</a></li>
+                        <li><a href="#" data-page="services">Layanan</a></li>
+                        <li><a href="#" data-page="portfolio">Portofolio</a></li>
+                        <li><a href="#" data-page="pricing">Harga</a></li>
+                        <li><a href="#" data-page="contact">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Kebijakan Refund</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ScrimBaseID - All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Order Summary Modal -->
+    <div id="order-summary-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Ringkasan Pesanan</h2>
+            <div id="order-summary-content">
+                <!-- Order summary will be populated by JavaScript -->
+            </div>
+            <div class="text-center mt-20">
+                <button id="confirm-order" class="btn">Konfirmasi & Kirim ke WhatsApp</button>
+                <button id="edit-order" class="btn btn-secondary">Edit Pesanan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store Configuration
+        const storeConfig = {
+            name: "ScrimBase ID",
+            phone: "6288991734780", // WhatsApp number without + or 0
+            operatingHours: {
+                monday: { open: 9, close: 18 },
+                tuesday: { open: 9, close: 18 },
+                wednesday: { open: 9, close: 18 },
+                thursday: { open: 9, close: 18 },
+                friday: { open: 9, close: 18 },
+                saturday: { open: 10, close: 16 },
+                sunday: { open: 0, close: 0 } // Closed on Sunday
+            },
+            holidays: [
+                "2023-12-25", // Christmas
+                "2024-01-01", // New Year
+                "2024-03-11", // Nyepi
+                "2024-04-10", // Idul Fitri
+                "2024-05-01", // Labor Day
+                "2024-05-23", // Ascension Day
+                "2024-06-01", // Pancasila Day
+                "2024-06-17", // Idul Adha
+                "2024-08-17", // Independence Day
+                "2024-12-25"  // Christmas
+            ],
+            services: {
+                "Desain Poster Turnamen": {
+                    basic: 150000,
+                    standard: 300000,
+                    premium: 500000
+                },
+                "Caster & Host Profesional": {
+                    basic: 300000,
+                    standard: 600000,
+                    premium: 1000000
+                },
+                "Bracket Turnamen": {
+                    basic: 100000,
+                    standard: 200000,
+                    premium: 350000
+                },
+                "Overlay & Asset Streaming": {
+                    basic: 250000,
+                    standard: 500000,
+                    premium: 850000
+                },
+                "Paket Branding Event": {
+                    basic: 400000,
+                    standard: 750000,
+                    premium: 1200000
+                },
+                "Paket EO All-In-One": {
+                    basic: 1000000,
+                    standard: 2000000,
+                    premium: 3500000
+                }
+            }
+        };
+
+        // DOM Elements
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const pageSections = document.querySelectorAll('.page-section');
+        const statusIndicator = document.getElementById('status-indicator');
+        const statusMessage = document.getElementById('status-message');
+        const scheduleBody = document.getElementById('schedule-body');
+        const orderForm = document.getElementById('order-form');
+        const orderSummaryModal = document.getElementById('order-summary-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const confirmOrderBtn = document.getElementById('confirm-order');
+        const editOrderBtn = document.getElementById('edit-order');
+        const submitOrderBtn = document.getElementById('submit-order');
+        const serviceTypeSelect = document.getElementById('service-type');
+        const packageSelect = document.getElementById('package');
+
+        // Navigation
+        document.querySelectorAll('.nav-links a, .hero-buttons a, .footer-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetPage = this.getAttribute('data-page');
+                
+                if (targetPage) {
+                    // Hide all pages
+                    pageSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target page
+                    document.getElementById(targetPage).classList.add('active');
+                    
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        hamburger.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Store Status Functionality
+        function updateStoreStatus() {
+            const now = new Date();
+            const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            const currentHour = now.getHours();
+            const currentDate = now.toISOString().split('T')[0];
+            
+            // Check if today is a holiday
+            const isHoliday = storeConfig.holidays.includes(currentDate);
+            
+            // Get today's schedule
+            const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const todaySchedule = storeConfig.operatingHours[dayNames[currentDay]];
+            
+            // Determine if store is open
+            let isOpen = false;
+            let statusText = '';
+            let message = '';
+            
+            if (isHoliday) {
+                statusText = 'TOKO TUTUP';
+                message = 'Hari ini adalah hari libur. Kami akan buka kembali sesuai jadwal operasional.';
+            } else if (todaySchedule.open === 0 && todaySchedule.close === 0) {
+                statusText = 'TOKO TUTUP';
+                message = 'Hari ini adalah hari libur. Silakan kembali pada hari kerja.';
+            } else if (currentHour >= todaySchedule.open && currentHour < todaySchedule.close) {
+                statusText = 'TOKO BUKA';
+                message = 'Kami sedang buka dan siap melayani pesanan Anda. Pesan sekarang juga!';
+                isOpen = true;
+            } else {
+                statusText = 'TOKO TUTUP';
+                message = 'Kami sudah tutup untuk hari ini. Silakan kembali pada jam operasional.';
+            }
+            
+            // Update status display
+            statusIndicator.textContent = statusText;
+            statusIndicator.className = `status-indicator ${isOpen ? 'status-open' : 'status-closed'}`;
+            statusMessage.textContent = message;
+            
+            // Update order button state
+            submitOrderBtn.disabled = !isOpen;
+            if (!isOpen) {
+                submitOrderBtn.textContent = 'Toko Tutup - Silakan Kembali Nanti';
+            } else {
+                submitOrderBtn.textContent = 'Pesan Sekarang';
+            }
+            
+            return isOpen;
+        }
+
+        // Populate Schedule Table
+        function populateSchedule() {
+            const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const today = new Date().getDay();
+            
+            scheduleBody.innerHTML = '';
+            
+            Object.entries(storeConfig.operatingHours).forEach(([day, hours], index) => {
+                const row = document.createElement('tr');
+                
+                // Highlight current day
+                if (index === today) {
+                    row.classList.add('current-day');
+                }
+                
+                const dayName = dayNames[index];
+                const openTime = hours.open === 0 ? 'Tutup' : `${hours.open}:00`;
+                const closeTime = hours.close === 0 ? 'Tutup' : `${hours.close}:00`;
+                const status = hours.open === 0 ? 'Libur' : 'Buka';
+                
+                row.innerHTML = `
+                    <td>${dayName}</td>
+                    <td>${openTime}</td>
+                    <td>${closeTime}</td>
+                    <td>${status}</td>
+                `;
+                
+                scheduleBody.appendChild(row);
+            });
+        }
+
+        // Order Form Handling
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check if store is open
+            if (!updateStoreStatus()) {
+                alert('Maaf, toko sedang tutup. Silakan kembali pada jam operasional.');
+                return;
+            }
+            
+            // Get form values
+            const serviceType = serviceTypeSelect.value;
+            const package = packageSelect.value;
+            const customerName = document.getElementById('customer-name').value;
+            const eventName = document.getElementById('event-name').value;
+            const deadline = document.getElementById('deadline').value;
+            const reference = document.getElementById('reference').value;
+            const notes = document.getElementById('notes').value;
+            
+            // Calculate price
+            const price = storeConfig.services[serviceType][package.toLowerCase()];
+            const formattedPrice = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(price);
+            
+            // Format deadline
+            const formattedDeadline = new Date(deadline).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Generate order summary
+            const orderSummary = `
+                <p><strong>Layanan:</strong> ${serviceType}</p>
+                <p><strong>Paket:</strong> ${package}</p>
+                <p><strong>Harga:</strong> ${formattedPrice}</p>
+                <p><strong>Nama Pemesan:</strong> ${customerName}</p>
+                <p><strong>Nama Event:</strong> ${eventName}</p>
+                <p><strong>Deadline:</strong> ${formattedDeadline}</p>
+                ${reference ? `<p><strong>Referensi:</strong> ${reference}</p>` : ''}
+                ${notes ? `<p><strong>Catatan:</strong> ${notes}</p>` : ''}
+            `;
+            
+            // Display order summary in modal
+            document.getElementById('order-summary-content').innerHTML = orderSummary;
+            orderSummaryModal.style.display = 'flex';
+            
+            // Store order data for WhatsApp
+            window.currentOrder = {
+                serviceType,
+                package,
+                price: formattedPrice,
+                customerName,
+                eventName,
+                deadline: formattedDeadline,
+                reference,
+                notes
+            };
+        });
+
+        // Modal Controls
+        closeModal.addEventListener('click', function() {
+            orderSummaryModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target === orderSummaryModal) {
+                orderSummaryModal.style.display = 'none';
+            }
+        });
+
+        editOrderBtn.addEventListener('click', function() {
+            orderSummaryModal.style.display = 'none';
+        });
+
+        confirmOrderBtn.addEventListener('click', function() {
+            const order = window.currentOrder;
+            
+            // Format WhatsApp message
+            let message = `Halo, saya ingin memesan layanan ${order.serviceType} dengan paket ${order.package}.\n\n`;
+            message += `Detail pesanan:\n`;
+            message += `• Nama: ${order.customerName}\n`;
+            message += `• Event: ${order.eventName}\n`;
+            message += `• Paket: ${order.package} (${order.price})\n`;
+            message += `• Deadline: ${order.deadline}\n`;
+            
+            if (order.reference) {
+                message += `• Referensi: ${order.reference}\n`;
+            }
+            
+            if (order.notes) {
+                message += `• Catatan: ${order.notes}\n`;
+            }
+            
+            message += `\nSilakan konfirmasi ketersediaan dan detail lebih lanjut. Terima kasih!`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Create WhatsApp URL
+            const whatsappURL = `https://wa.me/${storeConfig.phone}?text=${encodedMessage}`;
+            
+            // Open WhatsApp
+            window.open(whatsappURL, '_blank');
+            
+            // Close modal
+            orderSummaryModal.style.display = 'none';
+            
+            // Reset form
+            orderForm.reset();
+        });
+
+        // Service Selection from Services Page
+        document.querySelectorAll('[data-service]').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const service = this.getAttribute('data-service');
+                
+                // Navigate to order page
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('order').classList.add('active');
+                
+                // Set service type if it matches a known service
+                if (service === 'poster') {
+                    serviceTypeSelect.value = 'Desain Poster Turnamen';
+                } else if (service === 'caster') {
+                    serviceTypeSelect.value = 'Caster & Host Profesional';
+                } else if (service === 'bracket') {
+                    serviceTypeSelect.value = 'Bracket Turnamen';
+                } else if (service === 'overlay') {
+                    serviceTypeSelect.value = 'Overlay & Asset Streaming';
+                } else if (service === 'branding') {
+                    serviceTypeSelect.value = 'Paket Branding Event';
+                } else if (service === 'eo') {
+                    serviceTypeSelect.value = 'Paket EO All-In-One';
+                } else if (service === 'basic' || service === 'standard' || service === 'premium') {
+                    packageSelect.value = service.charAt(0).toUpperCase() + service.slice(1);
+                }
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Contact Form Handling
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Format WhatsApp message for contact form
+            let whatsappMessage = `Halo, saya ${name}.\n\n`;
+            whatsappMessage += `Saya ingin bertanya mengenai: ${subject}\n\n`;
+            whatsappMessage += `Pesan:\n${message}\n\n`;
+            whatsappMessage += `Email: ${email}\n`;
+            whatsappMessage += `Harap hubungi saya kembali untuk diskusi lebih lanjut. Terima kasih!`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            
+            // Create WhatsApp URL
+            const whatsappURL = `https://wa.me/${storeConfig.phone}?text=${encodedMessage}`;
+            
+            // Open WhatsApp
+            window.open(whatsappURL, '_blank');
+            
+            // Reset form
+            this.reset();
+            
+            // Show confirmation
+            alert('Pesan Anda telah dikirim! Kami akan membalas melalui WhatsApp secepatnya.');
+        });
+
+        // Initialize Store Status and Schedule
+        updateStoreStatus();
+        populateSchedule();
+
+        // Update store status every minute
+        setInterval(updateStoreStatus, 60000);
+    </script>
+</body>
+</html>
