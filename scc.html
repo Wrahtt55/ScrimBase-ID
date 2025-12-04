@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="with=device-width, initial-scale=1.0">
+<title>CBT Header Realtime</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #ffffff;
+    }
+
+    /* HEADER UTAMA */
+    .header {
+        background: #ffffff;
+        padding: 12px 16px;
+        border-bottom: 2px solid #ddd;
+        font-weight: bold;
+        position: relative;
+    }
+
+    .time {
+        font-size: 22px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .battery {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 4px;
+        text-align: left;
+    }
+
+    /* TITIK TIGA DI HEADER */
+    .menu-icon {
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        font-size: 22px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    /* MENU DROPDOWN */
+    .menu-box {
+        position: absolute;
+        top: 40px;
+        right: 10px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        width: 130px;
+        display: none;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+    }
+
+    .menu-box div {
+        padding: 10px;
+        font-weight: bold;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .menu-box div:last-child {
+        border-bottom: none;
+    }
+
+    .menu-box div:hover {
+        background: #f5f5f5;
+    }
+
+    /* HEADER TIPIS TENGAH (SISA WAKTU) */
+    .thin-header {
+        background: #ffffff;
+        padding: 8px 16px;
+        border-bottom: 2px solid #ccc;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        color: #1f8b3e; /* default hijau */
+    }
+
+    iframe {
+        width: 100%;
+        height: calc(100vh - 160px);
+        border: none;
+    }
+</style>
+</head>
+
+<body>
+
+    <!-- HEADER UTAMA DENGAN MENU TITIK TIGA -->
+    <div class="header">
+        <div class="time" id="datetime">Memuat...</div>
+        <div class="battery" id="battery-status">Memuat...</div>
+
+        <div class="menu-icon" onclick="toggleMenu()">⋮</div>
+        <div id="menuBox" class="menu-box">
+            <div onclick="history.back()">Kembali</div>
+            <div onclick="location.reload()">Muat Ulang</div>
+            <div onclick="exitPage()">Keluar</div>
+        </div>
+    </div>
+
+    <!-- HEADER TIPIS -->
+    <div class="thin-header" id="exam-timer">Sisa waktu: --</div>
+
+    <!-- CBT VIEW -->
+    <iframe src="https://cbtv25.sman1mojosari.sch.id"></iframe>
+
+<script>
+/* MENU */
+function toggleMenu() {
+    let box = document.getElementById("menuBox");
+    box.style.display = (box.style.display === "block") ? "none" : "block";
+}
+
+function exitPage() {
+    window.close();
+}
+
+/* JAM REALTIME */
+function updateDateTime() {
+    const now = new Date();
+    const options = { year:'numeric', month:'2-digit', day:'2-digit' };
+    const date = now.toLocaleDateString('id-ID', options);
+    const time = now.toLocaleTimeString('id-ID');
+    document.getElementById("datetime").innerText = `${date} — ${time}`;
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+
+/* BATERAI REALTIME */
+if (navigator.getBattery) {
+    navigator.getBattery().then(function(battery) {
+        function updateBattery() {
+            let level = Math.round(battery.level * 100);
+            document.getElementById("battery-status").innerText =
+                `Baterai: ${level}% ${battery.charging ? "Mengisi" : ""}`;
+        }
+        updateBattery();
+        battery.addEventListener("levelchange", updateBattery);
+        battery.addEventListener("chargingchange", updateBattery);
+    });
+}
+
+/* SISA WAKTU */
+function updateExamTimer() {
+    const start = new Date();
+    start.setHours(8,0,0);
+
+    const end = new Date();
+    end.setHours(11,30,0);
+
+    const now = new Date();
+    const timer = document.getElementById("exam-timer");
+
+    if (now < start) {
+        timer.innerText = "Sisa waktu: ujian belum dimulai";
+        timer.style.color = "#1f8b3e";
+        return;
+    }
+
+    if (now > end) {
+        timer.innerText = "Sisa waktu: ujian selesai";
+        timer.style.color = "#555";
+        return;
+    }
+
+    const diff = end - now;
+    const hour = Math.floor(diff / 3600000);
+    const min = Math.floor((diff % 3600000) / 60000);
+    const sec = Math.floor((diff % 60000) / 1000);
+
+    timer.innerText = `Sisa waktu: ${hour} jam ${min} menit ${sec} detik`;
+
+    const totalMin = diff / 60000;
+
+    if (totalMin <= 5) timer.style.color = "red";
+    else if (totalMin <= 30) timer.style.color = "orange";
+    else timer.style.color = "#1f8b3e";
+}
+setInterval(updateExamTimer, 1000);
+</script>
+
+</body>
+</html>
