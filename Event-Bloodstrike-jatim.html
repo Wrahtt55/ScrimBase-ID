@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Gathering 2024</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset dan variabel */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --gray-color: #64748b;
+            --success-color: #10b981;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Halaman Utama (Dashboard) */
+        .dashboard-page {
+            display: block;
+        }
+
+        /* Hero Section - Tombol Utama */
+        .hero-section {
+            margin: 4rem auto 2rem;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero-content {
+            background-color: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .hero-icon {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .hero-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--gray-color);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Tombol Utama Besar */
+        .main-cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .main-cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .main-cta-button i {
+            font-size: 1.5rem;
+        }
+
+        /* Info Gathering */
+        .info-section {
+            margin: 2rem auto;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .info-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-color);
+        }
+
+        .info-card p {
+            color: var(--gray-color);
+        }
+
+        /* Halaman Form Pendaftaran */
+        .form-page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 2.5rem;
+        }
+
+        .form-notice {
+            background-color: #dbeafe;
+            border-left: 5px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .form-notice i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 2px;
+        }
+
+        /* Style untuk iframe form */
+        .form-iframe-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            height: 1400px;
+        }
+
+        .form-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Loading indicator */
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        /* Success message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .success-message h2 {
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .back-to-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1.5rem;
+            text-decoration: none;
+        }
+
+        .back-to-dashboard:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            }
+            50% {
+                box-shadow: 0 10px 30px rgba(37, 99, 235, 0.5);
+            }
+            100% {
+                box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .main-cta-button {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            .form-content {
+                padding: 1.5rem;
+            }
+
+            .form-iframe-container {
+                height: 1200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo" id="homeLink">
+                <i class="fas fa-handshake"></i>
+                <h1>Event Bloodstrike Jatim</h1>
+            </a>
+            <nav class="nav-links">
+                <a href="#" id="dashboardLink"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#" id="formLink" style="display: none;"><i class="fas fa-edit"></i> Form Pendaftaran</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Halaman Utama (Dashboard) -->
+        <div class="dashboard-page" id="dashboardPage">
+            <!-- Hero Section dengan Tombol Utama -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h2>Gathering & Nobar BSM Community Sidoarjo</h2>
+                    <p>Bergabunglah dengan kami dalam acara yang penuh inspirasi, jaringan, dan inovasi. Jangan lewatkan kesempatan untuk terhubung dengan player bloodstrike di jatim.</p>
+                    
+                    <!-- Tombol Utama yang sangat menonjol -->
+                    <button class="main-cta-button" id="daftarBtn">
+                        <i class="fas fa-user-plus"></i> 
+                        <span>DAFTAR GATHERING SEKARANG</span>
+                    </button>
+                    
+                    <p style="margin-top: 1.5rem; font-size: 1rem; color: #64748b;">
+                        <i class="fas fa-clock"></i> Pendaftaran ditutup: 20 Desember 2025
+                    </p>
+                </div>
+            </section>
+
+            <!-- Informasi Gathering -->
+            <section class="info-section">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fas fa-calendar-day"></i>
+                        <h3>Tanggal & Waktu</h3>
+                        <p>Minggu, 21 Desember 2025</p>
+                        <p>16:15 - Selesai WIB</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h3>Lokasi Acara</h3>
+                        <p>TOMORO COFFE KH. MUKMIN SIDOARJO</p>
+                        <p>Jl. KH Mukmin No.46, Kapasan, Sidokare, Kec. Sidoarjo, Kabupaten Sidoarjo, Jawa Timur 61214</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-user-check"></i>
+                        <h3>Peserta Terdaftar</h3>
+                        <p style="font-size: 2rem; font-weight: bold; color: var(--primary-color);">7</p>
+                        <p>dari 100 target peserta</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Halaman Form Pendaftaran -->
+        <div class="form-page" id="formPage">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Formulir Pendaftaran</h2>
+                    <p>Isi formulir dengan data yang akurat dan valid</p>
+                </div>
+                
+                <div class="form-content">
+                    <div class="form-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <p><strong>Penting:</strong> Harap isi formulir di bawah ini dengan data yang akurat dan valid. Setelah mengirim formulir, Anda akan menerima email konfirmasi dalam waktu 1x24 jam.</p>
+                            <p style="margin-top: 8px;">Pastikan alamat email yang Anda masukkan aktif dan dapat diakses.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Form dari Google Forms -->
+                    <div class="form-iframe-container">
+                        <iframe 
+                            id="formIframe"
+                            src="https://docs.google.com/forms/d/e/1FAIpQLSe2cCc_QYGSrbgFTGWfaTN-r5b2OrCrJolZ2RA9jUa5Vu4eOg/viewform?embedded=true"
+                            title="Formulir Pendaftaran Gathering 2024">
+                            Memuat…
+                        </iframe>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem; color: var(--gray-color); padding: 1rem; background-color: #f1f5f9; border-radius: 8px;">
+                        <p><i class="fas fa-lock"></i> <strong>Keamanan Data:</strong> Informasi yang Anda berikan akan dijaga kerahasiaannya dan hanya digunakan untuk keperluan acara ini.</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="back-to-dashboard" id="backToDashboard">
+                            <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading-indicator" id="loadingIndicator">
+            <div class="loading-spinner"></div>
+            <h3>Memproses pendaftaran Anda...</h3>
+            <p>Harap tunggu sebentar, kami sedang mengirim data Anda.</p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Pendaftaran Berhasil!</h2>
+            <p>Terima kasih telah mendaftar untuk Event ink.</p>
+            <p>Anda akan menerima email konfirmasi dalam waktu 1x24 jam.</p>
+            <button class="back-to-dashboard" id="successBackBtn">
+                <i class="fas fa-home"></i> Kembali ke Dashboard
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 ScrimBaseID. Semua hak dilindungi.</p>
+            <p>Untuk pertanyaan lebih lanjut, hubungi kami di <strong>scriminfoid@gmail.com</strong> atau <strong>+62 889-9173-4780</strong></p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const daftarBtn = document.getElementById('daftarBtn');
+        const dashboardPage = document.getElementById('dashboardPage');
+        const formPage = document.getElementById('formPage');
+        const dashboardLink = document.getElementById('dashboardLink');
+        const formLink = document.getElementById('formLink');
+        const homeLink = document.getElementById('homeLink');
+        const backToDashboard = document.getElementById('backToDashboard');
+        const successBackBtn = document.getElementById('successBackBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const successMessage = document.getElementById('successMessage');
+        const formIframe = document.getElementById('formIframe');
+
+        // Status untuk melacak apakah form sudah disubmit
+        let formSubmitted = false;
+
+        // Buka halaman form saat tombol daftar diklik
+        daftarBtn.addEventListener('click', () => {
+            dashboardPage.style.display = 'none';
+            formPage.style.display = 'block';
+            dashboardLink.style.display = 'inline-block';
+            formLink.style.display = 'none';
+            
+            // Scroll ke atas halaman
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Kembali ke dashboard dari form page
+        backToDashboard.addEventListener('click', () => {
+            formPage.style.display = 'none';
+            dashboardPage.style.display = 'block';
+            dashboardLink.style.display = 'inline-block';
+            formLink.style.display = 'none';
+            
+            // Scroll ke atas halaman
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Kembali ke dashboard dari success message
+        successBackBtn.addEventListener('click', () => {
+            successMessage.style.display = 'none';
+            dashboardPage.style.display = 'block';
+            dashboardLink.style.display = 'inline-block';
+            formLink.style.display = 'none';
+            formSubmitted = false;
+            
+            // Scroll ke atas halaman
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Navigasi dengan link di header
+        dashboardLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            formPage.style.display = 'none';
+            successMessage.style.display = 'none';
+            dashboardPage.style.display = 'block';
+            dashboardLink.style.display = 'inline-block';
+            formLink.style.display = 'none';
+            
+            // Scroll ke atas halaman
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            formPage.style.display = 'none';
+            successMessage.style.display = 'none';
+            dashboardPage.style.display = 'block';
+            dashboardLink.style.display = 'inline-block';
+            formLink.style.display = 'none';
+            
+            // Scroll ke atas halaman
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Deteksi ketika form Google Forms disubmit
+        // Karena keamanan browser, kita tidak bisa langsung mendeteksi submit di iframe
+        // Kita akan menggunakan pendekatan alternatif
+        function checkFormCompletion() {
+            // Cek URL di iframe untuk melihat apakah ada parameter success
+            try {
+                const iframeSrc = formIframe.contentWindow.location.href;
+                
+                // Jika form sudah disubmit, biasanya akan redirect ke halaman thank you
+                if (iframeSrc.includes('formResponse') || iframeSrc.includes('thankyou')) {
+                    // Form telah disubmit
+                    showSuccessMessage();
+                }
+            } catch (e) {
+                // Error karena cross-origin, kita gunakan pendekatan lain
+                // Simulasikan deteksi dengan timer (dalam aplikasi nyata, gunakan API)
+                console.log("Mendeteksi status form...");
+            }
+        }
+
+        // Fungsi untuk menampilkan pesan sukses
+        function showSuccessMessage() {
+            if (formSubmitted) return;
+            
+            formSubmitted = true;
+            formPage.style.display = 'none';
+            loadingIndicator.style.display = 'block';
+            
+            // Simulasi proses loading
+            setTimeout(() => {
+                loadingIndicator.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // Update statistik peserta terdaftar
+                updateRegisteredCount();
+            }, 2000);
+        }
+
+        // Fungsi untuk update jumlah peserta terdaftar
+        function updateRegisteredCount() {
+            const countElement = document.querySelector('.info-card:nth-child(3) p:first-child');
+            if (countElement) {
+                let currentCount = parseInt(countElement.textContent);
+                if (!isNaN(currentCount)) {
+                    currentCount++;
+                    countElement.textContent = currentCount;
+                    countElement.style.animation = 'pulse 0.5s';
+                    
+                    // Reset animation setelah selesai
+                    setTimeout(() => {
+                        countElement.style.animation = '';
+                    }, 500);
+                }
+            }
+        }
+
+        // Simulasi form submission (untuk demo)
+        // Dalam aplikasi nyata, ini akan diganti dengan deteksi asli
+        let submissionAttempted = false;
+
+        // Tambahkan event listener untuk mendeteksi interaksi dengan iframe
+        window.addEventListener('message', function(event) {
+            // Terima pesan dari iframe (jika form mengirim pesan)
+            if (event.data && event.data.type === 'FORM_SUBMITTED') {
+                showSuccessMessage();
+            }
+        });
+
+        // Cek form completion secara periodic
+        setInterval(checkFormCompletion, 3000);
+
+        // Demo: Simulasi submit form setelah 30 detik (untuk keperluan demo)
+        // Hapus kode ini di implementasi nyata
+        setTimeout(() => {
+            if (!formSubmitted && !submissionAttempted && 
+                window.location.href.indexOf('demo=true') > -1) {
+                submissionAttempted = true;
+                alert("Demo: Dalam implementasi nyata, form akan otomatis terdeteksi ketika disubmit. Untuk demo ini, kita akan simulasi submit form.");
+                showSuccessMessage();
+            }
+        }, 30000);
+
+        // Animasi untuk info cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const infoCards = document.querySelectorAll('.info-card');
+            infoCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Hitung mundur untuk pendaftaran
+            function updateCountdown() {
+                const closingDate = new Date('June 10, 2024 23:59:59').getTime();
+                const now = new Date().getTime();
+                const timeLeft = closingDate - now;
+                
+                if (timeLeft > 0) {
+                    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    
+                    // Update teks countdown jika ada elemen
+                    const countdownElement = document.getElementById('countdown');
+                    if (countdownElement) {
+                        countdownElement.innerHTML = `${days} hari ${hours} jam`;
+                    }
+                }
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 3600000);
+        });
+    </script>
+</body>
+</html>
